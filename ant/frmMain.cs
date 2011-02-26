@@ -32,9 +32,15 @@ namespace ant
             {
                 rtxbOut.AppendText(str);
             }
+            // Лист последовательности городов
+            AntAlgData.AntAlgDataCitiesCollection CitiesInPath = pr.ResultPath;
+            for (int i = 0; i < CitiesInPath.Count; i++)
+            {
+                rtxbCities.AppendText(CitiesInPath[i].Index + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+            }
 
             // Путь городов
-            ucCP.SetCities(pr.ResultPath);
+            ucCP.SetCities(CitiesInPath);
             ucCP.PaintCities();
 
             toolSTLInfo.Text = "Время расчета: " + pr.ProcessTime.ToString();

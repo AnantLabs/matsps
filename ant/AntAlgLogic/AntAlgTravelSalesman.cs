@@ -84,9 +84,12 @@ namespace ant.AntAlgLogic
             get
             {
                 AntAlgDataCitiesCollection cities = new AntAlgDataCitiesCollection();
+                cities.MaxDistance = Cities.MaxDistance;
                 for (int i = 0; i < Cities.Count; i++)
                 {
-                    cities.Add(Ants[bestIndex].PathGet(i));
+                    AntAlgDataCity newCity = new AntAlgDataCity(Ants[bestIndex].PathGet(i).X, Ants[bestIndex].PathGet(i).Y);
+                    newCity.Index = Ants[bestIndex].PathGet(i).Index;
+                    cities.Add( newCity );
                 }
                 return cities;
             }

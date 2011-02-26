@@ -42,26 +42,30 @@ namespace ant.UserControls
         /// </summary>
         public void PaintCities()                                             
         {
-            for (int i = 0; i < Cities.Count; i++)
-            {
-                rtxbCities.AppendText(Cities[i].Index + " X:" + Cities[i].X + " Y:" + Cities[i].Y + Environment.NewLine);
-            }
+            int picBoxWidth = pbCanvas.Size.Width;
+            float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
+            int picBoxHeight = pbCanvas.Size.Height;
+            float fKoefY = (float)picBoxHeight / (float)Cities.MaxDistance;
 
-            //int picBoxWidth = pictureBox1.Size.Width;
-            //int picBoxHeight = pictureBox1.Size.Height;
+            pbCanvas.Refresh();
+            Bitmap img = new Bitmap(picBoxWidth, picBoxHeight);
+            System.Drawing.Graphics g = Graphics.FromImage(img);
 
-            pictureBox1.Refresh();
-            Graphics objGraphic = this.pictureBox1.CreateGraphics();
-
-            Pen pen = new Pen(Color.Black);
+            Pen pen = new Pen(Brushes.Purple,2);
 
             for (int j = 0; j < Cities.Count - 1; j++)
             {
-                objGraphic.DrawLine(pen, Cities[j].X,  Cities[j].Y, Cities[j + 1].X, Cities[j + 1].Y );
+                g.DrawLine(pen, fKoefX * Cities[j].X, fKoefY * Cities[j].Y, fKoefX * Cities[j + 1].X, fKoefY * Cities[j + 1].Y);
+                g.DrawEllipse(new Pen(Brushes.Purple, 4), fKoefX * Cities[j].X - 2, fKoefY * Cities[j].Y - 2, 4, 4);
             }
+            // Путь от последнего к первому городу
+            g.DrawLine(pen, fKoefX * Cities[Cities.Count - 1].X, fKoefY * Cities[Cities.Count - 1].Y, fKoefX * Cities[0].X, fKoefY * Cities[0].Y);
+            
+            // Очищаем память
             pen.Dispose();
-            objGraphic.Dispose();
-            //pictureBox1.Refresh();
+            g.Dispose();
+
+            pbCanvas.Image = img;
         }
 
         /// <summary>
@@ -74,12 +78,13 @@ namespace ant.UserControls
         }
         #endregion
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)     
         {
+            /*
             pictureBox1.Refresh();
             Graphics objGraphic = this.pictureBox1.CreateGraphics();
 
-            Pen pen = new Pen(Color.Black);
+            Pen pen = new Pen(Color.Black,2);
 
             for (int j = 0; j < Cities.Count - 1; j++)
             {
@@ -87,6 +92,15 @@ namespace ant.UserControls
             }
             pen.Dispose();
             objGraphic.Dispose();
+            */
+        }
+
+        private void ucCitiesPainter_Resize(object sender, EventArgs e)
+        {
+            if (Cities != null)
+            {
+                this.PaintCities();
+            }
         }
     }
 }

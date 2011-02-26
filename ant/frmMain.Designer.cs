@@ -38,12 +38,17 @@
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.splContMain = new System.Windows.Forms.SplitContainer();
+            this.splContLeft = new System.Windows.Forms.SplitContainer();
+            this.rtxbCities = new System.Windows.Forms.RichTextBox();
             this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
             this.splContMain.Panel2.SuspendLayout();
             this.splContMain.SuspendLayout();
+            this.splContLeft.Panel1.SuspendLayout();
+            this.splContLeft.Panel2.SuspendLayout();
+            this.splContLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // rtxbOut
@@ -53,7 +58,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.rtxbOut.Location = new System.Drawing.Point(3, 3);
             this.rtxbOut.Name = "rtxbOut";
-            this.rtxbOut.Size = new System.Drawing.Size(186, 354);
+            this.rtxbOut.Size = new System.Drawing.Size(166, 174);
             this.rtxbOut.TabIndex = 0;
             this.rtxbOut.Text = "";
             // 
@@ -136,21 +141,48 @@
             // 
             // splContMain.Panel1
             // 
-            this.splContMain.Panel1.Controls.Add(this.rtxbOut);
+            this.splContMain.Panel1.Controls.Add(this.splContLeft);
             // 
             // splContMain.Panel2
             // 
             this.splContMain.Panel2.Controls.Add(this.ucCP);
             this.splContMain.Size = new System.Drawing.Size(709, 360);
-            this.splContMain.SplitterDistance = 192;
+            this.splContMain.SplitterDistance = 172;
             this.splContMain.TabIndex = 4;
+            // 
+            // splContLeft
+            // 
+            this.splContLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splContLeft.Location = new System.Drawing.Point(0, 0);
+            this.splContLeft.Name = "splContLeft";
+            this.splContLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splContLeft.Panel1
+            // 
+            this.splContLeft.Panel1.Controls.Add(this.rtxbOut);
+            // 
+            // splContLeft.Panel2
+            // 
+            this.splContLeft.Panel2.Controls.Add(this.rtxbCities);
+            this.splContLeft.Size = new System.Drawing.Size(172, 360);
+            this.splContLeft.SplitterDistance = 180;
+            this.splContLeft.TabIndex = 1;
+            // 
+            // rtxbCities
+            // 
+            this.rtxbCities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtxbCities.Location = new System.Drawing.Point(0, 0);
+            this.rtxbCities.Name = "rtxbCities";
+            this.rtxbCities.Size = new System.Drawing.Size(172, 176);
+            this.rtxbCities.TabIndex = 1;
+            this.rtxbCities.Text = "";
             // 
             // ucCP
             // 
             this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucCP.Location = new System.Drawing.Point(0, 0);
             this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(513, 360);
+            this.ucCP.Size = new System.Drawing.Size(533, 360);
             this.ucCP.TabIndex = 0;
             // 
             // frmMain
@@ -175,6 +207,9 @@
             this.splContMain.Panel1.ResumeLayout(false);
             this.splContMain.Panel2.ResumeLayout(false);
             this.splContMain.ResumeLayout(false);
+            this.splContLeft.Panel1.ResumeLayout(false);
+            this.splContLeft.Panel2.ResumeLayout(false);
+            this.splContLeft.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +228,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAbout;
         private System.Windows.Forms.SplitContainer splContMain;
         private ant.UserControls.ucCitiesPainter ucCP;
+        private System.Windows.Forms.SplitContainer splContLeft;
+        private System.Windows.Forms.RichTextBox rtxbCities;
     }
 }
 
