@@ -26,11 +26,17 @@ namespace ant
             Process pr = new Process();
             pr.Start();
 
+            // Лист результатов по времени
             List<string> listr = pr.ResultList;
             foreach(string str in listr)
             {
                 rtxbOut.AppendText(str);
             }
+
+            // Путь городов
+            ucCP.SetCities(pr.ResultPath);
+            ucCP.PaintCities();
+
             toolSTLInfo.Text = "Время расчета: " + pr.ProcessTime.ToString();
         }
         #endregion

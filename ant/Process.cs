@@ -30,21 +30,34 @@ namespace ant
         /// Стандартные результаты рассчета
         /// </summary>
         private List<string> _liResult = null;
+        private AntAlgDataCitiesCollection _bestPath = null;
         /// <summary>
         /// Время рачета алгоритма
         /// </summary>
         private TimeSpan _tsProcessTime; 
         #endregion
 
+
+
         #region Свойства
-        #endregion
         /// <summary>
-        /// Возвращает лист с дефолтными резульатами расчета
+        /// Возвращает лист с дефолтными результатами расчета
         /// </summary>
         public List<string> ResultList                  
         {
             get {
                 return _liResult;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает коллекцию городов, расположенных в порядке лучшего пути
+        /// </summary>
+        public AntAlgDataCitiesCollection ResultPath    
+        {
+            get
+            {
+                return _bestPath;
             }
         }
 
@@ -58,11 +71,15 @@ namespace ant
                 return _tsProcessTime;
             }
         }
+        #endregion
+
+
+
         #region Методы
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init()
+        private void Init()         
         {
             // Параметры расчета
             AntAlgData.AntAlgDataParameters param = new ant.AntAlgData.AntAlgDataParameters();
@@ -80,13 +97,17 @@ namespace ant
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
-        public void Start()
+        public void Start()         
         {
             Init();
 
             DateTime timeStart = DateTime.Now;
 
-            _liResult = travelSalesmanAnt.Calculate();
+            travelSalesmanAnt.Calculate();
+            // Результаты
+            _liResult = travelSalesmanAnt.ListTimeRoute;
+            _bestPath = travelSalesmanAnt.BestPath;
+
             _tsProcessTime = DateTime.Now - timeStart;
         }
         #endregion

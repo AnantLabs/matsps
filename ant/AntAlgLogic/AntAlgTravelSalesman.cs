@@ -41,7 +41,7 @@ namespace ant.AntAlgLogic
 
         #region Свойства
         /// <summary>
-        /// Коллекция муравьев
+        /// Возвращает или задает Коллекцию муравьев
         /// </summary>
         public AntAlgDataAntsCollection Ants                            
         {
@@ -50,7 +50,7 @@ namespace ant.AntAlgLogic
         }
 
         /// <summary>
-        /// Коллекция городов
+        /// Возвращает или задает Коллекцию городов
         /// </summary>
         public AntAlgDataCitiesCollection Cities                        
         {
@@ -63,6 +63,35 @@ namespace ant.AntAlgLogic
         #endregion
 
 
+        #region Свойства результатов расчета
+        List<string> listrTime;
+        /// <summary>
+        /// Лист длин маршрута по времени
+        /// </summary>
+        public List<string> ListTimeRoute                                   
+        {
+            get
+            {
+                return listrTime;
+            }
+        }
+
+        /// <summary>
+        /// Коллекция с лучшим маршрутом
+        /// </summary>
+        public AntAlgDataCitiesCollection BestPath                          
+        {
+            get
+            {
+                AntAlgDataCitiesCollection cities = new AntAlgDataCitiesCollection();
+                for (int i = 0; i < Cities.Count; i++)
+                {
+                    cities.Add(Ants[bestIndex].PathGet(i));
+                }
+                return cities;
+            }
+        }
+        #endregion
 
         #region Методы
 
@@ -94,7 +123,7 @@ namespace ant.AntAlgLogic
         /// <summary>
         /// Перезапустить муравьев для повторного расчета
         /// </summary>
-        private void RestartAnts()                                           
+        private void RestartAnts()                                          
         {
             int ant, i, to = 0;
 
@@ -288,11 +317,14 @@ namespace ant.AntAlgLogic
             }
         }
 
-
-        public List<string> Calculate()
+        /// <summary>
+        /// Произвести один расчет
+        /// </summary>
+        /// <returns>Список результара расчета</returns>
+        public void Calculate()                                             
         {
             int curTime = 0;
-            List<string> listrTime = new List<string>();
+            listrTime = new List<string>();
 
             int i = 1;
             while (curTime++ < _parameters.MaxTime)
@@ -319,7 +351,7 @@ namespace ant.AntAlgLogic
 
             listrTime.Add(string.Format( "best tour {0:000.00\n}", best) );
 
-            return listrTime;
+            //return listrTime;
         }
         #endregion
     }
