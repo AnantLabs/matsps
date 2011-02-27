@@ -64,6 +64,8 @@ namespace ant.AntAlgData
         {
             get
             {
+                int iMaxTours = 20;
+                _iMaxTime = iMaxTours * MaxCities;
                 return
                     _iMaxTime;
             }
