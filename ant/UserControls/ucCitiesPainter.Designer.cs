@@ -50,17 +50,20 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(151, 6);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(136, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 13);
+            this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Длина маршрута:";
             // 
             // txbRouteLength
             // 
             this.txbRouteLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbRouteLength.BackColor = System.Drawing.SystemColors.Control;
             this.txbRouteLength.Location = new System.Drawing.Point(253, 3);
             this.txbRouteLength.Name = "txbRouteLength";
+            this.txbRouteLength.ReadOnly = true;
             this.txbRouteLength.Size = new System.Drawing.Size(77, 20);
             this.txbRouteLength.TabIndex = 3;
             // 

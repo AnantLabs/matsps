@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 using ant.AntAlgData;
 using ant.AntAlgLogic;
@@ -14,13 +15,17 @@ namespace ant
     class ProcessAnt
     {
         #region Конструкторы и Данные
-        public ProcessAnt() { }
 
+        public delegate void ProgressChanged(int value);        
+        public event ProgressChanged eventProgressChanged;     
+
+        public ProcessAnt() 
+        {
+        }
         /// <summary>
         /// Переменная, в которой происходит алгоритм
         /// </summary>
         private AntAlgTravelSalesman travelSalesmanAnt;
-
         /// <summary>
         /// Стандартные результаты рассчета
         /// </summary>
@@ -29,9 +34,14 @@ namespace ant
         /// <summary>
         /// Время рачета алгоритма
         /// </summary>
-        private TimeSpan _tsProcessTime; 
-        #endregion
+        private TimeSpan _tsProcessTime;
 
+        /// <summary>
+        /// Время начала расчета
+        /// </summary>
+        private DateTime timeStart;
+
+        #endregion
 
 
         #region Свойства
@@ -87,7 +97,6 @@ namespace ant
         #endregion
 
 
-
         #region Методы
         /// <summary>
         /// Инициализируем данные
@@ -98,8 +107,9 @@ namespace ant
                 throw new Exception("В алгоритме на определены города");
             if (parameters == null)
                 throw new Exception("В алгоритме на определены параметры расчета");
-            travelSalesmanAnt = new AntAlgTravelSalesman(
-                cities, parameters);            
+            travelSalesmanAnt = new AntAlgTravelSalesman(cities, parameters);
+            travelSalesmanAnt.eventProgressChanged += new EventHandler<AntAlgChangesEventArgs>(ProgressChange);
+            travelSalesmanAnt.eventFinally += new EventHandler<EventArgs>(Finally);
         }
 
         /// <summary>
@@ -108,6 +118,7 @@ namespace ant
         public void Start()                                                                                 
         {
             this.Start(Cities, Parameters);
+            
         }
         /// <summary>
         /// Начать алгоритм расчета
@@ -118,15 +129,52 @@ namespace ant
         {
             Init(cities, parameters);
 
-            DateTime timeStart = DateTime.Now;
+            timeStart = DateTime.Now;
 
             travelSalesmanAnt.Calculate();
+        }
+
+        /// <summary>
+        /// Продолжить алгоритм расчета
+        /// </summary>
+        public void Continue()
+        {
+            travelSalesmanAnt.CalculateContinue();
+        }
+        #endregion
+
+        #region Обработчики событий
+
+        private void ProgressChange(object sender, AntAlgLogic.AntAlgChangesEventArgs e)         
+        {
+                //пересылка сообщения
+                if (eventProgressChanged != null) //проверяем наличие подписчиков
+                    eventProgressChanged((int)e.Percent);
+        }
+
+        private void Finally(object sender, EventArgs e)                                         
+        {
             // Результаты
             _liResult = travelSalesmanAnt.ListTimeRoute;
             _bestPath = travelSalesmanAnt.BestPath;
 
             _tsProcessTime = DateTime.Now - timeStart;
+
+            OnFinallyCalculate(new EventArgs());
         }
+
+        /// <summary>
+        /// Событие завершения вычислений
+        /// </summary>
+        public event EventHandler<EventArgs> eventFinally;  
+        protected virtual void OnFinallyCalculate(EventArgs e)                                  
+        {
+            EventHandler<EventArgs> tmp = eventFinally;
+
+            if (tmp != null)
+                tmp(this, e);
+        }
+        
         #endregion
     }
 }

@@ -51,8 +51,9 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
+            this.lblProgressInfo = new System.Windows.Forms.Label();
+            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -177,6 +178,9 @@
             // 
             // tlStrpTxbCitiesCount
             // 
+            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.LawnGreen;
+            this.tlStrpTxbCitiesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tlStrpTxbCitiesCount.Font = new System.Drawing.Font("Tahoma", 8.25F);
             this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
             this.tlStrpTxbCitiesCount.Size = new System.Drawing.Size(25, 25);
             this.tlStrpTxbCitiesCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyUp);
@@ -231,6 +235,7 @@
             // 
             // splContMain.Panel2
             // 
+            this.splContMain.Panel2.Controls.Add(this.lblProgressInfo);
             this.splContMain.Panel2.Controls.Add(this.ucCP);
             this.splContMain.Size = new System.Drawing.Size(709, 366);
             this.splContMain.SplitterDistance = 172;
@@ -278,14 +283,6 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
-            // 
             // tlStrpMainContainer
             // 
             // 
@@ -319,6 +316,25 @@
             // 
             this.tlStrpMainContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
+            // lblProgressInfo
+            // 
+            this.lblProgressInfo.AutoSize = true;
+            this.lblProgressInfo.BackColor = System.Drawing.Color.LawnGreen;
+            this.lblProgressInfo.Location = new System.Drawing.Point(3, 9);
+            this.lblProgressInfo.Name = "lblProgressInfo";
+            this.lblProgressInfo.Size = new System.Drawing.Size(35, 13);
+            this.lblProgressInfo.TabIndex = 1;
+            this.lblProgressInfo.Text = "label1";
+            this.lblProgressInfo.Visible = false;
+            // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,6 +357,7 @@
             this.toolStrip1.PerformLayout();
             this.splContMain.Panel1.ResumeLayout(false);
             this.splContMain.Panel2.ResumeLayout(false);
+            this.splContMain.Panel2.PerformLayout();
             this.splContMain.ResumeLayout(false);
             this.tbCtrlInfo.ResumeLayout(false);
             this.tbPgTimePath.ResumeLayout(false);
@@ -381,6 +398,7 @@
         private System.Windows.Forms.ToolStripButton tlStrpBtnAntAlgStart;
         private System.Windows.Forms.ToolStripButton tlStrpBtnBrAndBo;
         private System.Windows.Forms.ToolStripContainer tlStrpMainContainer;
+        private System.Windows.Forms.Label lblProgressInfo;
     }
 }
 

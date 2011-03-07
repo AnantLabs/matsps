@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
+using System.Timers;
+using System.Threading;     // потоки
 
 using ant.AntAlgData;
 
@@ -25,18 +27,39 @@ namespace ant.AntAlgLogic
             :this(cities)                                                           
         {
             SetParameters(param);
+            maxTime = _parameters.MaxTime;                                 //установка максимального ко-ва проходов
+            tmrTimer = new System.Timers.Timer(10);                                      //инициализация таймера
+            tmrTimer.Elapsed += new ElapsedEventHandler(tmrTimer_Elapsed); //подписка на событие таймера "Elapsed"
         }
 
         private double best;
         private int bestIndex;
+
+        private int maxTime;            //максимум проходов
+        private int curTime;            //счетчик проходов
+        private System.Timers.Timer tmrTimer;         //таймер
+
         Random rnd = new Random();
+
+        /// <summary>
+        /// Поток вычислений
+        /// </summary>
+        private Thread t = null;
+        /// <summary>
+        /// Событие для остановки потока вычислений
+        /// </summary>
+        static EventWaitHandle wh = new AutoResetEvent(false);
+        /// <summary>
+        /// Показывает, запущен ли сейчас поток
+        /// </summary>
+        private bool bIsThreadAlive = false;
+
 
         /// <summary>
         /// Массив значений феромонов в каждом городе
         /// </summary>
         private double[,] Pheromone;
         #endregion
-
 
 
         #region Свойства
@@ -326,36 +349,153 @@ namespace ant.AntAlgLogic
         /// <returns>Список результара расчета</returns>
         public void Calculate()                                             
         {
-            int curTime = 0;
             listrTime = new List<string>();
 
-            int i = 1;
-            while (curTime++ < _parameters.MaxTime)
+            if(t == null)
             {
-                try
+                    t = new Thread(BackgroundCalculate);
+                    t.IsBackground = true;
+                    t.Start();
+                    bIsThreadAlive = true;
+            }
+            //t.Join();            
+        }
+
+        /// <summary>
+        /// Возобновить выполнения вычислений
+        /// </summary>
+        public void CalculateContinue()                                     
+        {
+            wh.Set();
+        }
+
+        private void BackgroundCalculate()                                  
+        {
+            try
+            {
+                int i = 1;
+                curTime = 0; //обнуление счетчика проходов
+                tmrTimer.Start(); //запуск таймера
+                while (curTime++ < _parameters.MaxTime)
                 {
-                    if (SimulateAnts() == 0)
+                    try
                     {
-                        UpdateTrails();
+                        if (SimulateAnts() == 0)
+                        {
+                            UpdateTrails();
 
-                        if (curTime != Cities.Count)
-                            RestartAnts();
+                            if (curTime != Cities.Count)
+                                RestartAnts();
 
-                        string strOut = String.Format("{0:00000} ", i) + String.Format(" Time is {0:000}", curTime) + String.Format(" {0:000.00}\n", best);
-                        i++;
-                        listrTime.Add(strOut);
+                            string strOut = String.Format("{0:00000} ", i) + String.Format(" Time is {0:000}", curTime) + String.Format(" {0:000.00}\n", best);
+                            i++;
+                            listrTime.Add(strOut);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        listrTime.Add(ex.Message);
                     }
                 }
-                catch (Exception ex)
-                {
-                    listrTime.Add(ex.Message);
-                }
+                tmrTimer.Stop();           //остановка таймера
+
+                //AntAlgChangesEventArgs e = new AntAlgChangesEventArgs(101, false); //посылаем значение 101%(алгоритм завершен)
+                //OnProgressChanged(e);
+                listrTime.Add(string.Format("best tour {0:000.00\n}", best));
+
+
+                // Вычисление завершено
+                OnFinally(new EventArgs());
             }
+            catch (ThreadAbortException ex)
+            {
+            }
+        }
+        #endregion
 
-            listrTime.Add(string.Format( "best tour {0:000.00\n}", best) );
+        #region Событие
+        /// <summary>
+        /// Генерируется при изменении прогресса выполнения алгоритма
+        /// </summary>
+        //public event ProgressChanged eventProgressChanged;
+        // Член-события, делегат
+        public event EventHandler<AntAlgChangesEventArgs> eventProgressChanged;
+        public event EventHandler<EventArgs> eventFinally;
 
-            //return listrTime;
+        // Уведомляет подписанные на событие объекты
+        protected virtual void OnProgressChanged(AntAlgChangesEventArgs e)              
+        {
+            EventHandler<AntAlgChangesEventArgs> tmp = eventProgressChanged;
+
+            if (tmp != null)
+                tmp(this, e);
+        }
+        protected virtual void OnFinally(EventArgs e)                                   
+        {
+            EventHandler<EventArgs> tmp = eventFinally;
+
+            if (tmp != null)
+            {
+                bIsThreadAlive = false;
+                tmp(this, e);
+                t.Abort();
+                t = null;
+            }
+        }
+
+        // Метод, вызывающий событие
+        protected virtual void tmrTimer_Elapsed(object sender, EventArgs e)             
+        {
+            //wh.WaitOne();
+
+            //Подсчитываем процент прогресса
+            int iPersent = curTime * 100 / maxTime; //только целые значения
+            AntAlgChangesEventArgs eee = new AntAlgChangesEventArgs(iPersent, false);
+
+            OnProgressChanged(eee); // да, еее - это по-мудацки!
+
+            //wh.Set();
         }
         #endregion
     }
+
+
+    //------------------------------------------------------------------
+    //          Аргументы событий изменения в алгоритме муравья
+    //------------------------------------------------------------------
+    /// <summary>
+    /// Аргументы событий изменения в алгоритме муравья
+    /// </summary>
+    internal class AntAlgChangesEventArgs : EventArgs                                   
+    {
+        private readonly double dPercent;
+        private bool bCanContinue;
+
+        public AntAlgChangesEventArgs(double percent, bool canContinue)         
+        {
+            dPercent = percent;
+            bCanContinue = canContinue;
+        }
+
+        /// <summary>
+        /// Процент выполнения алгоритма
+        /// </summary>
+        public double Percent                                                   
+        { get { return dPercent; } }
+
+        /// <summary>
+        /// Позволяет прододжить выполнение
+        /// </summary>
+        public bool CanContinue                                                 
+        {
+            set
+            {
+                bCanContinue = value;
+            }
+            get
+            {
+                return bCanContinue;
+            }
+        }
+    };
 }

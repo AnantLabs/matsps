@@ -20,6 +20,11 @@ namespace ant
         AntAlgData.AntAlgDataCitiesCollection _cities;
         // Параметры расчета
         AntAlgData.AntAlgDataParameters _param;
+
+        /// <summary>
+        /// Обрабочик алгоритма расчета по методу Муравьиной колонии
+        /// </summary>
+        private ProcessAnt _pr;
         #endregion
 
         #region События главной формы
@@ -27,8 +32,11 @@ namespace ant
         /// <summary>
         /// Загрузка формы. Запуск алгоритма
         /// </summary>
-        private void frmMain_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e)                           
         {
+            tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
+            tlStrpTxbCitiesCount.Focus();
+            tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
         }
         #endregion
 
@@ -101,36 +109,83 @@ namespace ant
         private void tlStrpBtnAntAlgStart_Click(object sender, EventArgs e)             
         {
             // АЛГОРИТМ
-            toolSTLInfo.Text = "";
-            ProcessAnt pr = new ProcessAnt();
-            pr.Parameters = _param;
-            pr.Cities = _cities;
-            pr.Start();
-
-
-
-            // РЕЗУЛЬТАТЫ
-            // Лист результатов по времени
-            List<string> listr = pr.ResultList;
-            foreach (string str in listr)
+            if (_pr == null)
             {
-                rtxbOut.AppendText(str);
+                // Интерфейс
+                lblProgressInfo.Visible = true;
+                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+                tlStrpTxbCitiesCount.Enabled = false;
+                tlStrpBtnAntAlgStart.Enabled = false;
+                tlStrpBtnCreateRandomCities.Enabled = false;
+
+                _pr = new ProcessAnt();
+                _pr.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+                _pr.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+                _pr.Parameters = _param;
+                _pr.Cities = _cities;
+                _pr.Start();
             }
-            rtxbOut.AppendText("--------------------------------------------\n");
-            // Лист последовательности городов
-            AntAlgData.AntAlgDataCitiesCollection CitiesInPath = pr.ResultPath;
-            rtxbCities.Clear();
-            for (int i = 0; i < CitiesInPath.Count; i++)
+        }
+        #endregion
+
+        #region События алгоритмов
+        /// <summary>
+        /// Изменение в Алгоритме муравья
+        /// </summary>
+        /// <param name="value"></param>
+        private void AntAlgProgressChange(int value)                                    
+        {
+            //prgbarProgress.Value = value;
+            //toolSTProgress.Text = value + "%";
+            try
             {
-                rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                this.Invoke(new MethodInvoker(delegate()
+                {
+                    lblProgressInfo.Text = "Процент вполнения: " + value.ToString() + "%";
+                }));
             }
+            catch (ObjectDisposedException ex)
+            {
+            }
+            //label1
+        }
 
-            // Путь городов
-            ucCP.SetCities(CitiesInPath);
-            ucCP.PaintCitiesAndRoute();
+        /// <summary>
+        /// Событие завершение расчета по Алгоритму Муравья
+        /// </summary>
+        private void AntAlgFinally(object sender, EventArgs e)                          
+        {
+            this.Invoke(new MethodInvoker(delegate()
+                {
+                    // РЕЗУЛЬТАТЫ
+                    // Лист результатов по времени
+                    List<string> listr = _pr.ResultList;
+                    foreach (string str in listr)
+                    {
+                        rtxbOut.AppendText(str);
+                    }
+                    rtxbOut.AppendText("--------------------------------------------\n");
+                    // Лист последовательности городов
+                    AntAlgData.AntAlgDataCitiesCollection CitiesInPath = _pr.ResultPath;
+                    rtxbCities.Clear();
+                    for (int i = 0; i < CitiesInPath.Count; i++)
+                    {
+                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                    }
 
-            toolSTLInfo.Text = "Время расчета: " + pr.ProcessTime.ToString();
+                    // Путь городов
+                    ucCP.SetCities(CitiesInPath);
+                    ucCP.PaintCitiesAndRoute();
 
+                    toolSTLInfo.Text = "Время расчета: " + _pr.ProcessTime.ToString();
+
+                    // Готовность интерфейса
+                    lblProgressInfo.Visible = false;
+                    _pr = null;
+                    tlStrpTxbCitiesCount.Enabled = true;
+                    tlStrpBtnAntAlgStart.Enabled = true;
+                    tlStrpBtnCreateRandomCities.Enabled = true;
+                }));
         }
         #endregion
     }
