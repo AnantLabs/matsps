@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.AntAlgData
+namespace ant.CommonData
 {
     /// <summary>
     /// Класс коллекции городов
     /// </summary>
-    class AntAlgDataCitiesCollection
+    class DataCitiesCollection
     {
         #region Конструкторы и Данные
-        public AntAlgDataCitiesCollection()                             
+        public DataCitiesCollection()                             
         {
-            _liCities = new List<AntAlgDataCity>();
+            _liCities = new List<DataCity>();
         }
-        public AntAlgDataCitiesCollection(int countCities):this()       
+        public DataCitiesCollection(int countCities):this()       
         {
             _iCount = countCities;
         }
@@ -26,7 +26,7 @@ namespace ant.AntAlgData
         /// <summary>
         /// Список городов
         /// </summary>
-        private List<AntAlgDataCity> _liCities = null;
+        private List<DataCity> _liCities = null;
 
         // Глобальные переменные
         /// <summary>
@@ -50,7 +50,7 @@ namespace ant.AntAlgData
         /// </summary>
         /// <param name="index">Порядковый номер города</param>
         /// <returns></returns>
-        public AntAlgDataCity this[int index]       
+        public DataCity this[int index]       
         {
             set { _liCities[index] = value; }
             get { return _liCities[index]; }
@@ -96,7 +96,7 @@ namespace ant.AntAlgData
                     }
                 }
 
-                _liCities.Add( new AntAlgDataCity( x,y ) );
+                _liCities.Add( new DataCity( x,y ) );
                 _liCities[i].Index = i;
             }
 
@@ -110,7 +110,7 @@ namespace ant.AntAlgData
         /// <summary>
         /// Добавить город в коллекцию городов
         /// </summary>
-        public void Add(AntAlgDataCity city)        
+        public void Add(DataCity city)        
         {
             _liCities.Add(city);
             _iCount++;

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.AntAlgData
+namespace ant.CommonData
 {
     /// <summary>
     /// Хранит данные о координатах города
     /// </summary>
-    class AntAlgDataCity
+    class DataCity
     {
         #region Конструктор и Данные
-        public AntAlgDataCity():this(0,0)        
+        public DataCity():this(0,0)        
         {}
-        public AntAlgDataCity(int x, int y)      
+        public DataCity(int x, int y)      
         {
             X = x;
             Y = y;
