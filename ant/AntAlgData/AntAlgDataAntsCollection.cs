@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using ant.CommonData;
 
 namespace ant.AntAlgData
 {
@@ -47,7 +48,7 @@ namespace ant.AntAlgData
         #endregion
 
         #region Функции
-        public void InitAnts(AntAlgDataCitiesCollection cities)     
+        public void InitAnts(DataCitiesCollection cities)     
         {
             if (_liAnts != null)
             {

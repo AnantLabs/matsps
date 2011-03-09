@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using ant.CommonData;
+
 namespace ant
 {
     public partial class frmMain : Form
@@ -17,7 +19,7 @@ namespace ant
         }
 
         // Коллекция городов
-        AntAlgData.AntAlgDataCitiesCollection _cities;
+        DataCitiesCollection _cities;
         // Параметры расчета
         AntAlgData.AntAlgDataParameters _param;
 
@@ -65,6 +67,7 @@ namespace ant
         /// </summary>
         private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)      
         {
+            txbRouteLength.Text = "";
             // ИСХОДНЫЕ ДАННЫЕ
             _param = new ant.AntAlgData.AntAlgDataParameters();
             // Создаем Города
@@ -78,7 +81,7 @@ namespace ant
                 MessageBox.Show("Ошибка преобразования из текста в целое число: " + ex.Message);
                 return;
             }
-            _cities = new ant.AntAlgData.AntAlgDataCitiesCollection( iCitiesCount );
+            _cities = new DataCitiesCollection( iCitiesCount );
             _param.MaxCities = iCitiesCount;
 
             //Cities.InitPheromone = param.InitPheromone;
@@ -112,6 +115,7 @@ namespace ant
             if (_pr == null)
             {
                 // Интерфейс
+                txbRouteLength.Text = "";
                 lblProgressInfo.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
                 tlStrpTxbCitiesCount.Enabled = false;
@@ -166,7 +170,7 @@ namespace ant
                     }
                     rtxbOut.AppendText("--------------------------------------------\n");
                     // Лист последовательности городов
-                    AntAlgData.AntAlgDataCitiesCollection CitiesInPath = _pr.ResultPath;
+                    DataCitiesCollection CitiesInPath = _pr.ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {
@@ -176,9 +180,13 @@ namespace ant
                     // Путь городов
                     ucCP.SetCities(CitiesInPath);
                     ucCP.PaintCitiesAndRoute();
-
+                    
                     toolSTLInfo.Text = "Время расчета: " + _pr.ProcessTime.ToString();
-
+                    
+                    //Тут должен быть вывод длинны маршрута
+                    txbRouteLength.Text = _pr.ResultPath.length.ToString();
+                    //
+                   
                     // Готовность интерфейса
                     lblProgressInfo.Visible = false;
                     _pr = null;

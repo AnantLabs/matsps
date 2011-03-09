@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 using ant.AntAlgData;
 using ant.AntAlgLogic;
+using ant.CommonData;
 
 namespace ant
 {
@@ -30,7 +31,7 @@ namespace ant
         /// Стандартные результаты рассчета
         /// </summary>
         private List<string> _liResult = null;
-        private AntAlgDataCitiesCollection _bestPath = null;
+        private Route _bestPath = null;
         /// <summary>
         /// Время рачета алгоритма
         /// </summary>
@@ -58,7 +59,7 @@ namespace ant
         /// <summary>
         /// Возвращает коллекцию городов, расположенных в порядке лучшего пути
         /// </summary>
-        public AntAlgDataCitiesCollection ResultPath    
+        public Route ResultPath    
         {
             get
             {
@@ -89,7 +90,7 @@ namespace ant
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public AntAlgDataCitiesCollection Cities        
+        public DataCitiesCollection Cities        
         {
             set;
             get;
@@ -101,7 +102,7 @@ namespace ant
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(AntAlgDataCitiesCollection cities, AntAlgDataParameters parameters)         
+        private void Init(DataCitiesCollection cities, AntAlgDataParameters parameters)         
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -125,7 +126,7 @@ namespace ant
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(AntAlgDataCitiesCollection cities, AntAlgDataParameters parameters)               
+        public void Start(DataCitiesCollection cities, AntAlgDataParameters parameters)               
         {
             Init(cities, parameters);
 

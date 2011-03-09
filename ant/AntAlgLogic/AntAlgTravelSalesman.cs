@@ -6,6 +6,7 @@ using System.Timers;
 using System.Threading;     // потоки
 
 using ant.AntAlgData;
+using ant.CommonData;
 
 namespace ant.AntAlgLogic
 {
@@ -19,11 +20,12 @@ namespace ant.AntAlgLogic
         {
 
         }
-        public AntAlgTravelSalesman(AntAlgDataCitiesCollection cities):this()       
+        public AntAlgTravelSalesman(DataCitiesCollection cities)
+            : this()       
         {
             Cities = cities;
         }
-        public AntAlgTravelSalesman(AntAlgDataCitiesCollection cities, AntAlgDataParameters param)
+        public AntAlgTravelSalesman(DataCitiesCollection cities, AntAlgDataParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -75,7 +77,7 @@ namespace ant.AntAlgLogic
         /// <summary>
         /// Возвращает или задает Коллекцию городов
         /// </summary>
-        public AntAlgDataCitiesCollection Cities                        
+        public DataCitiesCollection Cities                        
         {
             set;
             get;
@@ -102,19 +104,21 @@ namespace ant.AntAlgLogic
         /// <summary>
         /// Коллекция с лучшим маршрутом
         /// </summary>
-        public AntAlgDataCitiesCollection BestPath                          
+        public Route BestPath                          
         {
             get
             {
-                AntAlgDataCitiesCollection cities = new AntAlgDataCitiesCollection();
+                DataCitiesCollection cities = new DataCitiesCollection();
                 cities.MaxDistance = Cities.MaxDistance;
                 for (int i = 0; i < Cities.Count; i++)
                 {
-                    AntAlgDataCity newCity = new AntAlgDataCity(Ants[bestIndex].PathGet(i).X, Ants[bestIndex].PathGet(i).Y);
+                    DataCity newCity = new DataCity(Ants[bestIndex].PathGet(i).X, Ants[bestIndex].PathGet(i).Y);
                     newCity.Index = Ants[bestIndex].PathGet(i).Index;
-                    cities.Add( newCity );
+                    cities.Add(newCity);
                 }
-                return cities;
+                Route route = new Route(cities);
+
+                return route;
             }
         }
         #endregion

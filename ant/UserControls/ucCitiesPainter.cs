@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using ant.AntAlgData;
 using ant.AntAlgLogic;
+using ant.CommonData;
 
 namespace ant.UserControls
 {
@@ -51,7 +52,7 @@ namespace ant.UserControls
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        private AntAlgDataCitiesCollection Cities           
+        private DataCitiesCollection Cities           
         {
             set;
             get;
@@ -136,7 +137,7 @@ namespace ant.UserControls
         /// Установить коллекцию городов для прорисовки
         /// </summary>
         /// <param name="cities">коллекция городов</param>
-        internal void SetCities(AntAlgDataCitiesCollection cities)              
+        internal void SetCities(DataCitiesCollection cities)              
         {
             Cities = cities;
         }

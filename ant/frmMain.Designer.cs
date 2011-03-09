@@ -51,9 +51,10 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.lblProgressInfo = new System.Windows.Forms.Label();
             this.ucCP = new ant.UserControls.ucCitiesPainter();
+            this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
+            this.txbRouteLength = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -90,7 +91,7 @@
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(109, 17);
+            this.toolSTLInfo.Size = new System.Drawing.Size(118, 17);
             this.toolSTLInfo.Text = "toolStripStatusLabel1";
             // 
             // menuStrip1
@@ -111,13 +112,13 @@
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemExit});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(45, 20);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItemFile.Text = "Файл";
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItemExit.Text = "Выход";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
@@ -126,13 +127,13 @@
             this.toolStripMenuItemSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemParameters});
             this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(73, 20);
+            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(79, 20);
             this.toolStripMenuItemSettings.Text = "Настройки";
             // 
             // toolStripMenuItemParameters
             // 
             this.toolStripMenuItemParameters.Name = "toolStripMenuItemParameters";
-            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(131, 22);
+            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItemParameters.Text = "Параметры";
             // 
             // toolStripMenuItemHelp
@@ -140,14 +141,14 @@
             this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAbout});
             this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(62, 20);
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(65, 20);
             this.toolStripMenuItemHelp.Text = "Справка";
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(149, 22);
             this.toolStripMenuItemAbout.Text = "О программе";
             this.toolStripMenuItemAbout.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
@@ -165,7 +166,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(482, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(480, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -173,7 +174,7 @@
             // 
             this.toolStripLabel1.Enabled = false;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(116, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(123, 22);
             this.toolStripLabel1.Text = "Количество городов:";
             // 
             // tlStrpTxbCitiesCount
@@ -191,7 +192,7 @@
             this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
             this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
-            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(93, 22);
+            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(95, 22);
             this.tlStrpBtnCreateRandomCities.Text = "Создать города";
             this.tlStrpBtnCreateRandomCities.ToolTipText = "Создать заданное количество городв со случаными координатами";
             this.tlStrpBtnCreateRandomCities.Click += new System.EventHandler(this.tlStrpBtnCreateRandomCities_Click);
@@ -207,7 +208,7 @@
             this.tlStrpBtnAntAlgStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnAntAlgStart.Image")));
             this.tlStrpBtnAntAlgStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnAntAlgStart.Name = "tlStrpBtnAntAlgStart";
-            this.tlStrpBtnAntAlgStart.Size = new System.Drawing.Size(104, 22);
+            this.tlStrpBtnAntAlgStart.Size = new System.Drawing.Size(115, 22);
             this.tlStrpBtnAntAlgStart.Text = "Алгоритм муравья";
             this.tlStrpBtnAntAlgStart.ToolTipText = "Начать рассчет задачи коммивояжера по алгоритму Муравьиной колонии";
             this.tlStrpBtnAntAlgStart.Click += new System.EventHandler(this.tlStrpBtnAntAlgStart_Click);
@@ -219,7 +220,7 @@
             this.tlStrpBtnBrAndBo.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnBrAndBo.Image")));
             this.tlStrpBtnBrAndBo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnBrAndBo.Name = "tlStrpBtnBrAndBo";
-            this.tlStrpBtnBrAndBo.Size = new System.Drawing.Size(96, 22);
+            this.tlStrpBtnBrAndBo.Size = new System.Drawing.Size(103, 22);
             this.tlStrpBtnBrAndBo.Text = "Ветви и границы";
             // 
             // splContMain
@@ -235,6 +236,7 @@
             // 
             // splContMain.Panel2
             // 
+            this.splContMain.Panel2.Controls.Add(this.txbRouteLength);
             this.splContMain.Panel2.Controls.Add(this.lblProgressInfo);
             this.splContMain.Panel2.Controls.Add(this.ucCP);
             this.splContMain.Size = new System.Drawing.Size(709, 366);
@@ -283,6 +285,25 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
+            // lblProgressInfo
+            // 
+            this.lblProgressInfo.AutoSize = true;
+            this.lblProgressInfo.BackColor = System.Drawing.Color.LawnGreen;
+            this.lblProgressInfo.Location = new System.Drawing.Point(3, 9);
+            this.lblProgressInfo.Name = "lblProgressInfo";
+            this.lblProgressInfo.Size = new System.Drawing.Size(29, 13);
+            this.lblProgressInfo.TabIndex = 1;
+            this.lblProgressInfo.Text = "label";
+            this.lblProgressInfo.Visible = false;
+            // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
+            // 
             // tlStrpMainContainer
             // 
             // 
@@ -316,24 +337,13 @@
             // 
             this.tlStrpMainContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // lblProgressInfo
+            // txbRouteLength
             // 
-            this.lblProgressInfo.AutoSize = true;
-            this.lblProgressInfo.BackColor = System.Drawing.Color.LawnGreen;
-            this.lblProgressInfo.Location = new System.Drawing.Point(3, 9);
-            this.lblProgressInfo.Name = "lblProgressInfo";
-            this.lblProgressInfo.Size = new System.Drawing.Size(35, 13);
-            this.lblProgressInfo.TabIndex = 1;
-            this.lblProgressInfo.Text = "label1";
-            this.lblProgressInfo.Visible = false;
-            // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
+            this.txbRouteLength.Location = new System.Drawing.Point(230, 3);
+            this.txbRouteLength.Name = "txbRouteLength";
+            this.txbRouteLength.ReadOnly = true;
+            this.txbRouteLength.Size = new System.Drawing.Size(100, 20);
+            this.txbRouteLength.TabIndex = 2;
             // 
             // frmMain
             // 
@@ -399,6 +409,7 @@
         private System.Windows.Forms.ToolStripButton tlStrpBtnBrAndBo;
         private System.Windows.Forms.ToolStripContainer tlStrpMainContainer;
         private System.Windows.Forms.Label lblProgressInfo;
+        private System.Windows.Forms.TextBox txbRouteLength;
     }
 }
 
