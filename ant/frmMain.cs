@@ -36,6 +36,7 @@ namespace ant
         /// </summary>
         private void frmMain_Load(object sender, EventArgs e)                           
         {
+            toolSTLProgress.Visible = false;
             tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
             tlStrpTxbCitiesCount.Focus();
             tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
@@ -67,7 +68,7 @@ namespace ant
         /// </summary>
         private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)      
         {
-            txbRouteLength.Text = "";
+            ucCP.RouteLengthTextOut("");
             // ИСХОДНЫЕ ДАННЫЕ
             _param = new ant.AntAlgData.AntAlgDataParameters();
             // Создаем Города
@@ -115,8 +116,9 @@ namespace ant
             if (_pr == null)
             {
                 // Интерфейс
-                txbRouteLength.Text = "";
-                lblProgressInfo.Visible = true;
+                ucCP.RouteLengthTextOut("");
+                toolSTLProgress.Visible = true;
+                ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
                 tlStrpTxbCitiesCount.Enabled = false;
                 tlStrpBtnAntAlgStart.Enabled = false;
@@ -137,7 +139,8 @@ namespace ant
         /// Изменение в Алгоритме муравья
         /// </summary>
         /// <param name="value"></param>
-        private void AntAlgProgressChange(int value)                                    
+        private delegate void IncrementCallback(int val);
+        private void AntAlgProgressChange(int value)
         {
             //prgbarProgress.Value = value;
             //toolSTProgress.Text = value + "%";
@@ -145,14 +148,25 @@ namespace ant
             {
                 this.Invoke(new MethodInvoker(delegate()
                 {
-                    lblProgressInfo.Text = "Процент вполнения: " + value.ToString() + "%";
+                    toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
                 }));
+
+                if (statusStrip1.InvokeRequired)
+                {
+                    var d = new IncrementCallback(AntAlgProgressChange);
+                    Invoke(d, value);
+                }
+                else
+                {
+                    ToolStripProgress.Value = value;
+                }
             }
             catch (ObjectDisposedException ex)
             {
             }
-            //label1
         }
+
+
 
         /// <summary>
         /// Событие завершение расчета по Алгоритму Муравья
@@ -183,16 +197,17 @@ namespace ant
                     
                     toolSTLInfo.Text = "Время расчета: " + _pr.ProcessTime.ToString();
                     
-                    //Тут должен быть вывод длинны маршрута
-                    txbRouteLength.Text = _pr.ResultPath.length.ToString();
+                    //Вывод длинны маршрута
+                    ucCP.RouteLengthTextOut(_pr.ResultPath.length.ToString());
                     //
                    
                     // Готовность интерфейса
-                    lblProgressInfo.Visible = false;
                     _pr = null;
                     tlStrpTxbCitiesCount.Enabled = true;
                     tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;
+                    ToolStripProgress.Visible = false;
+                    toolSTLProgress.Visible = false;
                 }));
         }
         #endregion

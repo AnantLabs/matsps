@@ -102,7 +102,7 @@ namespace ant.UserControls
             float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
             int picBoxHeight = pbCanvas.Size.Height;
             float fKoefY = (float)picBoxHeight / (float)Cities.MaxDistance;
-
+  
             pbCanvas.Refresh();
             Image img = new Bitmap(picBoxWidth, picBoxHeight);
             System.Drawing.Graphics g = Graphics.FromImage(img);
@@ -123,6 +123,7 @@ namespace ant.UserControls
                         break;
                 }
             }
+            g.DrawEllipse(penCities, fKoefX * Cities[Cities.Count - 1].X - 2, fKoefY * Cities[Cities.Count - 1].Y - 2, 4, 4);
             // Путь от последнего к первому городу
             if( stateCurrent == DrawingState.Route || stateCurrent == DrawingState.CitiesAndRoute)
                 g.DrawLine(penRouteLine, fKoefX * Cities[Cities.Count - 1].X, fKoefY * Cities[Cities.Count - 1].Y, fKoefX * Cities[0].X, fKoefY * Cities[0].Y);
@@ -131,6 +132,14 @@ namespace ant.UserControls
             g.Dispose();
 
             pbCanvas.Image = img;
+        }
+
+        /// <summary>
+        /// Выводит длинну маршрута
+        /// </summary>
+        public void RouteLengthTextOut(string value)
+        {
+            txbRouteLength.Text = value;
         }
 
         /// <summary>
@@ -148,6 +157,14 @@ namespace ant.UserControls
         /// Изменение размеров формы и перерисовка городов
         /// </summary>
         private void ucCitiesPainter_Resize(object sender, EventArgs e)     
+        {
+            if (Cities != null)
+            {
+                PaintObjects();
+                
+            }
+        }
+        private void ucCitiesPainter_(object sender, EventArgs e)
         {
             if (Cities != null)
             {

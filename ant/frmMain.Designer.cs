@@ -51,10 +51,10 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.lblProgressInfo = new System.Windows.Forms.Label();
-            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
-            this.txbRouteLength = new System.Windows.Forms.TextBox();
+            this.ToolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolSTLProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -81,6 +81,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripProgress,
+            this.toolSTLProgress,
             this.toolSTLInfo});
             this.statusStrip1.Location = new System.Drawing.Point(0, 415);
             this.statusStrip1.Name = "statusStrip1";
@@ -91,8 +93,8 @@
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(118, 17);
-            this.toolSTLInfo.Text = "toolStripStatusLabel1";
+            this.toolSTLInfo.Size = new System.Drawing.Size(28, 17);
+            this.toolSTLInfo.Text = "Info";
             // 
             // menuStrip1
             // 
@@ -236,8 +238,6 @@
             // 
             // splContMain.Panel2
             // 
-            this.splContMain.Panel2.Controls.Add(this.txbRouteLength);
-            this.splContMain.Panel2.Controls.Add(this.lblProgressInfo);
             this.splContMain.Panel2.Controls.Add(this.ucCP);
             this.splContMain.Size = new System.Drawing.Size(709, 366);
             this.splContMain.SplitterDistance = 172;
@@ -285,25 +285,6 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
-            // lblProgressInfo
-            // 
-            this.lblProgressInfo.AutoSize = true;
-            this.lblProgressInfo.BackColor = System.Drawing.Color.LawnGreen;
-            this.lblProgressInfo.Location = new System.Drawing.Point(3, 9);
-            this.lblProgressInfo.Name = "lblProgressInfo";
-            this.lblProgressInfo.Size = new System.Drawing.Size(29, 13);
-            this.lblProgressInfo.TabIndex = 1;
-            this.lblProgressInfo.Text = "label";
-            this.lblProgressInfo.Visible = false;
-            // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
-            // 
             // tlStrpMainContainer
             // 
             // 
@@ -337,13 +318,28 @@
             // 
             this.tlStrpMainContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // txbRouteLength
+            // ToolStripProgress
             // 
-            this.txbRouteLength.Location = new System.Drawing.Point(230, 3);
-            this.txbRouteLength.Name = "txbRouteLength";
-            this.txbRouteLength.ReadOnly = true;
-            this.txbRouteLength.Size = new System.Drawing.Size(100, 20);
-            this.txbRouteLength.TabIndex = 2;
+            this.ToolStripProgress.Name = "ToolStripProgress";
+            this.ToolStripProgress.Size = new System.Drawing.Size(400, 16);
+            // 
+            // toolSTLProgress
+            // 
+            this.toolSTLProgress.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.toolSTLProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.toolSTLProgress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolSTLProgress.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.toolSTLProgress.Name = "toolSTLProgress";
+            this.toolSTLProgress.Size = new System.Drawing.Size(55, 17);
+            this.toolSTLProgress.Text = "Progress";
+            // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -367,7 +363,6 @@
             this.toolStrip1.PerformLayout();
             this.splContMain.Panel1.ResumeLayout(false);
             this.splContMain.Panel2.ResumeLayout(false);
-            this.splContMain.Panel2.PerformLayout();
             this.splContMain.ResumeLayout(false);
             this.tbCtrlInfo.ResumeLayout(false);
             this.tbPgTimePath.ResumeLayout(false);
@@ -408,8 +403,8 @@
         private System.Windows.Forms.ToolStripButton tlStrpBtnAntAlgStart;
         private System.Windows.Forms.ToolStripButton tlStrpBtnBrAndBo;
         private System.Windows.Forms.ToolStripContainer tlStrpMainContainer;
-        private System.Windows.Forms.Label lblProgressInfo;
-        private System.Windows.Forms.TextBox txbRouteLength;
+        private System.Windows.Forms.ToolStripProgressBar ToolStripProgress;
+        private System.Windows.Forms.ToolStripStatusLabel toolSTLProgress;
     }
 }
 
