@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace ant.AntAlgData
 {
     /// <summary>
-    /// Класс с параметрами расчета
+    /// Класс с параметрами расчета алгоритма Муравья
     /// </summary>
     class AntAlgDataParameters
     {
@@ -17,10 +16,9 @@ namespace ant.AntAlgData
             MaxDistance = 100;
 
             _iMaxTour = MaxCities * MaxDistance;
-            int iMaxTours = 20;
-            _iMaxTime = iMaxTours * MaxCities;
+            CountRepeatCуcles = 20;
+            _iMaxTime = CountRepeatCуcles * MaxCities;
 
-            InitPheromone = 1.0 / MaxCities;
             MaxAnts = 50;
 
             ALPHA = 1.0;
@@ -50,6 +48,7 @@ namespace ant.AntAlgData
         {
             get
             {
+                _iMaxTour = MaxCities * MaxDistance;
                 return
                     _iMaxTour;
             }
@@ -60,28 +59,49 @@ namespace ant.AntAlgData
             get;
         }
         private int _iMaxTime = 0;
+        /// <summary>
+        /// Количество городов * Количество проходов алгоритма
+        /// </summary>
         public int MaxTime                      
         {
             get
             {
-                int iMaxTours = 20;
-                _iMaxTime = iMaxTours * MaxCities;
+                _iMaxTime = CountRepeatCуcles * MaxCities;
                 return
                     _iMaxTime;
             }
         }
-
-        public double InitPheromone             
+        /// <summary>
+        /// Количество проходов алгоритма
+        /// </summary>
+        public int CountRepeatCуcles            
         {
             set;
             get;
         }
 
+        /// <summary>
+        /// Начальное количество феромонов на каждом городе (1/количество городов)
+        /// </summary>
+        public double InitPheromone             
+        {
+            get
+            {
+                return 1.0 / MaxCities;
+            }
+        }
+
+        /// <summary>
+        /// Коэфф. отвечает за учет фермента в вероятности прохода муравья в какой-то город
+        /// </summary>
         public double ALPHA                     
         {
             set;
             get;
         }
+        /// <summary>
+        /// Коэфф. отвечает за учет длины груни в вероятности прохода муравья в какой-то город
+        /// </summary>
         public double BETA                      
         {
             set;
@@ -89,7 +109,7 @@ namespace ant.AntAlgData
         }
 
         /// <summary>
-        /// Интенсивность / испарение
+        /// Коэфф. интенсивности / испарение феромона (рекомендуется >0.5)
         /// </summary>
         public double RHO                       
         {
@@ -98,7 +118,7 @@ namespace ant.AntAlgData
         }
 
         /// <summary>
-        /// Количество фермента, иставленного на пути
+        /// Количество фермента, оставленного на пути
         /// </summary>  
         public int QVAL                         
         {

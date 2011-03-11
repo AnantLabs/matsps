@@ -44,8 +44,9 @@ namespace ant.UserControls
         }
         private DrawingState stateCurrent = DrawingState.Cities;
 
-        private Pen penCities;
-        private Pen penRouteLine;
+        private Pen penCities = new Pen(Brushes.Black, 5);
+        private Pen penRouteLine = new Pen(Brushes.Purple, 3);
+        private Pen penLiteLine = new Pen(Brushes.Silver, 1);
         #endregion
 
         #region Свойства
@@ -66,7 +67,6 @@ namespace ant.UserControls
         public void PaintCities()                                               
         {
             stateCurrent = DrawingState.Cities;
-            penCities = new Pen(Brushes.Purple, 4);
             PaintObjects();
         }
 
@@ -75,8 +75,7 @@ namespace ant.UserControls
         /// </summary>
         public void PaintRoute()                                                
         {
-            stateCurrent = DrawingState.Route;
-            penRouteLine = new Pen(Brushes.Purple, 1);
+            stateCurrent = DrawingState.Route;            
             PaintObjects();
         }
 
@@ -86,8 +85,6 @@ namespace ant.UserControls
         public void PaintCitiesAndRoute()                                       
         {
             stateCurrent = DrawingState.CitiesAndRoute;
-            penCities = new Pen(Brushes.Purple, 4);
-            penRouteLine = new Pen(Brushes.Purple, 2);
             PaintObjects();
         }
 
@@ -96,7 +93,7 @@ namespace ant.UserControls
         /// </summary>
         /// <param name="state">Режим прорисовки: точки или линии</param>
         /// <param name="pen">Кисть</param>
-        private void PaintObjects()                  
+        private void PaintObjects()                                             
         {
             int picBoxWidth = pbCanvas.Size.Width;
             float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
@@ -107,6 +104,18 @@ namespace ant.UserControls
             Image img = new Bitmap(picBoxWidth, picBoxHeight);
             System.Drawing.Graphics g = Graphics.FromImage(img);
 
+            // Прорисовываем линии между всеми городами
+            if (stateCurrent == DrawingState.CitiesAndRoute ||
+                stateCurrent == DrawingState.Route)
+            {                
+                for(int i = 0; i < Cities.Count - 1; i++)
+                    for (int j = i + 1; j < Cities.Count; j++)
+                    {
+                        g.DrawLine(penLiteLine, fKoefX * Cities[i].X, fKoefY * Cities[i].Y, fKoefX * Cities[j].X, fKoefY * Cities[j].Y);
+                    }
+            }
+
+            // Порисовываем путь
             for (int j = 0; j < Cities.Count - 1; j++)
             {
                 switch(stateCurrent)
@@ -137,16 +146,19 @@ namespace ant.UserControls
         /// <summary>
         /// Выводит длинну маршрута
         /// </summary>
-        public void RouteLengthTextOut(string value)
+        public void RouteLengthTextOut(double value)                            
         {
-            txbRouteLength.Text = value;
+            if (value == -1)
+                txbRouteLength.Text = "";
+            else
+                txbRouteLength.Text = String.Format("{0:##.00}", value);
         }
 
         /// <summary>
         /// Установить коллекцию городов для прорисовки
         /// </summary>
         /// <param name="cities">коллекция городов</param>
-        internal void SetCities(DataCitiesCollection cities)              
+        internal void SetCities(DataCitiesCollection cities)                    
         {
             Cities = cities;
         }

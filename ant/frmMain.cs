@@ -16,17 +16,19 @@ namespace ant
         public frmMain()                
         {
             InitializeComponent();
+
+            _paramAnt = new ant.AntAlgData.AntAlgDataParameters();
         }
 
         // Коллекция городов
         DataCitiesCollection _cities;
         // Параметры расчета
-        AntAlgData.AntAlgDataParameters _param;
+        AntAlgData.AntAlgDataParameters _paramAnt;
 
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
         /// </summary>
-        private ProcessAnt _pr;
+        private ProcessAnt _prAnt;
         #endregion
 
         #region События главной формы
@@ -53,6 +55,25 @@ namespace ant
         }
 
         /// <summary>
+        /// Вызываем форму Настроек
+        /// </summary>
+        private void toolStripMenuItemParameters_Click(object sender, EventArgs e)
+        {
+            // Запускаем форму настроек. Если она завершилась нажатием кнопки "ОК", применяем настройки
+            Forms.Parameters.frmAlgSettings frmPar = new ant.Forms.Parameters.frmAlgSettings(_paramAnt, _cities.Count);
+            DialogResult res = frmPar.ShowDialog( this );
+
+            switch (res)
+            {
+                case DialogResult.OK:
+                    {
+                        _paramAnt = frmPar.GetParameters();
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Вызывает окно О программе
         /// </summary>
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)   
@@ -68,9 +89,9 @@ namespace ant
         /// </summary>
         private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)      
         {
-            ucCP.RouteLengthTextOut("");
+            ucCP.RouteLengthTextOut(-1);
             // ИСХОДНЫЕ ДАННЫЕ
-            _param = new ant.AntAlgData.AntAlgDataParameters();
+            //_param = new ant.AntAlgData.AntAlgDataParameters();
             // Создаем Города
             int iCitiesCount;
             try
@@ -83,10 +104,11 @@ namespace ant
                 return;
             }
             _cities = new DataCitiesCollection( iCitiesCount );
-            _param.MaxCities = iCitiesCount;
+            _paramAnt.MaxCities = iCitiesCount;
+            _paramAnt.MaxAnts = iCitiesCount;
 
             //Cities.InitPheromone = param.InitPheromone;
-            _cities.MaxDistance = _param.MaxDistance;
+            _cities.MaxDistance = _paramAnt.MaxDistance;
             _cities.InitCitiesRandom();
             // Прорисовка городов
             ucCP.SetCities(_cities);
@@ -113,23 +135,23 @@ namespace ant
         private void tlStrpBtnAntAlgStart_Click(object sender, EventArgs e)             
         {
             // АЛГОРИТМ
-            if (_pr == null)
+            if (_prAnt == null)
             {
                 // Интерфейс
-                ucCP.RouteLengthTextOut("");
+                ucCP.RouteLengthTextOut(-1);
                 toolSTLProgress.Visible = true;
                 ToolStripProgress.Visible = true;
-                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+                toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
                 tlStrpTxbCitiesCount.Enabled = false;
                 tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _pr = new ProcessAnt();
-                _pr.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
-                _pr.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
-                _pr.Parameters = _param;
-                _pr.Cities = _cities;
-                _pr.Start();
+                _prAnt = new ProcessAnt();
+                _prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+                _prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+                _prAnt.Parameters = _paramAnt;
+                _prAnt.Cities = _cities;
+                _prAnt.Start();
             }
         }
         #endregion
@@ -177,14 +199,14 @@ namespace ant
                 {
                     // РЕЗУЛЬТАТЫ
                     // Лист результатов по времени
-                    List<string> listr = _pr.ResultList;
+                    List<string> listr = _prAnt.ResultList;
                     foreach (string str in listr)
                     {
                         rtxbOut.AppendText(str);
                     }
                     rtxbOut.AppendText("--------------------------------------------\n");
                     // Лист последовательности городов
-                    DataCitiesCollection CitiesInPath = _pr.ResultPath.Cities;
+                    DataCitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {
@@ -194,15 +216,15 @@ namespace ant
                     // Путь городов
                     ucCP.SetCities(CitiesInPath);
                     ucCP.PaintCitiesAndRoute();
-                    
-                    toolSTLInfo.Text = "Время расчета: " + _pr.ProcessTime.ToString();
+
+                    toolSTLInfo.Text = "Время расчета: " + _prAnt.ProcessTime.ToString();
                     
                     //Вывод длинны маршрута
-                    ucCP.RouteLengthTextOut(_pr.ResultPath.length.ToString());
+                    ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
                     //
                    
                     // Готовность интерфейса
-                    _pr = null;
+                    _prAnt = null;
                     tlStrpTxbCitiesCount.Enabled = true;
                     tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;
@@ -211,5 +233,6 @@ namespace ant
                 }));
         }
         #endregion
+
     }
 }

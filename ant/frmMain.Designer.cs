@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.rtxbOut = new System.Windows.Forms.RichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ToolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolSTLProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolSTLInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,8 +54,6 @@
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
-            this.ToolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolSTLProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -90,10 +90,25 @@
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // ToolStripProgress
+            // 
+            this.ToolStripProgress.Name = "ToolStripProgress";
+            this.ToolStripProgress.Size = new System.Drawing.Size(400, 16);
+            // 
+            // toolSTLProgress
+            // 
+            this.toolSTLProgress.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.toolSTLProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.toolSTLProgress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolSTLProgress.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.toolSTLProgress.Name = "toolSTLProgress";
+            this.toolSTLProgress.Size = new System.Drawing.Size(55, 17);
+            this.toolSTLProgress.Text = "Progress";
+            // 
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(28, 17);
+            this.toolSTLInfo.Size = new System.Drawing.Size(27, 17);
             this.toolSTLInfo.Text = "Info";
             // 
             // menuStrip1
@@ -114,13 +129,13 @@
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemExit});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(48, 20);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(45, 20);
             this.toolStripMenuItemFile.Text = "Файл";
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(108, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(107, 22);
             this.toolStripMenuItemExit.Text = "Выход";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
@@ -129,28 +144,29 @@
             this.toolStripMenuItemSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemParameters});
             this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(79, 20);
+            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(73, 20);
             this.toolStripMenuItemSettings.Text = "Настройки";
             // 
             // toolStripMenuItemParameters
             // 
             this.toolStripMenuItemParameters.Name = "toolStripMenuItemParameters";
-            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(131, 22);
             this.toolStripMenuItemParameters.Text = "Параметры";
+            this.toolStripMenuItemParameters.Click += new System.EventHandler(this.toolStripMenuItemParameters_Click);
             // 
             // toolStripMenuItemHelp
             // 
             this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAbout});
             this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(65, 20);
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(62, 20);
             this.toolStripMenuItemHelp.Text = "Справка";
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(149, 22);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItemAbout.Text = "О программе";
             this.toolStripMenuItemAbout.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
@@ -168,7 +184,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(480, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(482, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -176,14 +192,14 @@
             // 
             this.toolStripLabel1.Enabled = false;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(123, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(116, 22);
             this.toolStripLabel1.Text = "Количество городов:";
             // 
             // tlStrpTxbCitiesCount
             // 
-            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.LawnGreen;
+            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.tlStrpTxbCitiesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tlStrpTxbCitiesCount.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.tlStrpTxbCitiesCount.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
             this.tlStrpTxbCitiesCount.Size = new System.Drawing.Size(25, 25);
             this.tlStrpTxbCitiesCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyUp);
@@ -194,7 +210,7 @@
             this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
             this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
-            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(95, 22);
+            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(93, 22);
             this.tlStrpBtnCreateRandomCities.Text = "Создать города";
             this.tlStrpBtnCreateRandomCities.ToolTipText = "Создать заданное количество городв со случаными координатами";
             this.tlStrpBtnCreateRandomCities.Click += new System.EventHandler(this.tlStrpBtnCreateRandomCities_Click);
@@ -210,7 +226,7 @@
             this.tlStrpBtnAntAlgStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnAntAlgStart.Image")));
             this.tlStrpBtnAntAlgStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnAntAlgStart.Name = "tlStrpBtnAntAlgStart";
-            this.tlStrpBtnAntAlgStart.Size = new System.Drawing.Size(115, 22);
+            this.tlStrpBtnAntAlgStart.Size = new System.Drawing.Size(104, 22);
             this.tlStrpBtnAntAlgStart.Text = "Алгоритм муравья";
             this.tlStrpBtnAntAlgStart.ToolTipText = "Начать рассчет задачи коммивояжера по алгоритму Муравьиной колонии";
             this.tlStrpBtnAntAlgStart.Click += new System.EventHandler(this.tlStrpBtnAntAlgStart_Click);
@@ -222,7 +238,7 @@
             this.tlStrpBtnBrAndBo.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnBrAndBo.Image")));
             this.tlStrpBtnBrAndBo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnBrAndBo.Name = "tlStrpBtnBrAndBo";
-            this.tlStrpBtnBrAndBo.Size = new System.Drawing.Size(103, 22);
+            this.tlStrpBtnBrAndBo.Size = new System.Drawing.Size(96, 22);
             this.tlStrpBtnBrAndBo.Text = "Ветви и границы";
             // 
             // splContMain
@@ -318,21 +334,6 @@
             // 
             this.tlStrpMainContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // ToolStripProgress
-            // 
-            this.ToolStripProgress.Name = "ToolStripProgress";
-            this.ToolStripProgress.Size = new System.Drawing.Size(400, 16);
-            // 
-            // toolSTLProgress
-            // 
-            this.toolSTLProgress.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.toolSTLProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
-            this.toolSTLProgress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.toolSTLProgress.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.toolSTLProgress.Name = "toolSTLProgress";
-            this.toolSTLProgress.Size = new System.Drawing.Size(55, 17);
-            this.toolSTLProgress.Text = "Progress";
-            // 
             // ucCP
             // 
             this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -354,6 +355,7 @@
             this.Name = "frmMain";
             this.ShowIcon = false;
             this.Text = "Алгоритм муравья";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
