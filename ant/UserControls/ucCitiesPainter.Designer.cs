@@ -76,7 +76,6 @@
             this.Controls.Add(this.pbCanvas);
             this.Name = "ucCitiesPainter";
             this.Size = new System.Drawing.Size(333, 224);
-            this.Load += new System.EventHandler(this.ucCitiesPainter_Load);
             this.Resize += new System.EventHandler(this.ucCitiesPainter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.ResumeLayout(false);

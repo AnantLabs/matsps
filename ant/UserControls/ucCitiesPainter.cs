@@ -46,13 +46,16 @@ namespace ant.UserControls
         private Pen penCities = new Pen(Brushes.Black, 5);
         private Pen penRouteLine = new Pen(Brushes.Purple, 3);
         private Pen penLiteLine = new Pen(Brushes.Silver, 1);
+
+        private Font _fontPointsLabel = new Font("Arial", 10);
+        private SolidBrush _brashPointsLabel = new SolidBrush(Color.DarkRed);
         #endregion
 
         #region Свойства
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        internal DataCitiesCollection Cities           
+        internal DataCitiesCollection Cities            
         {
             set;
             get;
@@ -60,7 +63,7 @@ namespace ant.UserControls
         /// <summary>
         /// маршрут
         /// </summary>
-        internal Route Route
+        internal Route Route                            
         {
             set;
             get;
@@ -103,10 +106,9 @@ namespace ant.UserControls
         /// <param name="pen">Кисть</param>
         private void PaintObjects()                                             
         {
-            //Вывод длинны маршрута
-            //ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
-            
+            //Вывод длинны маршрута           
             RouteLengthTextOut();
+
             int picBoxWidth = pbCanvas.Size.Width;
             float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
             int picBoxHeight = pbCanvas.Size.Height;
@@ -118,7 +120,7 @@ namespace ant.UserControls
 
             // Прорисовываем линии между всеми городами
             if (stateCurrent == DrawingState.CitiesAndRoute ||
-                stateCurrent == DrawingState.Route)
+                stateCurrent == DrawingState.Route || stateCurrent == DrawingState.Cities)
             {                
                 for(int i = 0; i < Cities.Count - 1; i++)
                     for (int j = i + 1; j < Cities.Count; j++)
@@ -128,7 +130,7 @@ namespace ant.UserControls
             }
 
             // Порисовываем путь
-            for (int j = 0; j < Cities.Count - 1; j++)
+            for (int j = 0; j < Cities.Count; j++)
             {
                 switch(stateCurrent)
                 {
@@ -138,17 +140,18 @@ namespace ant.UserControls
                     case DrawingState.Route:
                         g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
                         break;
-                    case DrawingState.CitiesAndRoute:
+                    case DrawingState.CitiesAndRoute:                        
                         g.DrawEllipse(penCities, fKoefX * Route[j].X - 2, fKoefY * Route[j].Y - 2, 4, 4);
-                        g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
+                        if( j != Cities.Count - 1 )
+                            g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
+                        g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Route[j].X + 3, fKoefY * Route[j].Y - 13);
                         break;
                 }
             }
-            g.DrawEllipse(penCities, fKoefX * Cities[Cities.Count - 1].X - 2, fKoefY * Cities[Cities.Count - 1].Y - 2, 4, 4);
             // Путь от последнего к первому городу
             if( stateCurrent == DrawingState.Route || stateCurrent == DrawingState.CitiesAndRoute)
-                g.DrawLine(penRouteLine, fKoefX * Cities[Cities.Count - 1].X, fKoefY * Cities[Cities.Count - 1].Y, fKoefX * Cities[0].X, fKoefY * Cities[0].Y);
-
+                g.DrawLine(penRouteLine, fKoefX * Route[Route.Count - 1].X, fKoefY * Route[Route.Count - 1].Y, fKoefX * Route[0].X, fKoefY * Route[0].Y);
+            
             // Очищаем память
             g.Dispose();
 
@@ -200,10 +203,5 @@ namespace ant.UserControls
             }
         }
         #endregion
-
-        private void ucCitiesPainter_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
