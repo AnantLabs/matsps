@@ -30,6 +30,10 @@ namespace ant
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
         /// </summary>
         private ProcessAnt _prAnt;
+        /// <summary>
+        /// Обрабочик алгоритма расчета по методу Ближайшего соседа
+        /// </summary>
+        private ProcessNearestNeighbour _pnn;
         #endregion
 
         #region События главной формы
@@ -152,6 +156,50 @@ namespace ant
                 _prAnt.Start();
             }
         }
+
+
+        /// <summary>
+        /// Начать расчёт методом Ближайшего соседа
+        /// </summary>
+        /// <param name="sender"></param>
+        private void NearestNeighbourStart()
+        {
+
+            // АЛГОРИТМ
+            if (_pnn == null)
+            {
+                // Интерфейс
+                //ucCP.RouteLengthTextOut("");
+                toolSTLProgress.Visible = true;
+                ToolStripProgress.Visible = true;
+                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+                tlStrpTxbCitiesCount.Enabled = false;
+                //tsbNearestNeighbour.Enabled = false;
+                tlStrpBtnCreateRandomCities.Enabled = false;
+
+                _pnn = new ProcessNearestNeighbour();
+                _pnn.eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
+                _pnn.eventFinally += new EventHandler<EventArgs>(PNNFinally);
+                _pnn.Parameters = _paramAnt;
+                _pnn.Cities = _cities;
+                _pnn.Start();
+            }
+            //toolSTLInfo.Text = "";
+
+            //ProcessNearestNeighbour pnn = new ProcessNearestNeighbour();
+            //pnn.Parameters = _param;
+            //pnn.Cities = _cities;
+            //pnn.Start();
+
+
+            //AntAlgData.AntAlgDataCitiesCollection CitiesInPath = pnn.ResultPath;
+            //ucCP.SetCities(CitiesInPath);
+            //ucCP.PaintCitiesAndRoute();
+
+
+
+        }
+
         #endregion
 
         #region События алгоритмов
@@ -230,6 +278,54 @@ namespace ant
                     toolSTLProgress.Visible = false;
                 }));
         }
+
+        private void PNNFinally(object sender, EventArgs e)
+        {
+            this.Invoke(new MethodInvoker(delegate()
+            {
+                try
+                {
+                    // РЕЗУЛЬТАТЫ
+                    // Лист результатов по времени
+                    List<string> listr = _pnn.ResultList;
+                    foreach (string str in listr)
+                    {
+                        rtxbOut.AppendText(str);
+                    }
+                    rtxbOut.AppendText("\n--------------------------------------------\n");
+                    // Лист последовательности городов
+                    DataCitiesCollection CitiesInPath = _pnn.ResultPath.Cities;
+                    rtxbCities.Clear();
+                    for (int i = 0; i < CitiesInPath.Count; i++)
+                    {
+                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                    }
+
+                    // Путь городов
+                    //ucCP.SetCities(CitiesInPath);
+                    ucCP.Route = _pnn.ResultPath;
+                    ucCP.PaintCitiesAndRoute();
+
+                    toolSTLInfo.Text = "Время расчета: " + _pnn.ProcessTime.ToString();
+
+                    //Вывод длинны маршрута
+                    //ucCP.RouteLengthTextOut(_pnn.ResultPath.ToString());
+                    //
+
+                    // Готовность интерфейса
+                    _pnn = null;
+                    tlStrpTxbCitiesCount.Enabled = true;
+                    //tlStrpBtnAntAlgStart.Enabled = true;
+                    tlStrpBtnCreateRandomCities.Enabled = true;
+                    //tsbNearestNeighbour.Enabled = true;
+                    ToolStripProgress.Visible = false;
+                    toolSTLProgress.Visible = false;
+                }
+                catch (Exception ex)
+                { MessageBox.Show(ex.Message + ex.StackTrace); }
+            }));
+
+        }
         #endregion
 
         private void tlStrpBtnStart_Click(object sender, EventArgs e)
@@ -246,17 +342,13 @@ namespace ant
                         int iCount = selectList.Count; //количество выбранных алгоритмов
                         
                         //Последовательный запуск выбранных алгоритмов
-                        for (int i = 0; i < iCount; i++)
-                        { 
-                            switch(i)
-                            {
-                                case 0:
-                                    {
-                                        if (selectList[i] == 1)
+
+                                        if (selectList[0] == 1)
                                             AntAlgStart(); //запуск алгоритма муравьиной колонии
-                                    }; break;
-                            };
-                        }                  
+
+                                        if (selectList[1] == 1)
+                                            NearestNeighbourStart(); //запуск алгоритма соседа
+               
                     }
                     break;
             }

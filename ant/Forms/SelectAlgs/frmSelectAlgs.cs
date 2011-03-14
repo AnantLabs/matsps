@@ -41,7 +41,9 @@ namespace ant.Forms.SelectAlgs
             
             //Создание узлов дерева алгоритмов
             treeViewSelectAlgs.Nodes.Add("Алгоритмы");
-            treeViewSelectAlgs.Nodes[0].Nodes.Add("Муравьиной колонии");            
+            treeViewSelectAlgs.Nodes[0].Nodes.Add("Муравьиной колонии");
+            treeViewSelectAlgs.Nodes[0].Nodes.Add("Ближайший сосед");
+
 
             //Инициализация списка выбранных алгоритмов
             _selectList = new List<int>();
@@ -51,7 +53,7 @@ namespace ant.Forms.SelectAlgs
 
             //Настройка узлов дерева
             treeViewSelectAlgs.Nodes[0].Expand(); //разворачиваем главный узел
-            treeViewSelectAlgs.Nodes[0].Checked = true; // по умолчанию отмечены все
+            //treeViewSelectAlgs.Nodes[0].Checked = true; // по умолчанию отмечены все
         }
 
         /// <summary>
