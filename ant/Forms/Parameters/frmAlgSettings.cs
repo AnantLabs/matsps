@@ -8,18 +8,18 @@ using System.Windows.Forms;
 
 namespace ant.Forms.Parameters
 {
-    public partial class frmAlgSettings : Form
+    public partial class frmSelectAlgs : Form
     {
         #region Конструкторы и Данные
         /// <summary>
         /// Базовый конструктор
         /// </summary>
-        public frmAlgSettings()                                                         
+        public frmSelectAlgs()                                                         
         {
             InitializeComponent();
         }
 
-        internal frmAlgSettings(ant.AntAlgData.AntAlgDataParameters param):this()
+        internal frmSelectAlgs(ant.AntAlgData.AntAlgDataParameters param):this()
         {
             _parameters = param;
 
@@ -27,7 +27,7 @@ namespace ant.Forms.Parameters
             SetDataToControls();
         }
 
-        internal frmAlgSettings(ant.AntAlgData.AntAlgDataParameters param, int citiesCount):this(param)
+        internal frmSelectAlgs(ant.AntAlgData.AntAlgDataParameters param, int citiesCount):this(param)
         {
             _iCitiesCount = citiesCount;
 
@@ -146,5 +146,10 @@ namespace ant.Forms.Parameters
             return _parameters;
         }
         #endregion
+
+        private void frmSelectAlgs_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

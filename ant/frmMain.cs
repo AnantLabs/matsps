@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using ant.Forms;
 using ant.CommonData;
 
 namespace ant
@@ -13,7 +14,7 @@ namespace ant
     public partial class frmMain : Form
     {
         #region Конструкторы и Данные
-        public frmMain()                
+        public frmMain()
         {
             InitializeComponent();
 
@@ -36,7 +37,7 @@ namespace ant
         /// <summary>
         /// Загрузка формы. Запуск алгоритма
         /// </summary>
-        private void frmMain_Load(object sender, EventArgs e)                           
+        private void frmMain_Load(object sender, EventArgs e)
         {
             toolSTLProgress.Visible = false;
             tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
@@ -49,7 +50,7 @@ namespace ant
         /// <summary>
         /// Выход из программы
         /// </summary>
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e)    
+        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -60,8 +61,8 @@ namespace ant
         private void toolStripMenuItemParameters_Click(object sender, EventArgs e)
         {
             // Запускаем форму настроек. Если она завершилась нажатием кнопки "ОК", применяем настройки
-            Forms.Parameters.frmAlgSettings frmPar = new ant.Forms.Parameters.frmAlgSettings(_paramAnt, _cities.Count);
-            DialogResult res = frmPar.ShowDialog( this );
+            Forms.Parameters.frmSelectAlgs frmPar = new ant.Forms.Parameters.frmSelectAlgs(_paramAnt, _cities.Count);
+            DialogResult res = frmPar.ShowDialog(this);
 
             switch (res)
             {
@@ -76,34 +77,32 @@ namespace ant
         /// <summary>
         /// Вызывает окно О программе
         /// </summary>
-        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)   
+        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
             Forms.About.frmAbout ab = new ant.Forms.About.frmAbout();
             ab.ShowDialog(this);
         }
-        #endregion 
+        #endregion
 
         #region События toolStrip
         /// <summary>
         /// Создать коллекцию городов
         /// </summary>
-        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)      
+        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)
         {
-            ucCP.RouteLengthTextOut(-1);
             // ИСХОДНЫЕ ДАННЫЕ
-            //_param = new ant.AntAlgData.AntAlgDataParameters();
             // Создаем Города
             int iCitiesCount;
             try
             {
-                 iCitiesCount = Convert.ToInt32( tlStrpTxbCitiesCount.Text );
+                iCitiesCount = Convert.ToInt32(tlStrpTxbCitiesCount.Text);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка преобразования из текста в целое число: " + ex.Message);
                 return;
             }
-            _cities = new DataCitiesCollection( iCitiesCount );
+            _cities = new DataCitiesCollection(iCitiesCount);
             _paramAnt.MaxCities = iCitiesCount;
             _paramAnt.MaxAnts = iCitiesCount;
 
@@ -123,7 +122,7 @@ namespace ant
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)          
+        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
                 tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
@@ -132,18 +131,17 @@ namespace ant
         /// <summary>
         /// Начать расчет методом Муравьиной колонии
         /// </summary>
-        private void tlStrpBtnAntAlgStart_Click(object sender, EventArgs e)             
+        private void AntAlgStart()
         {
             // АЛГОРИТМ
             if (_prAnt == null)
             {
                 // Интерфейс
-                ucCP.RouteLengthTextOut(-1);
                 toolSTLProgress.Visible = true;
                 ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
                 tlStrpTxbCitiesCount.Enabled = false;
-                tlStrpBtnAntAlgStart.Enabled = false;
+                //tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
                 _prAnt = new ProcessAnt();
@@ -193,7 +191,7 @@ namespace ant
         /// <summary>
         /// Событие завершение расчета по Алгоритму Муравья
         /// </summary>
-        private void AntAlgFinally(object sender, EventArgs e)                          
+        private void AntAlgFinally(object sender, EventArgs e)
         {
             this.Invoke(new MethodInvoker(delegate()
                 {
@@ -214,19 +212,19 @@ namespace ant
                     }
 
                     // Путь городов
-                    ucCP.SetCities(CitiesInPath);
+                    ucCP.Route = _prAnt.ResultPath;
                     ucCP.PaintCitiesAndRoute();
 
                     toolSTLInfo.Text = "Время расчета: " + _prAnt.ProcessTime.ToString();
-                    
-                    //Вывод длинны маршрута
-                    ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
+
+                    ////Вывод длинны маршрута
+                    //ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
                     //
-                   
+
                     // Готовность интерфейса
                     _prAnt = null;
                     tlStrpTxbCitiesCount.Enabled = true;
-                    tlStrpBtnAntAlgStart.Enabled = true;
+                    //tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;
                     ToolStripProgress.Visible = false;
                     toolSTLProgress.Visible = false;
@@ -234,5 +232,34 @@ namespace ant
         }
         #endregion
 
+        private void tlStrpBtnStart_Click(object sender, EventArgs e)
+        {
+            // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
+            Forms.SelectAlgs.frmSelectAlgs sa = new ant.Forms.SelectAlgs.frmSelectAlgs();
+            DialogResult res = sa.ShowDialog();
+
+            switch (res)
+            {
+                case DialogResult.OK:
+                    {
+                        List<int> selectList = sa.getSelectList();//список выбранных алгоритмов                        
+                        int iCount = selectList.Count; //количество выбранных алгоритмов
+                        
+                        //Последовательный запуск выбранных алгоритмов
+                        for (int i = 0; i < iCount; i++)
+                        { 
+                            switch(i)
+                            {
+                                case 0:
+                                    {
+                                        if (selectList[i] == 1)
+                                            AntAlgStart(); //запуск алгоритма муравьиной колонии
+                                    }; break;
+                            };
+                        }                  
+                    }
+                    break;
+            }
+        }
     }
 }

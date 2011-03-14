@@ -28,32 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pbCanvas = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txbRouteLength = new System.Windows.Forms.TextBox();
+            this.pbCanvas = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pbCanvas
-            // 
-            this.pbCanvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbCanvas.BackColor = System.Drawing.Color.White;
-            this.pbCanvas.Location = new System.Drawing.Point(3, 26);
-            this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(327, 195);
-            this.pbCanvas.TabIndex = 1;
-            this.pbCanvas.TabStop = false;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(136, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Длина маршрута:";
             // 
@@ -67,6 +55,18 @@
             this.txbRouteLength.Size = new System.Drawing.Size(77, 20);
             this.txbRouteLength.TabIndex = 3;
             // 
+            // pbCanvas
+            // 
+            this.pbCanvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbCanvas.BackColor = System.Drawing.Color.White;
+            this.pbCanvas.Location = new System.Drawing.Point(3, 26);
+            this.pbCanvas.Name = "pbCanvas";
+            this.pbCanvas.Size = new System.Drawing.Size(327, 195);
+            this.pbCanvas.TabIndex = 1;
+            this.pbCanvas.TabStop = false;
+            // 
             // ucCitiesPainter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -76,6 +76,7 @@
             this.Controls.Add(this.pbCanvas);
             this.Name = "ucCitiesPainter";
             this.Size = new System.Drawing.Size(333, 224);
+            this.Load += new System.EventHandler(this.ucCitiesPainter_Load);
             this.Resize += new System.EventHandler(this.ucCitiesPainter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.ResumeLayout(false);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-//using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -53,11 +52,20 @@ namespace ant.UserControls
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        private DataCitiesCollection Cities           
+        internal DataCitiesCollection Cities           
         {
             set;
             get;
         }
+        /// <summary>
+        /// маршрут
+        /// </summary>
+        internal Route Route
+        {
+            set;
+            get;
+        }
+
         #endregion
 
         #region Методы
@@ -95,6 +103,10 @@ namespace ant.UserControls
         /// <param name="pen">Кисть</param>
         private void PaintObjects()                                             
         {
+            //Вывод длинны маршрута
+            //ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
+            
+            RouteLengthTextOut();
             int picBoxWidth = pbCanvas.Size.Width;
             float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
             int picBoxHeight = pbCanvas.Size.Height;
@@ -124,11 +136,11 @@ namespace ant.UserControls
                         g.DrawEllipse(penCities, fKoefX * Cities[j].X - 2, fKoefY * Cities[j].Y - 2, 4, 4);                        
                         break;
                     case DrawingState.Route:
-                        g.DrawLine(penRouteLine, fKoefX * Cities[j].X, fKoefY * Cities[j].Y, fKoefX * Cities[j + 1].X, fKoefY * Cities[j + 1].Y);
+                        g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
                         break;
                     case DrawingState.CitiesAndRoute:
-                        g.DrawEllipse(penCities, fKoefX * Cities[j].X - 2, fKoefY * Cities[j].Y - 2, 4, 4);
-                        g.DrawLine(penRouteLine, fKoefX * Cities[j].X, fKoefY * Cities[j].Y, fKoefX * Cities[j + 1].X, fKoefY * Cities[j + 1].Y);
+                        g.DrawEllipse(penCities, fKoefX * Route[j].X - 2, fKoefY * Route[j].Y - 2, 4, 4);
+                        g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
                         break;
                 }
             }
@@ -146,12 +158,16 @@ namespace ant.UserControls
         /// <summary>
         /// Выводит длинну маршрута
         /// </summary>
-        public void RouteLengthTextOut(double value)                            
+        private void RouteLengthTextOut()                            
         {
-            if (value == -1)
-                txbRouteLength.Text = "";
-            else
-                txbRouteLength.Text = String.Format("{0:##.00}", value);
+            if (Route != null)
+            {
+                double value = Route.length;
+                if (value == -1)
+                    txbRouteLength.Text = "";
+                else
+                    txbRouteLength.Text = String.Format("{0:##.00}", value);
+            }
         }
 
         /// <summary>
@@ -184,5 +200,10 @@ namespace ant.UserControls
             }
         }
         #endregion
+
+        private void ucCitiesPainter_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

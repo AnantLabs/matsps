@@ -41,23 +41,25 @@
             this.toolStripMenuItemParameters = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.tlStrpTxbCitiesCount = new System.Windows.Forms.ToolStripTextBox();
-            this.tlStrpBtnCreateRandomCities = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tlStrpBtnAntAlgStart = new System.Windows.Forms.ToolStripButton();
-            this.tlStrpBtnBrAndBo = new System.Windows.Forms.ToolStripButton();
             this.splContMain = new System.Windows.Forms.SplitContainer();
             this.tbCtrlInfo = new System.Windows.Forms.TabControl();
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tlStrpTxbCitiesCount = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnLoadCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnCreateRandomCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnStart = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnSettings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
             this.splContMain.Panel2.SuspendLayout();
             this.splContMain.SuspendLayout();
@@ -65,8 +67,9 @@
             this.tbPgTimePath.SuspendLayout();
             this.tbPgCitiesRoute.SuspendLayout();
             this.tlStrpMainContainer.ContentPanel.SuspendLayout();
-            this.tlStrpMainContainer.TopToolStripPanel.SuspendLayout();
             this.tlStrpMainContainer.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // rtxbOut
@@ -108,7 +111,7 @@
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(27, 17);
+            this.toolSTLInfo.Size = new System.Drawing.Size(28, 17);
             this.toolSTLInfo.Text = "Info";
             // 
             // menuStrip1
@@ -129,13 +132,13 @@
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemExit});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(45, 20);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItemFile.Text = "Файл";
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItemExit.Text = "Выход";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
@@ -144,13 +147,13 @@
             this.toolStripMenuItemSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemParameters});
             this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(73, 20);
+            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(79, 20);
             this.toolStripMenuItemSettings.Text = "Настройки";
             // 
             // toolStripMenuItemParameters
             // 
             this.toolStripMenuItemParameters.Name = "toolStripMenuItemParameters";
-            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(131, 22);
+            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItemParameters.Text = "Параметры";
             this.toolStripMenuItemParameters.Click += new System.EventHandler(this.toolStripMenuItemParameters_Click);
             // 
@@ -159,87 +162,17 @@
             this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAbout});
             this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(62, 20);
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(65, 20);
             this.toolStripMenuItemHelp.Text = "Справка";
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(149, 22);
             this.toolStripMenuItemAbout.Text = "О программе";
             this.toolStripMenuItemAbout.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.tlStrpTxbCitiesCount,
-            this.tlStrpBtnCreateRandomCities,
-            this.toolStripSeparator1,
-            this.tlStrpBtnAntAlgStart,
-            this.tlStrpBtnBrAndBo});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(482, 25);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Enabled = false;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(116, 22);
-            this.toolStripLabel1.Text = "Количество городов:";
-            // 
-            // tlStrpTxbCitiesCount
-            // 
-            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.tlStrpTxbCitiesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tlStrpTxbCitiesCount.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
-            this.tlStrpTxbCitiesCount.Size = new System.Drawing.Size(25, 25);
-            this.tlStrpTxbCitiesCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyUp);
-            // 
-            // tlStrpBtnCreateRandomCities
-            // 
-            this.tlStrpBtnCreateRandomCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
-            this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
-            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(93, 22);
-            this.tlStrpBtnCreateRandomCities.Text = "Создать города";
-            this.tlStrpBtnCreateRandomCities.ToolTipText = "Создать заданное количество городв со случаными координатами";
-            this.tlStrpBtnCreateRandomCities.Click += new System.EventHandler(this.tlStrpBtnCreateRandomCities_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tlStrpBtnAntAlgStart
-            // 
-            this.tlStrpBtnAntAlgStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tlStrpBtnAntAlgStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnAntAlgStart.Image")));
-            this.tlStrpBtnAntAlgStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tlStrpBtnAntAlgStart.Name = "tlStrpBtnAntAlgStart";
-            this.tlStrpBtnAntAlgStart.Size = new System.Drawing.Size(104, 22);
-            this.tlStrpBtnAntAlgStart.Text = "Алгоритм муравья";
-            this.tlStrpBtnAntAlgStart.ToolTipText = "Начать рассчет задачи коммивояжера по алгоритму Муравьиной колонии";
-            this.tlStrpBtnAntAlgStart.Click += new System.EventHandler(this.tlStrpBtnAntAlgStart_Click);
-            // 
-            // tlStrpBtnBrAndBo
-            // 
-            this.tlStrpBtnBrAndBo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tlStrpBtnBrAndBo.Enabled = false;
-            this.tlStrpBtnBrAndBo.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnBrAndBo.Image")));
-            this.tlStrpBtnBrAndBo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tlStrpBtnBrAndBo.Name = "tlStrpBtnBrAndBo";
-            this.tlStrpBtnBrAndBo.Size = new System.Drawing.Size(96, 22);
-            this.tlStrpBtnBrAndBo.Text = "Ветви и границы";
             // 
             // splContMain
             // 
@@ -332,7 +265,108 @@
             // 
             // tlStrpMainContainer.TopToolStripPanel
             // 
-            this.tlStrpMainContainer.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.tlStrpMainContainer.TopToolStripPanel.MaximumSize = new System.Drawing.Size(180, 25);
+            this.tlStrpMainContainer.TopToolStripPanel.MinimumSize = new System.Drawing.Size(180, 25);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlStrpBtnSaveCities,
+            this.tlStrpBtnLoadCities,
+            this.toolStripSeparator1,
+            this.tlStrpTxbCitiesCount,
+            this.tlStrpBtnCreateRandomCities});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 21);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip1.Size = new System.Drawing.Size(185, 25);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tlStrpTxbCitiesCount
+            // 
+            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.tlStrpTxbCitiesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tlStrpTxbCitiesCount.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
+            this.tlStrpTxbCitiesCount.Size = new System.Drawing.Size(25, 25);
+            this.tlStrpTxbCitiesCount.ToolTipText = "Количество городов";
+            this.tlStrpTxbCitiesCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyUp);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlStrpBtnSettings,
+            this.toolStripSeparator2,
+            this.tlStrpBtnStart});
+            this.toolStrip2.Location = new System.Drawing.Point(185, 21);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(120, 25);
+            this.toolStrip2.TabIndex = 4;
+            // 
+            // tlStrpBtnSaveCities
+            // 
+            this.tlStrpBtnSaveCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlStrpBtnSaveCities.Image = global::ant.Properties.Resources.folder_48;
+            this.tlStrpBtnSaveCities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnSaveCities.Name = "tlStrpBtnSaveCities";
+            this.tlStrpBtnSaveCities.Size = new System.Drawing.Size(23, 22);
+            this.tlStrpBtnSaveCities.Text = "toolStripButton1";
+            this.tlStrpBtnSaveCities.ToolTipText = "Сохранить текущие города";
+            // 
+            // tlStrpBtnLoadCities
+            // 
+            this.tlStrpBtnLoadCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlStrpBtnLoadCities.Image = global::ant.Properties.Resources.floppy_disk_48;
+            this.tlStrpBtnLoadCities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnLoadCities.Name = "tlStrpBtnLoadCities";
+            this.tlStrpBtnLoadCities.Size = new System.Drawing.Size(23, 22);
+            this.tlStrpBtnLoadCities.Text = "toolStripButton2";
+            this.tlStrpBtnLoadCities.ToolTipText = "Загрузить города";
+            // 
+            // tlStrpBtnCreateRandomCities
+            // 
+            this.tlStrpBtnCreateRandomCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
+            this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
+            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(95, 22);
+            this.tlStrpBtnCreateRandomCities.Text = "Создать города";
+            this.tlStrpBtnCreateRandomCities.ToolTipText = "Создать заданное количество городов со случаными координатами";
+            this.tlStrpBtnCreateRandomCities.Click += new System.EventHandler(this.tlStrpBtnCreateRandomCities_Click);
+            // 
+            // tlStrpBtnStart
+            // 
+            this.tlStrpBtnStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tlStrpBtnStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnStart.Image")));
+            this.tlStrpBtnStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnStart.Name = "tlStrpBtnStart";
+            this.tlStrpBtnStart.Size = new System.Drawing.Size(48, 22);
+            this.tlStrpBtnStart.Text = "Расчет";
+            this.tlStrpBtnStart.ToolTipText = "Выбор алгоритмов для расчета";
+            this.tlStrpBtnStart.Click += new System.EventHandler(this.tlStrpBtnStart_Click);
+            // 
+            // tlStrpBtnSettings
+            // 
+            this.tlStrpBtnSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlStrpBtnSettings.Image = global::ant.Properties.Resources.spanner_48;
+            this.tlStrpBtnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnSettings.Name = "tlStrpBtnSettings";
+            this.tlStrpBtnSettings.Size = new System.Drawing.Size(23, 22);
+            this.tlStrpBtnSettings.Text = "toolStripButton1";
+            this.tlStrpBtnSettings.Click += new System.EventHandler(this.toolStripMenuItemParameters_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // ucCP
             // 
@@ -347,6 +381,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 437);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip2);
             this.Controls.Add(this.tlStrpMainContainer);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -361,8 +397,6 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.splContMain.Panel1.ResumeLayout(false);
             this.splContMain.Panel2.ResumeLayout(false);
             this.splContMain.ResumeLayout(false);
@@ -370,10 +404,12 @@
             this.tbPgTimePath.ResumeLayout(false);
             this.tbPgCitiesRoute.ResumeLayout(false);
             this.tlStrpMainContainer.ContentPanel.ResumeLayout(false);
-            this.tlStrpMainContainer.TopToolStripPanel.ResumeLayout(false);
-            this.tlStrpMainContainer.TopToolStripPanel.PerformLayout();
             this.tlStrpMainContainer.ResumeLayout(false);
             this.tlStrpMainContainer.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -385,7 +421,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolSTLInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemFile;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHelp;
@@ -398,15 +433,19 @@
         private System.Windows.Forms.TabControl tbCtrlInfo;
         private System.Windows.Forms.TabPage tbPgTimePath;
         private System.Windows.Forms.TabPage tbPgCitiesRoute;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripTextBox tlStrpTxbCitiesCount;
-        private System.Windows.Forms.ToolStripButton tlStrpBtnCreateRandomCities;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton tlStrpBtnAntAlgStart;
-        private System.Windows.Forms.ToolStripButton tlStrpBtnBrAndBo;
         private System.Windows.Forms.ToolStripContainer tlStrpMainContainer;
         private System.Windows.Forms.ToolStripProgressBar ToolStripProgress;
         private System.Windows.Forms.ToolStripStatusLabel toolSTLProgress;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripTextBox tlStrpTxbCitiesCount;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnCreateRandomCities;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnSaveCities;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnLoadCities;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnStart;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnSettings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 
