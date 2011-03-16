@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Алгоритм муравья")]
+[assembly: AssemblyTitle("Задача коммивояжера")]
 [assembly: AssemblyDescription("Программа находит оптимальный муршрут в задаче коммивояжера по методу Муравьиной колонии")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Разработчики: Обозов А.Е., Притчин П.Н.")]

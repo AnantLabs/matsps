@@ -30,14 +30,14 @@
         {
             this.pbCanvas = new System.Windows.Forms.PictureBox();
             this.splContMain = new System.Windows.Forms.SplitContainer();
-            this.btnShowHide = new System.Windows.Forms.Button();
-            this.dgvRouteList = new System.Windows.Forms.DataGridView();
-            this.chbGrayLines = new System.Windows.Forms.CheckBox();
             this.chbShowCitiesLabelNumber = new System.Windows.Forms.CheckBox();
+            this.chbGrayLines = new System.Windows.Forms.CheckBox();
+            this.dgvRouteList = new System.Windows.Forms.DataGridView();
             this.dgvRLcolVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgvRLcolNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolAlgorithmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnShowHide = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.splContMain.Panel1.SuspendLayout();
             this.splContMain.Panel2.SuspendLayout();
@@ -75,20 +75,29 @@
             this.splContMain.Size = new System.Drawing.Size(515, 355);
             this.splContMain.SplitterDistance = 260;
             this.splContMain.TabIndex = 4;
+            this.splContMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splContMain_SplitterMoved);
             // 
-            // btnShowHide
+            // chbShowCitiesLabelNumber
             // 
-            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
-            this.btnShowHide.Name = "btnShowHide";
-            this.btnShowHide.Size = new System.Drawing.Size(516, 21);
-            this.btnShowHide.TabIndex = 0;
-            this.btnShowHide.Text = "скрыть/показать панель свойств";
-            this.btnShowHide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnShowHide.UseVisualStyleBackColor = false;
-            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
+            this.chbShowCitiesLabelNumber.AutoSize = true;
+            this.chbShowCitiesLabelNumber.Location = new System.Drawing.Point(290, 29);
+            this.chbShowCitiesLabelNumber.Name = "chbShowCitiesLabelNumber";
+            this.chbShowCitiesLabelNumber.Size = new System.Drawing.Size(174, 17);
+            this.chbShowCitiesLabelNumber.TabIndex = 2;
+            this.chbShowCitiesLabelNumber.Text = "Показывать номера городов";
+            this.chbShowCitiesLabelNumber.UseVisualStyleBackColor = true;
+            this.chbShowCitiesLabelNumber.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
+            // 
+            // chbGrayLines
+            // 
+            this.chbGrayLines.AutoSize = true;
+            this.chbGrayLines.Location = new System.Drawing.Point(3, 29);
+            this.chbGrayLines.Name = "chbGrayLines";
+            this.chbGrayLines.Size = new System.Drawing.Size(280, 17);
+            this.chbGrayLines.TabIndex = 1;
+            this.chbGrayLines.Text = "Показывать серые линии между всеми городами";
+            this.chbGrayLines.UseVisualStyleBackColor = true;
+            this.chbGrayLines.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
             // 
             // dgvRouteList
             // 
@@ -111,28 +120,6 @@
             this.dgvRouteList.Size = new System.Drawing.Size(509, 36);
             this.dgvRouteList.TabIndex = 0;
             this.dgvRouteList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseUp);
-            // 
-            // chbGrayLines
-            // 
-            this.chbGrayLines.AutoSize = true;
-            this.chbGrayLines.Location = new System.Drawing.Point(3, 29);
-            this.chbGrayLines.Name = "chbGrayLines";
-            this.chbGrayLines.Size = new System.Drawing.Size(280, 17);
-            this.chbGrayLines.TabIndex = 1;
-            this.chbGrayLines.Text = "Показывать серые линии между всеми городами";
-            this.chbGrayLines.UseVisualStyleBackColor = true;
-            this.chbGrayLines.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
-            // 
-            // chbShowCitiesLabelNumber
-            // 
-            this.chbShowCitiesLabelNumber.AutoSize = true;
-            this.chbShowCitiesLabelNumber.Location = new System.Drawing.Point(290, 29);
-            this.chbShowCitiesLabelNumber.Name = "chbShowCitiesLabelNumber";
-            this.chbShowCitiesLabelNumber.Size = new System.Drawing.Size(174, 17);
-            this.chbShowCitiesLabelNumber.TabIndex = 2;
-            this.chbShowCitiesLabelNumber.Text = "Показывать номера городов";
-            this.chbShowCitiesLabelNumber.UseVisualStyleBackColor = true;
-            this.chbShowCitiesLabelNumber.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
             // 
             // dgvRLcolVisible
             // 
@@ -160,6 +147,20 @@
             this.dgvRLcolLength.Name = "dgvRLcolLength";
             this.dgvRLcolLength.ReadOnly = true;
             this.dgvRLcolLength.Width = 130;
+            // 
+            // btnShowHide
+            // 
+            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
+            this.btnShowHide.Name = "btnShowHide";
+            this.btnShowHide.Size = new System.Drawing.Size(516, 21);
+            this.btnShowHide.TabIndex = 0;
+            this.btnShowHide.Text = "скрыть/показать панель свойств";
+            this.btnShowHide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnShowHide.UseVisualStyleBackColor = false;
+            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
             // 
             // ucCitiesPainter
             // 

@@ -68,7 +68,7 @@ namespace ant
         /// <summary>
         /// Выход из программы
         /// </summary>
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+        private void toolStripMenuItemExit_Click(object sender, EventArgs e)            
         {
             this.Close();
         }
@@ -76,7 +76,7 @@ namespace ant
         /// <summary>
         /// Вызываем форму Настроек
         /// </summary>
-        private void toolStripMenuItemParameters_Click(object sender, EventArgs e)
+        private void toolStripMenuItemParameters_Click(object sender, EventArgs e)      
         {
             // Запускаем форму настроек. Если она завершилась нажатием кнопки "ОК", применяем настройки
             Forms.Parameters.frmSelectAlgs frmPar = new ant.Forms.Parameters.frmSelectAlgs(_paramAnt, _cities.Count);
@@ -95,7 +95,7 @@ namespace ant
         /// <summary>
         /// Вызывает окно О программе
         /// </summary>
-        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
+        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)           
         {
             Forms.About.frmAbout ab = new ant.Forms.About.frmAbout();
             ab.ShowDialog(this);
@@ -121,6 +121,7 @@ namespace ant
                 return;
             }
             _cities = new DataCitiesCollection(iCitiesCount);
+            liRoute.Clear();
             _paramAnt.MaxCities = iCitiesCount;
             _paramAnt.MaxAnts = iCitiesCount;
 
@@ -355,8 +356,8 @@ namespace ant
                     //tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;
                     //tsbNearestNeighbour.Enabled = true;
-                    ToolStripProgress.Visible = false;
-                    toolSTLProgress.Visible = false;
+                    //ToolStripProgress.Visible = false;
+                    //toolSTLProgress.Visible = false;
                 }
                 catch (Exception ex)
                 { MessageBox.Show(ex.Message + ex.StackTrace); }

@@ -41,7 +41,7 @@
             this.btnStart.BackgroundImage = global::ant.Properties.Resources.accepted_48;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStart.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnStart.Location = new System.Drawing.Point(11, 254);
+            this.btnStart.Location = new System.Drawing.Point(11, 264);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(32, 32);
             this.btnStart.TabIndex = 1;
@@ -54,7 +54,7 @@
             this.btnCancel.BackgroundImage = global::ant.Properties.Resources.cancel_48;
             this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(49, 254);
+            this.btnCancel.Location = new System.Drawing.Point(49, 264);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(32, 32);
             this.btnCancel.TabIndex = 2;
@@ -68,7 +68,7 @@
             this.treeViewSelectAlgs.CheckBoxes = true;
             this.treeViewSelectAlgs.Location = new System.Drawing.Point(6, 19);
             this.treeViewSelectAlgs.Name = "treeViewSelectAlgs";
-            this.treeViewSelectAlgs.Size = new System.Drawing.Size(228, 211);
+            this.treeViewSelectAlgs.Size = new System.Drawing.Size(228, 221);
             this.treeViewSelectAlgs.TabIndex = 5;
             // 
             // groupBox1
@@ -79,7 +79,7 @@
             this.groupBox1.Controls.Add(this.treeViewSelectAlgs);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(240, 236);
+            this.groupBox1.Size = new System.Drawing.Size(240, 246);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выберите алгоритмы для расчета  :";

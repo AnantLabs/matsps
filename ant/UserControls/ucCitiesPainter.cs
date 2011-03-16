@@ -21,11 +21,18 @@ namespace ant.UserControls
         public ucCitiesPainter()                                        
         {
             InitializeComponent();
+            
+            _brushLiteLine = new SolidBrush(Color.FromArgb( 32, Color.Silver)); // прозрачность 20
+            _penLiteLine = new Pen(_brushLiteLine, 1);
 
             _fontPointsLabel = new Font("Arial", _fontSize );            
             _penCities = new Pen(Brushes.Black, _fCityR *2);
         }
 
+        // Данные городов и маршрутов
+        private DataCitiesCollection _cities;
+
+        // Данные состояния контроллов формы
         /// <summary>
         /// Показана или скрыта Панель Свойств
         /// </summary>
@@ -35,6 +42,7 @@ namespace ant.UserControls
         /// </summary>
         private int iPanelSettingsLastHeight;
 
+        // Данные прорисовки
         /// <summary>
         /// Состояние режима прорисовки
         /// </summary>
@@ -58,10 +66,15 @@ namespace ant.UserControls
         /// <summary>
         /// Кисть городов
         /// </summary>
-        private Pen _penCities;        
-        private Pen penLiteLine = new Pen(Brushes.Silver, 1);
+        private Pen _penCities;   
+        private Brush _brushLiteLine;
+        private Pen _penLiteLine;
+        /// <summary>
+        /// Кисть линий маршрутов
+        /// </summary>
+        private Brush _brushRouteLine;
 
-        private int _fontSize = 10;
+        private int _fontSize = 9;
         private float _fRouteLineWidth = 3;
         private Font _fontPointsLabel;
         private SolidBrush _brashPointsLabel = new SolidBrush(Color.DarkRed);
@@ -72,10 +85,20 @@ namespace ant.UserControls
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        internal DataCitiesCollection Cities            
+        internal DataCitiesCollection Cities
         {
-            set;
-            get;
+            set
+            {
+                dgvRouteList.Rows.Clear();
+                RefreshRouteList();
+                RefreshRoutePaint();
+
+                _cities = value;
+            }
+            get
+            {
+                return _cities;
+            }
         }
         /// <summary>
         /// Лист маршрутов
@@ -196,57 +219,73 @@ namespace ant.UserControls
         /// Обновить прорисовку в соотвествии с установленными свойствами
         /// </summary>
         public void RefreshRoutePaint()                                     
-        {            
-            // Коэффициенты размеров полотна
-            int picBoxWidth = pbCanvas.Size.Width;
-            float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
-            int picBoxHeight = pbCanvas.Size.Height;
-            float fKoefY = (float)picBoxHeight / (float)Cities.MaxDistance;
-
-            pbCanvas.Refresh();
-            // При каждой перерисовке создается новая картинка
-            Image img = new Bitmap(picBoxWidth, picBoxHeight);
-            System.Drawing.Graphics g = Graphics.FromImage(img);
-
-            // Прорисовываем линии между всеми городами
-            if ( chbGrayLines.Checked )
-                for (int i = 0; i < Cities.Count - 1; i++)
-                    for (int j = i + 1; j < Cities.Count; j++)
-                        g.DrawLine(penLiteLine, fKoefX * Cities[i].X, fKoefY * Cities[i].Y, fKoefX * Cities[j].X, fKoefY * Cities[j].Y);
-
-            if (ListRoute.Count > 0)
+        {
+            int picBoxWidth = 0;
+            float fKoefX = 0;
+            int picBoxHeight = 0;
+            float fKoefY = 0;
+            if (_cities != null)
             {
-                // Прорисовываем отмеченные чекбоксами маршруты
-                for (int i = 0; i < dgvRouteList.Rows.Count; i++)
+                // Коэффициенты размеров полотна
+                picBoxWidth = pbCanvas.Size.Width;
+                fKoefX = (float)picBoxWidth / (float)_cities.MaxDistance;
+                picBoxHeight = pbCanvas.Size.Height;
+                fKoefY = (float)picBoxHeight / (float)_cities.MaxDistance;
+
+
+                pbCanvas.Refresh();
+
+                System.Drawing.Graphics g;
+                Image img;
+                // При каждой перерисовке создается новая картинка
+                img = new Bitmap(picBoxWidth, picBoxHeight);
+                g = Graphics.FromImage(img);
+
+
+                // Прорисовываем линии между всеми городами
+                if (chbGrayLines.Checked)
+                    for (int i = 0; i < _cities.Count - 1; i++)
+                        for (int j = i + 1; j < _cities.Count; j++)
+                            g.DrawLine(_penLiteLine, fKoefX * _cities[i].X, fKoefY * _cities[i].Y, fKoefX * _cities[j].X, fKoefY * _cities[j].Y);
+
+
+                if (ListRoute.Count > 0)
                 {
-                    if (Convert.ToBoolean(dgvRouteList.Rows[i].Cells["dgvRLcolVisible"].Value) == true) // отмечен для прорисовки
+                    // Прорисовываем отмеченные чекбоксами маршруты
+                    for (int i = 0; i < dgvRouteList.Rows.Count; i++)
                     {
-                        // Прорисовываем линии между городами пути
-                        int index = (int)dgvRouteList.Rows[i].Cells["dgvRLcolNumber"].Value;
-                        Route currPaintRoute = ListRoute[index]; // текущий прорисовываемый маршрут из списка маршрутов
-                        Pen penRouteLine = new Pen(currPaintRoute.Color, _fRouteLineWidth);
-                        for (int j = 0; j < currPaintRoute.Cities.Count - 1; j++)
+                        if (Convert.ToBoolean(dgvRouteList.Rows[i].Cells["dgvRLcolVisible"].Value) == true) // отмечен для прорисовки
                         {
-                            g.DrawLine(penRouteLine, fKoefX * currPaintRoute.Cities[j].X, fKoefY * currPaintRoute.Cities[j].Y, fKoefX * currPaintRoute.Cities[j + 1].X, fKoefY * currPaintRoute.Cities[j + 1].Y);
+                            // Прорисовываем линии между городами пути
+                            int index = (int)dgvRouteList.Rows[i].Cells["dgvRLcolNumber"].Value;
+                            Route currPaintRoute = ListRoute[index]; // текущий прорисовываемый маршрут из списка маршрутов
+
+                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Color));
+                            Pen penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth);
+                            for (int j = 0; j < currPaintRoute.Cities.Count - 1; j++)
+                            {
+                                g.DrawLine(penRouteLine, fKoefX * currPaintRoute.Cities[j].X, fKoefY * currPaintRoute.Cities[j].Y, fKoefX * currPaintRoute.Cities[j + 1].X, fKoefY * currPaintRoute.Cities[j + 1].Y);
+                            }
+                            // Путь из последнего города в первый
+                            g.DrawLine(penRouteLine, fKoefX * currPaintRoute.Cities[currPaintRoute.Cities.Count - 1].X, fKoefY * currPaintRoute.Cities[currPaintRoute.Cities.Count - 1].Y, fKoefX * currPaintRoute.Cities[0].X, fKoefY * currPaintRoute.Cities[0].Y);
                         }
-                        // Путь из последнего города в первый
-                        g.DrawLine(penRouteLine, fKoefX * currPaintRoute.Cities[currPaintRoute.Cities.Count - 1].X, fKoefY * currPaintRoute.Cities[currPaintRoute.Cities.Count - 1].Y, fKoefX * currPaintRoute.Cities[0].X, fKoefY * currPaintRoute.Cities[0].Y);
                     }
                 }
+
+
+                // Прорисовываем точки городов с заданной кистью и заданными параметрами            
+                for (int j = 0; j < _cities.Count; j++)
+                {
+                    g.DrawEllipse(_penCities, fKoefX * Cities[j].X - _fCityR, fKoefY * Cities[j].Y - _fCityR, _fCityR * _fCityR, _fCityR * _fCityR);
+                    if (chbShowCitiesLabelNumber.Checked) // если отмечен чекбокс
+                        g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Cities[j].X + _fCityR + 1, fKoefY * Cities[j].Y - _fontSize - _fCityR - 1);
+                }
+
+                // Очищаем память
+                g.Dispose();
+
+                pbCanvas.Image = img;
             }
-
-            // Прорисовываем точки городов с заданной кистью и заданными параметрами            
-            for (int j = 0; j < Cities.Count; j++)
-            {
-                g.DrawEllipse(_penCities, fKoefX * Cities[j].X - _fCityR, fKoefY * Cities[j].Y - _fCityR, _fCityR * _fCityR, _fCityR * _fCityR);
-                if (chbShowCitiesLabelNumber.Checked) // если отмечен чекбокс
-                    g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Cities[j].X + _fCityR + 1, fKoefY * Cities[j].Y - _fontSize - _fCityR - 1);
-            }
-
-            // Очищаем память
-            g.Dispose();
-
-            pbCanvas.Image = img;
         }
 
         /// <summary>
@@ -263,7 +302,7 @@ namespace ant.UserControls
         /// <summary>
         /// Изменение размеров формы и перерисовка городов
         /// </summary>
-        private void ucCitiesPainter_Resize(object sender, EventArgs e)     
+        private void ucCitiesPainter_Resize(object sender, EventArgs e)             
         {
             if (Cities != null)
             {
@@ -271,7 +310,7 @@ namespace ant.UserControls
                 RefreshRoutePaint();
             }
         }
-        private void ucCitiesPainter_(object sender, EventArgs e)           
+        private void ucCitiesPainter_(object sender, EventArgs e)                   
         {
             if (Cities != null)
             {
@@ -283,7 +322,7 @@ namespace ant.UserControls
         /// <summary>
         /// Скрыть-показать панель свойств прорисовки
         /// </summary>
-        private void btnShowHide_Click(object sender, EventArgs e)          
+        private void btnShowHide_Click(object sender, EventArgs e)                  
         {
             if (bPanelSettingsShow)
             {
@@ -300,10 +339,19 @@ namespace ant.UserControls
             ucCitiesPainter_Resize(this, new EventArgs());
         }
 
+        private void splContMain_SplitterMoved(object sender, SplitterEventArgs e)  
+        {
+            try
+            {
+                RefreshRoutePaint();
+            }catch // проглатываем исключение, которое может возникнуть, если  не заполнены данные в момент начальной загрузки
+            {}
+        }
+
         /// <summary>
         /// Событие клика мышкой по ячейке таблицы
         /// </summary>
-        private void dgvRouteList_MouseUp(object sender, MouseEventArgs e)
+        private void dgvRouteList_MouseUp(object sender, MouseEventArgs e)          
         {
             dgvRouteList.EndEdit();
             RefreshRoutePaint();
