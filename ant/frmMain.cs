@@ -14,26 +14,40 @@ namespace ant
     public partial class frmMain : Form
     {
         #region Конструкторы и Данные
-        public frmMain()
+        public frmMain()                    
         {
             InitializeComponent();
 
+            // Начальная инициализация параметров расчета. Используются параметры по умолчанию.
             _paramAnt = new ant.AntAlgData.AntAlgDataParameters();
+
+            // Отправляем ссылку на Лист Маршрутов контроллу прорисовки
+            liRoute = new List<Route>();
+            ucCP.ListRoute = liRoute;
         }
 
-        // Коллекция городов
-        DataCitiesCollection _cities;
-        // Параметры расчета
-        AntAlgData.AntAlgDataParameters _paramAnt;
+        /// <summary>
+        /// Коллекция городов
+        /// </summary>
+        private DataCitiesCollection _cities;
+        /// <summary>
+        /// Параметры расчета
+        /// </summary>
+        private AntAlgData.AntAlgDataParameters     _paramAnt;
 
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
         /// </summary>
-        private ProcessAnt _prAnt;
+        private ProcessAnt                  _prAnt;
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Ближайшего соседа
         /// </summary>
-        private ProcessNearestNeighbour _pnn;
+        private ProcessNearestNeighbour     _pnn;
+
+        /// <summary>
+        /// Лист расчитанных маршрутов. Все расчитанные маршруты за текущую сессию, помещаются сюда.
+        /// </summary>
+        private List<Route> liRoute;
         #endregion
 
         #region События главной формы
@@ -92,7 +106,7 @@ namespace ant
         /// <summary>
         /// Создать коллекцию городов
         /// </summary>
-        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)
+        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)  
         {
             // ИСХОДНЫЕ ДАННЫЕ
             // Создаем Города
@@ -114,8 +128,9 @@ namespace ant
             _cities.MaxDistance = _paramAnt.MaxDistance;
             _cities.InitCitiesRandom();
             // Прорисовка городов
-            ucCP.SetCities(_cities);
-            ucCP.PaintCities();
+            ucCP.Cities = _cities;
+            //ucCP.PaintCities();
+            ucCP.RefreshRoutePaint();
 
             rtxbOut.Clear();
             rtxbCities.Clear();
@@ -124,18 +139,45 @@ namespace ant
         /// <summary>
         /// Нажатие клавиши Enter в текстовом поле
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)
+        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)      
         {
             if (e.KeyCode == Keys.Enter)
                 tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
         }
 
         /// <summary>
+        /// Кнопка запуска расчетов
+        /// </summary>
+        private void tlStrpBtnStart_Click(object sender, EventArgs e)               
+        {
+            // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
+            Forms.SelectAlgs.frmSelectAlgs sa = new ant.Forms.SelectAlgs.frmSelectAlgs();
+            DialogResult res = sa.ShowDialog();
+
+            switch (res)
+            {
+                case DialogResult.OK:
+                    {
+                        List<int> selectList = sa.getSelectList();//список выбранных алгоритмов                        
+                        int iCount = selectList.Count; //количество выбранных алгоритмов
+
+                        //Последовательный запуск выбранных алгоритмов
+
+                        if (selectList[0] == 1)
+                            AntAlgStart(); //запуск алгоритма муравьиной колонии
+
+                        if (selectList[1] == 1)
+                            NearestNeighbourStart(); //запуск алгоритма соседа
+
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Начать расчет методом Муравьиной колонии
         /// </summary>
-        private void AntAlgStart()
+        private void AntAlgStart()                              
         {
             // АЛГОРИТМ
             if (_prAnt == null)
@@ -157,12 +199,11 @@ namespace ant
             }
         }
 
-
         /// <summary>
         /// Начать расчёт методом Ближайшего соседа
         /// </summary>
         /// <param name="sender"></param>
-        private void NearestNeighbourStart()
+        private void NearestNeighbourStart()                    
         {
 
             // АЛГОРИТМ
@@ -208,7 +249,7 @@ namespace ant
         /// </summary>
         /// <param name="value"></param>
         private delegate void IncrementCallback(int val);
-        private void AntAlgProgressChange(int value)
+        private void AntAlgProgressChange(int value)                    
         {
             //prgbarProgress.Value = value;
             //toolSTProgress.Text = value + "%";
@@ -235,11 +276,10 @@ namespace ant
         }
 
 
-
         /// <summary>
         /// Событие завершение расчета по Алгоритму Муравья
         /// </summary>
-        private void AntAlgFinally(object sender, EventArgs e)
+        private void AntAlgFinally(object sender, EventArgs e)          
         {
             this.Invoke(new MethodInvoker(delegate()
                 {
@@ -259,15 +299,14 @@ namespace ant
                         rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
                     }
 
-                    // Путь городов
-                    ucCP.Route = _prAnt.ResultPath;
-                    ucCP.PaintCitiesAndRoute();
+                    // Путь городов. Заносим лист.
+                    _prAnt.ResultPath.AlgorithmName = "Муравей";
+                    _prAnt.ResultPath.Color = Color.Purple;
+                    liRoute.Add( _prAnt.ResultPath );
+                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                    ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
 
                     toolSTLInfo.Text = "Время расчета: " + _prAnt.ProcessTime.ToString();
-
-                    ////Вывод длинны маршрута
-                    //ucCP.RouteLengthTextOut(_prAnt.ResultPath.length);
-                    //
 
                     // Готовность интерфейса
                     _prAnt = null;
@@ -279,7 +318,7 @@ namespace ant
                 }));
         }
 
-        private void PNNFinally(object sender, EventArgs e)
+        private void PNNFinally(object sender, EventArgs e)             
         {
             this.Invoke(new MethodInvoker(delegate()
             {
@@ -302,15 +341,13 @@ namespace ant
                     }
 
                     // Путь городов
-                    //ucCP.SetCities(CitiesInPath);
-                    ucCP.Route = _pnn.ResultPath;
-                    ucCP.PaintCitiesAndRoute();
+                    _pnn.ResultPath.AlgorithmName = "Ближайший сосед";
+                    _pnn.ResultPath.Color = Color.LightSeaGreen;
+                    liRoute.Add(_pnn.ResultPath);
+                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                    ucCP.RefreshRoutePaint(); // обновляем прорисовку
 
                     toolSTLInfo.Text = "Время расчета: " + _pnn.ProcessTime.ToString();
-
-                    //Вывод длинны маршрута
-                    //ucCP.RouteLengthTextOut(_pnn.ResultPath.ToString());
-                    //
 
                     // Готовность интерфейса
                     _pnn = null;
@@ -327,31 +364,5 @@ namespace ant
 
         }
         #endregion
-
-        private void tlStrpBtnStart_Click(object sender, EventArgs e)
-        {
-            // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
-            Forms.SelectAlgs.frmSelectAlgs sa = new ant.Forms.SelectAlgs.frmSelectAlgs();
-            DialogResult res = sa.ShowDialog();
-
-            switch (res)
-            {
-                case DialogResult.OK:
-                    {
-                        List<int> selectList = sa.getSelectList();//список выбранных алгоритмов                        
-                        int iCount = selectList.Count; //количество выбранных алгоритмов
-                        
-                        //Последовательный запуск выбранных алгоритмов
-
-                                        if (selectList[0] == 1)
-                                            AntAlgStart(); //запуск алгоритма муравьиной колонии
-
-                                        if (selectList[1] == 1)
-                                            NearestNeighbourStart(); //запуск алгоритма соседа
-               
-                    }
-                    break;
-            }
-        }
     }
 }

@@ -28,65 +28,168 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.txbRouteLength = new System.Windows.Forms.TextBox();
             this.pbCanvas = new System.Windows.Forms.PictureBox();
+            this.splContMain = new System.Windows.Forms.SplitContainer();
+            this.btnShowHide = new System.Windows.Forms.Button();
+            this.dgvRouteList = new System.Windows.Forms.DataGridView();
+            this.chbGrayLines = new System.Windows.Forms.CheckBox();
+            this.chbShowCitiesLabelNumber = new System.Windows.Forms.CheckBox();
+            this.dgvRLcolVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dgvRLcolNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRLcolAlgorithmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRLcolLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
+            this.splContMain.Panel1.SuspendLayout();
+            this.splContMain.Panel2.SuspendLayout();
+            this.splContMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRouteList)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(136, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Длина маршрута:";
-            // 
-            // txbRouteLength
-            // 
-            this.txbRouteLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbRouteLength.BackColor = System.Drawing.SystemColors.Control;
-            this.txbRouteLength.Location = new System.Drawing.Point(253, 3);
-            this.txbRouteLength.Name = "txbRouteLength";
-            this.txbRouteLength.ReadOnly = true;
-            this.txbRouteLength.Size = new System.Drawing.Size(77, 20);
-            this.txbRouteLength.TabIndex = 3;
             // 
             // pbCanvas
             // 
-            this.pbCanvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCanvas.BackColor = System.Drawing.Color.White;
-            this.pbCanvas.Location = new System.Drawing.Point(3, 26);
+            this.pbCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbCanvas.Location = new System.Drawing.Point(0, 0);
             this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(327, 195);
+            this.pbCanvas.Size = new System.Drawing.Size(515, 260);
             this.pbCanvas.TabIndex = 1;
             this.pbCanvas.TabStop = false;
+            // 
+            // splContMain
+            // 
+            this.splContMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splContMain.Location = new System.Drawing.Point(0, 0);
+            this.splContMain.Name = "splContMain";
+            this.splContMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splContMain.Panel1
+            // 
+            this.splContMain.Panel1.Controls.Add(this.pbCanvas);
+            // 
+            // splContMain.Panel2
+            // 
+            this.splContMain.Panel2.Controls.Add(this.chbShowCitiesLabelNumber);
+            this.splContMain.Panel2.Controls.Add(this.chbGrayLines);
+            this.splContMain.Panel2.Controls.Add(this.dgvRouteList);
+            this.splContMain.Panel2.Controls.Add(this.btnShowHide);
+            this.splContMain.Size = new System.Drawing.Size(515, 355);
+            this.splContMain.SplitterDistance = 260;
+            this.splContMain.TabIndex = 4;
+            // 
+            // btnShowHide
+            // 
+            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
+            this.btnShowHide.Name = "btnShowHide";
+            this.btnShowHide.Size = new System.Drawing.Size(516, 21);
+            this.btnShowHide.TabIndex = 0;
+            this.btnShowHide.Text = "скрыть/показать панель свойств";
+            this.btnShowHide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnShowHide.UseVisualStyleBackColor = false;
+            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
+            // 
+            // dgvRouteList
+            // 
+            this.dgvRouteList.AllowUserToAddRows = false;
+            this.dgvRouteList.AllowUserToDeleteRows = false;
+            this.dgvRouteList.AllowUserToResizeRows = false;
+            this.dgvRouteList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvRouteList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRouteList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvRLcolVisible,
+            this.dgvRLcolNumber,
+            this.dgvRLcolAlgorithmName,
+            this.dgvRLcolLength});
+            this.dgvRouteList.Location = new System.Drawing.Point(3, 52);
+            this.dgvRouteList.Name = "dgvRouteList";
+            this.dgvRouteList.RowHeadersVisible = false;
+            this.dgvRouteList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRouteList.Size = new System.Drawing.Size(509, 36);
+            this.dgvRouteList.TabIndex = 0;
+            this.dgvRouteList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseUp);
+            // 
+            // chbGrayLines
+            // 
+            this.chbGrayLines.AutoSize = true;
+            this.chbGrayLines.Location = new System.Drawing.Point(3, 29);
+            this.chbGrayLines.Name = "chbGrayLines";
+            this.chbGrayLines.Size = new System.Drawing.Size(280, 17);
+            this.chbGrayLines.TabIndex = 1;
+            this.chbGrayLines.Text = "Показывать серые линии между всеми городами";
+            this.chbGrayLines.UseVisualStyleBackColor = true;
+            this.chbGrayLines.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
+            // 
+            // chbShowCitiesLabelNumber
+            // 
+            this.chbShowCitiesLabelNumber.AutoSize = true;
+            this.chbShowCitiesLabelNumber.Location = new System.Drawing.Point(290, 29);
+            this.chbShowCitiesLabelNumber.Name = "chbShowCitiesLabelNumber";
+            this.chbShowCitiesLabelNumber.Size = new System.Drawing.Size(174, 17);
+            this.chbShowCitiesLabelNumber.TabIndex = 2;
+            this.chbShowCitiesLabelNumber.Text = "Показывать номера городов";
+            this.chbShowCitiesLabelNumber.UseVisualStyleBackColor = true;
+            this.chbShowCitiesLabelNumber.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
+            // 
+            // dgvRLcolVisible
+            // 
+            this.dgvRLcolVisible.HeaderText = "Видимость";
+            this.dgvRLcolVisible.Name = "dgvRLcolVisible";
+            this.dgvRLcolVisible.Width = 80;
+            // 
+            // dgvRLcolNumber
+            // 
+            this.dgvRLcolNumber.HeaderText = "Номер";
+            this.dgvRLcolNumber.Name = "dgvRLcolNumber";
+            this.dgvRLcolNumber.ReadOnly = true;
+            this.dgvRLcolNumber.Width = 50;
+            // 
+            // dgvRLcolAlgorithmName
+            // 
+            this.dgvRLcolAlgorithmName.HeaderText = "Алгоритм";
+            this.dgvRLcolAlgorithmName.Name = "dgvRLcolAlgorithmName";
+            this.dgvRLcolAlgorithmName.ReadOnly = true;
+            this.dgvRLcolAlgorithmName.Width = 200;
+            // 
+            // dgvRLcolLength
+            // 
+            this.dgvRLcolLength.HeaderText = "Длина маршрута";
+            this.dgvRLcolLength.Name = "dgvRLcolLength";
+            this.dgvRLcolLength.ReadOnly = true;
+            this.dgvRLcolLength.Width = 130;
             // 
             // ucCitiesPainter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.txbRouteLength);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.pbCanvas);
+            this.Controls.Add(this.splContMain);
             this.Name = "ucCitiesPainter";
-            this.Size = new System.Drawing.Size(333, 224);
+            this.Size = new System.Drawing.Size(515, 355);
             this.Resize += new System.EventHandler(this.ucCitiesPainter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
+            this.splContMain.Panel1.ResumeLayout(false);
+            this.splContMain.Panel2.ResumeLayout(false);
+            this.splContMain.Panel2.PerformLayout();
+            this.splContMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRouteList)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.PictureBox pbCanvas;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txbRouteLength;
+        private System.Windows.Forms.SplitContainer splContMain;
+        private System.Windows.Forms.Button btnShowHide;
+        private System.Windows.Forms.DataGridView dgvRouteList;
+        private System.Windows.Forms.CheckBox chbGrayLines;
+        private System.Windows.Forms.CheckBox chbShowCitiesLabelNumber;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dgvRLcolVisible;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolAlgorithmName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolLength;
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+
+using System.Drawing; // для класса Color
 
 using ant.CommonData;
 
@@ -23,12 +24,13 @@ namespace ant.CommonData
         #region Конструкторы
 
         public Route()
-        {         
+        {
+            Color = Color.Blue;
         }
         public Route(DataCitiesCollection cities)
         {
             _cities = cities;
-            Length(); //расчет длинны маршрута
+            LengthCalculation(); //расчет длинны маршрута
         }
         public Route(DataCitiesCollection cities, double length)
         {         
@@ -42,14 +44,32 @@ namespace ant.CommonData
         /// <summary>
         /// Длина маршрута
         /// </summary>
-        public double length
+        public double Length                            
         {
             get { return _dlength; }
         }
+        
+        /// <summary>
+        /// Название алгоритма, которым просчитан данный маршрут
+        /// </summary>
+        public string AlgorithmName                     
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// Цвет, которым прорисовывается маршрут
+        /// </summary>
+        public Color Color                              
+        {
+            set;
+            get;
+        }
+
         /// <summary>
         /// Доступ к городу маршрута по индексу
         /// </summary>
-        public DataCity this[int index]
+        public DataCity this[int index]                 
         {
             set { _cities[index] = value; }
             get { return _cities[index]; }
@@ -57,21 +77,21 @@ namespace ant.CommonData
         /// <summary>
         /// Количество городов в маршруте
         /// </summary>
-        public int Count
+        public int Count                                
         {
             get {return _cities.Count;}
         }
         /// <summary>
         /// Максимальная дистанция
         /// </summary>
-        public int MaxDistance
+        public int MaxDistance                          
         {
             get { return _cities.MaxDistance; }
         }
         /// <summary>
         /// Список городов в маршруте
         /// </summary>
-        public DataCitiesCollection Cities
+        public DataCitiesCollection Cities              
         {
             get { return _cities; }
         }
@@ -83,7 +103,7 @@ namespace ant.CommonData
         /// <summary>
         /// Вычисляет длину маршрута
         /// </summary>
-        private void Length()
+        private void LengthCalculation()                
         {
             //int i = 0;
             _dlength = 0;
