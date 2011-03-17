@@ -147,7 +147,7 @@ namespace ant
         {
             // Результаты
             _liResult = travelSalesmanNN.ListTimeRoute;
-            Route path = new Route( travelSalesmanNN.BestPath );
+            Route path = new Route( travelSalesmanNN.BestPath,"ближайшего соседа");
             _bestPath = path;
 
             _tsProcessTime = DateTime.Now - timeStart;

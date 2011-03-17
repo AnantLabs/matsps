@@ -208,7 +208,7 @@ namespace ant.UserControls
             {
                 for (int i = 0; i < ListRoute.Count; i++)
                 {
-                    dgvRouteList.Rows.Add( false, i, ListRoute[i].AlgorithmName, ListRoute[i].Length);
+                    dgvRouteList.Rows.Add( false, i, ListRoute[i].Name, ListRoute[i].Length);
                 }
             }
         }
@@ -260,7 +260,7 @@ namespace ant.UserControls
                             int index = (int)dgvRouteList.Rows[i].Cells["dgvRLcolNumber"].Value;
                             Route currPaintRoute = ListRoute[index]; // текущий прорисовываемый маршрут из списка маршрутов
 
-                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Color));
+                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Drawing.Color));
                             Pen penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth);
                             for (int j = 0; j < currPaintRoute.Cities.Count - 1; j++)
                             {

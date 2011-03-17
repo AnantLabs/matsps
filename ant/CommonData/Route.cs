@@ -8,9 +8,73 @@ using ant.CommonData;
 
 namespace ant.CommonData
 {
+    /// <summary>
+    /// параметры прорисовки маршрута
+    /// </summary>
+    struct Drawing
+    {
+        #region Свойства
+        /// <summary>
+        /// уникальный номер маршрута
+        /// </summary>
+        public int UniqueNum
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// видимость маршрута
+        /// </summary>
+        public bool Visible
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// цвет прорисовки
+        /// </summary>
+        public Color Color
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// прозрачность
+        /// </summary>
+        public int Opacity
+        {
+            set
+            {
+                try
+                {
+                    _opacity = value;
+                    if (_opacity < 0 || _opacity > 100)
+                        throw new Exception("неверно задана прозрачность");
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
+                }
+            }
+            get { return _opacity; }
+        }
+        #endregion
+        #region Поля
+        /// <summary>
+        /// прозрачность
+        /// </summary>
+        private int _opacity;
+
+        #endregion
+    };
+
     class Route
     {
         #region Поля класса
+        /// <summary>
+        /// параметры прорисовки маршрута
+        /// </summary>
+        public Drawing Drawing;
         /// <summary>
         /// Коллекция городов
         /// </summary>
@@ -19,57 +83,67 @@ namespace ant.CommonData
         /// Длина маршрута
         /// </summary>
         private double _dlength = 0.0;
+        private string _name;
+
         #endregion
 
         #region Конструкторы
 
-        public Route()
+        public Route(string name)
         {
-            Color = Color.Blue;
+            _name = name;
+            Drawing.Color = Color.Blue;
         }
-        public Route(DataCitiesCollection cities)
+        public Route(DataCitiesCollection cities, string name)
         {
+            _name = name;
             _cities = cities;
+            Drawing.Color = Color.Blue;
             LengthCalculation(); //расчет длинны маршрута
-        }
-        public Route(DataCitiesCollection cities, double length)
-        {         
-        }
 
-
+        }
+        public Route(DataCitiesCollection cities, double length, string name)
+        {
+            _name = name;
+        }
 
         #endregion
 
         #region Свойства
         /// <summary>
+        /// комментарии к маршруту
+        /// </summary>
+        public string Comments
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// время расчета
+        /// </summary>
+        public TimeSpan calcTime
+        {
+            set;
+            get;
+        }
+        /// <summary>
         /// Длина маршрута
         /// </summary>
-        public double Length                            
+        public double Length
         {
             get { return _dlength; }
         }
-        
         /// <summary>
-        /// Название алгоритма, которым просчитан данный маршрут
+        /// Название алгоритма, которым просчитан данный маршрут(только чтение)
         /// </summary>
-        public string AlgorithmName                     
+        public string Name
         {
-            set;
-            get;
+            get { return _name; }
         }
-        /// <summary>
-        /// Цвет, которым прорисовывается маршрут
-        /// </summary>
-        public Color Color                              
-        {
-            set;
-            get;
-        }
-
         /// <summary>
         /// Доступ к городу маршрута по индексу
         /// </summary>
-        public DataCity this[int index]                 
+        public DataCity this[int index]
         {
             set { _cities[index] = value; }
             get { return _cities[index]; }
@@ -77,21 +151,21 @@ namespace ant.CommonData
         /// <summary>
         /// Количество городов в маршруте
         /// </summary>
-        public int Count                                
+        public int Count
         {
-            get {return _cities.Count;}
+            get { return _cities.Count; }
         }
         /// <summary>
         /// Максимальная дистанция
         /// </summary>
-        public int MaxDistance                          
+        public int MaxDistance
         {
             get { return _cities.MaxDistance; }
         }
         /// <summary>
         /// Список городов в маршруте
         /// </summary>
-        public DataCitiesCollection Cities              
+        public DataCitiesCollection Cities
         {
             get { return _cities; }
         }
@@ -103,7 +177,7 @@ namespace ant.CommonData
         /// <summary>
         /// Вычисляет длину маршрута
         /// </summary>
-        private void LengthCalculation()                
+        private void LengthCalculation()
         {
             //int i = 0;
             _dlength = 0;
@@ -115,9 +189,10 @@ namespace ant.CommonData
             }
             //из первого в последний
             //_dlength += _cities.Distance[0, _cities.Count-1];
-            _dlength += _cities.Distance[_cities[_cities.Count - 1].Index, _cities[ 0 ].Index];
+            _dlength += _cities.Distance[_cities[_cities.Count - 1].Index, _cities[0].Index];
         }
 
         #endregion
     }
 }
+

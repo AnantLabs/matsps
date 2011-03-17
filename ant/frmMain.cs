@@ -301,8 +301,8 @@ namespace ant
                     }
 
                     // Путь городов. Заносим лист.
-                    _prAnt.ResultPath.AlgorithmName = "Муравей";
-                    _prAnt.ResultPath.Color = Color.Purple;
+                   //_prAnt.ResultPath.AlgorithmName = "Муравей";
+                    _prAnt.ResultPath.Drawing.Color = Color.Purple;
                     liRoute.Add( _prAnt.ResultPath );
                     ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                     ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
@@ -342,8 +342,8 @@ namespace ant
                     }
 
                     // Путь городов
-                    _pnn.ResultPath.AlgorithmName = "Ближайший сосед";
-                    _pnn.ResultPath.Color = Color.LightSeaGreen;
+                    //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
+                    _pnn.ResultPath.Drawing.Color = Color.LightSeaGreen;
                     liRoute.Add(_pnn.ResultPath);
                     ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                     ucCP.RefreshRoutePaint(); // обновляем прорисовку

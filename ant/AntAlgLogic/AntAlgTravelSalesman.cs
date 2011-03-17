@@ -116,7 +116,7 @@ namespace ant.AntAlgLogic
                     newCity.Index = Ants[bestIndex].PathGet(i).Index;
                     cities.Add(newCity);
                 }
-                Route route = new Route(cities);
+                Route route = new Route(cities,"муравьиной колонии");
 
                 return route;
             }
