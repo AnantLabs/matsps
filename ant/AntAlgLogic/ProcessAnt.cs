@@ -157,9 +157,10 @@ namespace ant
         {
             // Результаты
             _liResult = travelSalesmanAnt.ListTimeRoute;
-            _bestPath = travelSalesmanAnt.BestPath;
+            _bestPath = travelSalesmanAnt.BestPath;            
 
             _tsProcessTime = DateTime.Now - timeStart;
+            _bestPath.СalcTime = _tsProcessTime;
 
             OnFinallyCalculate(new EventArgs());
         }

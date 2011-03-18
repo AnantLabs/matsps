@@ -15,17 +15,9 @@ namespace ant.CommonData
     {
         #region Свойства
         /// <summary>
-        /// уникальный номер маршрута
-        /// </summary>
-        public int UniqueNum
-        {
-            set;
-            get;
-        }
-        /// <summary>
         /// видимость маршрута
         /// </summary>
-        public bool Visible
+        public bool Visible             
         {
             set;
             get;
@@ -33,7 +25,7 @@ namespace ant.CommonData
         /// <summary>
         /// цвет прорисовки
         /// </summary>
-        public Color Color
+        public Color Color              
         {
             set;
             get;
@@ -41,24 +33,18 @@ namespace ant.CommonData
         /// <summary>
         /// прозрачность
         /// </summary>
-        public int Opacity
+        public int Opacity              
         {
             set
             {
-                try
-                {
-                    _opacity = value;
-                    if (_opacity < 0 || _opacity > 100)
-                        throw new Exception("неверно задана прозрачность");
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(ex.Message);
-                }
+                _opacity = value;
+                if (_opacity < 0 || _opacity > 100)
+                    throw new Exception("неверно задана прозрачность");
             }
             get { return _opacity; }
         }
         #endregion
+
         #region Поля
         /// <summary>
         /// прозрачность
@@ -85,35 +71,47 @@ namespace ant.CommonData
         private double _dlength = 0.0;
         private string _name;
 
+        /// <summary>
+        /// статичная переменная. хранит количество созданных экзампляров класса
+        /// </summary>
+        private static int _statCountUNu,ber = 0;
+
+        private int _iUniqueNumber;
         #endregion
 
         #region Конструкторы
 
-        public Route(string name)
+        public Route(string name)                                               
         {
             _name = name;
-            Drawing.Color = Color.Blue;
+            _statCountUNu++;            // Уникальный номер экземпляра класса
+            this._iUniqueNumber = _statCountUNu;
+            Drawing.Color = Color.Blue;     // Цвет по умолчанию - синий
+            Drawing.Visible = false;        // Видимость по умолчанию - скрытый
         }
-        public Route(DataCitiesCollection cities, string name)
+        public Route(DataCitiesCollection cities, string name):this(name)       
         {
-            _name = name;
             _cities = cities;
-            Drawing.Color = Color.Blue;
             LengthCalculation(); //расчет длинны маршрута
-
-        }
-        public Route(DataCitiesCollection cities, double length, string name)
-        {
-            _name = name;
         }
 
         #endregion
 
         #region Свойства
         /// <summary>
+        /// уникальный номер маршрута
+        /// </summary>
+        public int UniqueNum                            
+        {
+            get
+            {
+                return this._iUniqueNumber;
+            }
+        }
+        /// <summary>
         /// комментарии к маршруту
         /// </summary>
-        public string Comments
+        public string Comments                          
         {
             set;
             get;
@@ -121,7 +119,7 @@ namespace ant.CommonData
         /// <summary>
         /// время расчета
         /// </summary>
-        public TimeSpan calcTime
+        public TimeSpan СalcTime                        
         {
             set;
             get;
@@ -129,43 +127,44 @@ namespace ant.CommonData
         /// <summary>
         /// Длина маршрута
         /// </summary>
-        public double Length
+        public double Length                            
         {
             get { return _dlength; }
         }
         /// <summary>
         /// Название алгоритма, которым просчитан данный маршрут(только чтение)
         /// </summary>
-        public string Name
+        public string Name                              
         {
             get { return _name; }
         }
-        /// <summary>
-        /// Доступ к городу маршрута по индексу
-        /// </summary>
-        public DataCity this[int index]
-        {
-            set { _cities[index] = value; }
-            get { return _cities[index]; }
-        }
+
+        ///// <summary>
+        ///// Доступ к городу маршрута по индексу
+        ///// </summary>
+        //public DataCity this[int index]                 
+        //{
+        //    set { _cities[index] = value; }
+        //    get { return _cities[index]; }
+        //}
         /// <summary>
         /// Количество городов в маршруте
         /// </summary>
-        public int Count
+        public int Count                                
         {
             get { return _cities.Count; }
         }
         /// <summary>
         /// Максимальная дистанция
         /// </summary>
-        public int MaxDistance
+        public int MaxDistance                          
         {
             get { return _cities.MaxDistance; }
         }
         /// <summary>
         /// Список городов в маршруте
         /// </summary>
-        public DataCitiesCollection Cities
+        public DataCitiesCollection Cities              
         {
             get { return _cities; }
         }

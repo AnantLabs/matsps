@@ -33,11 +33,14 @@
             this.chbShowCitiesLabelNumber = new System.Windows.Forms.CheckBox();
             this.chbGrayLines = new System.Windows.Forms.CheckBox();
             this.dgvRouteList = new System.Windows.Forms.DataGridView();
+            this.btnShowHide = new System.Windows.Forms.Button();
             this.dgvRLcolVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgvRLcolNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolAlgorithmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnShowHide = new System.Windows.Forms.Button();
+            this.dgvRLcolColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRLcolCalc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRLcolStartFinish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.splContMain.Panel1.SuspendLayout();
             this.splContMain.Panel2.SuspendLayout();
@@ -51,7 +54,7 @@
             this.pbCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbCanvas.Location = new System.Drawing.Point(0, 0);
             this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(515, 260);
+            this.pbCanvas.Size = new System.Drawing.Size(763, 315);
             this.pbCanvas.TabIndex = 1;
             this.pbCanvas.TabStop = false;
             // 
@@ -72,19 +75,19 @@
             this.splContMain.Panel2.Controls.Add(this.chbGrayLines);
             this.splContMain.Panel2.Controls.Add(this.dgvRouteList);
             this.splContMain.Panel2.Controls.Add(this.btnShowHide);
-            this.splContMain.Size = new System.Drawing.Size(515, 355);
-            this.splContMain.SplitterDistance = 260;
+            this.splContMain.Size = new System.Drawing.Size(763, 431);
+            this.splContMain.SplitterDistance = 315;
             this.splContMain.TabIndex = 4;
             this.splContMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splContMain_SplitterMoved);
             // 
             // chbShowCitiesLabelNumber
             // 
             this.chbShowCitiesLabelNumber.AutoSize = true;
-            this.chbShowCitiesLabelNumber.Location = new System.Drawing.Point(290, 29);
+            this.chbShowCitiesLabelNumber.Location = new System.Drawing.Point(249, 29);
             this.chbShowCitiesLabelNumber.Name = "chbShowCitiesLabelNumber";
-            this.chbShowCitiesLabelNumber.Size = new System.Drawing.Size(174, 17);
+            this.chbShowCitiesLabelNumber.Size = new System.Drawing.Size(108, 17);
             this.chbShowCitiesLabelNumber.TabIndex = 2;
-            this.chbShowCitiesLabelNumber.Text = "Показывать номера городов";
+            this.chbShowCitiesLabelNumber.Text = "номера городов";
             this.chbShowCitiesLabelNumber.UseVisualStyleBackColor = true;
             this.chbShowCitiesLabelNumber.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
             // 
@@ -93,9 +96,9 @@
             this.chbGrayLines.AutoSize = true;
             this.chbGrayLines.Location = new System.Drawing.Point(3, 29);
             this.chbGrayLines.Name = "chbGrayLines";
-            this.chbGrayLines.Size = new System.Drawing.Size(280, 17);
+            this.chbGrayLines.Size = new System.Drawing.Size(214, 17);
             this.chbGrayLines.TabIndex = 1;
-            this.chbGrayLines.Text = "Показывать серые линии между всеми городами";
+            this.chbGrayLines.Text = "серые линии между всеми городами";
             this.chbGrayLines.UseVisualStyleBackColor = true;
             this.chbGrayLines.CheckedChanged += new System.EventHandler(this.ucCitiesPainter_Resize);
             // 
@@ -112,14 +115,30 @@
             this.dgvRLcolVisible,
             this.dgvRLcolNumber,
             this.dgvRLcolAlgorithmName,
-            this.dgvRLcolLength});
+            this.dgvRLcolLength,
+            this.dgvRLcolColor,
+            this.dgvRLcolCalc,
+            this.dgvRLcolStartFinish});
             this.dgvRouteList.Location = new System.Drawing.Point(3, 52);
             this.dgvRouteList.Name = "dgvRouteList";
             this.dgvRouteList.RowHeadersVisible = false;
             this.dgvRouteList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRouteList.Size = new System.Drawing.Size(509, 36);
+            this.dgvRouteList.Size = new System.Drawing.Size(757, 57);
             this.dgvRouteList.TabIndex = 0;
             this.dgvRouteList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseUp);
+            // 
+            // btnShowHide
+            // 
+            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
+            this.btnShowHide.Name = "btnShowHide";
+            this.btnShowHide.Size = new System.Drawing.Size(764, 21);
+            this.btnShowHide.TabIndex = 0;
+            this.btnShowHide.Text = "скрыть/показать панель свойств";
+            this.btnShowHide.UseVisualStyleBackColor = false;
+            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
             // 
             // dgvRLcolVisible
             // 
@@ -148,19 +167,25 @@
             this.dgvRLcolLength.ReadOnly = true;
             this.dgvRLcolLength.Width = 130;
             // 
-            // btnShowHide
+            // dgvRLcolColor
             // 
-            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
-            this.btnShowHide.Name = "btnShowHide";
-            this.btnShowHide.Size = new System.Drawing.Size(516, 21);
-            this.btnShowHide.TabIndex = 0;
-            this.btnShowHide.Text = "скрыть/показать панель свойств";
-            this.btnShowHide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnShowHide.UseVisualStyleBackColor = false;
-            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
+            this.dgvRLcolColor.HeaderText = "Цвет";
+            this.dgvRLcolColor.Name = "dgvRLcolColor";
+            this.dgvRLcolColor.ReadOnly = true;
+            this.dgvRLcolColor.Width = 80;
+            // 
+            // dgvRLcolCalc
+            // 
+            this.dgvRLcolCalc.HeaderText = "Расчет";
+            this.dgvRLcolCalc.Name = "dgvRLcolCalc";
+            this.dgvRLcolCalc.ReadOnly = true;
+            this.dgvRLcolCalc.Width = 80;
+            // 
+            // dgvRLcolStartFinish
+            // 
+            this.dgvRLcolStartFinish.HeaderText = "Старт-Финиш";
+            this.dgvRLcolStartFinish.Name = "dgvRLcolStartFinish";
+            this.dgvRLcolStartFinish.ReadOnly = true;
             // 
             // ucCitiesPainter
             // 
@@ -168,7 +193,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splContMain);
             this.Name = "ucCitiesPainter";
-            this.Size = new System.Drawing.Size(515, 355);
+            this.Size = new System.Drawing.Size(763, 431);
             this.Resize += new System.EventHandler(this.ucCitiesPainter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.splContMain.Panel1.ResumeLayout(false);
@@ -192,5 +217,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolAlgorithmName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolLength;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolColor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolCalc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvRLcolStartFinish;
     }
 }

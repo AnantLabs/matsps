@@ -302,7 +302,7 @@ namespace ant
 
                     // Путь городов. Заносим лист.
                    //_prAnt.ResultPath.AlgorithmName = "Муравей";
-                    _prAnt.ResultPath.Drawing.Color = Color.Purple;
+                    _prAnt.ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
                     liRoute.Add( _prAnt.ResultPath );
                     ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                     ucCP.RefreshRoutePaint(); // обновляем прорисовку                    

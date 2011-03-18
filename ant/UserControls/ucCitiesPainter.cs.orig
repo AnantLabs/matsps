@@ -196,11 +196,11 @@ namespace ant.UserControls
         //}
         #endregion
 
-        #region Методы(внутренние) | New
-        // <summary>
+        #region Методы | New
+        /// <summary>
         /// обновляем список расчитанных маршрутов в dataGridView
         /// </summary>
-        private void UpdateDgvRouteList()                                   
+        private void UpdateDgvRouteList()
         {
             dgvRouteList.Rows.Clear();
 
@@ -208,35 +208,9 @@ namespace ant.UserControls
             {
                 for (int i = 0; i < ListRoute.Count; i++)
                 {
-                    DateTime dt = new DateTime(ListRoute[i].СalcTime.Ticks);
-
-                    dgvRouteList.Rows.Add(
-                        ListRoute[i].Drawing.Visible,       // видимость
-                        ListRoute[i].UniqueNum,             // номер
-                        ListRoute[i].Name,                  // Имя алгоритма, оздавшего маршрут
-                        ListRoute[i].Length.ToString("0.###"),                // Длина маршрута
-                        ListRoute[i].Drawing.Color.Name,    // Цвет алгоритма (задается отдельно)
-                        String.Format("{0}", dt.ToString("mm:ss:fff")),      // Информация о расчете
-                        String.Format("{0} - {1}", ListRoute[i].Cities[0].Index + 1, ListRoute[i].Cities[ ListRoute[i].Cities.Count - 1].Index + 1)       // Комментарий (произвольный текст)
-                        );
-                    DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
-                    cellStyle.BackColor = ListRoute[i].Drawing.Color;
-                    dgvRouteList.Rows[i].Cells[dgvRLcolColor.Name].Style = cellStyle;
+                    dgvRouteList.Rows.Add( false, i, ListRoute[i].AlgorithmName, ListRoute[i].Length);
                 }
             }
-        }
-
-        /// <summary>
-        /// возвращает ссылку на маршрут по уникальному номеру в нем
-        /// </summary>
-        /// <param name="number">уникальный номер</param>
-        /// <returns>возвращает ссылку на найденный маршрут в листе маршрутов</returns>
-        private Route GetRouteFromNumber(int number)                        
-        {
-            foreach (Route r in ListRoute)
-                if (r.UniqueNum == number)
-                    return r;
-            return null;
         }
         #endregion
 
@@ -284,21 +258,12 @@ namespace ant.UserControls
                         {
                             // Прорисовываем линии между городами пути
                             int index = (int)dgvRouteList.Rows[i].Cells["dgvRLcolNumber"].Value;
-                            Route currPaintRoute = GetRouteFromNumber(index); // текущий прорисовываемый маршрут из списка маршрутов
+                            Route currPaintRoute = ListRoute[index]; // текущий прорисовываемый маршрут из списка маршрутов
 
-                            _brushRouteLine = new SolidBrush(Color.FromArgb(96, currPaintRoute.Drawing.Color));
+                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Color));
                             Pen penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth);
                             for (int j = 0; j < currPaintRoute.Cities.Count - 1; j++)
-                            {                                
-                                if (j == 0) // первая линия будет со стрелкой
-                                {
-                                    penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth + 4);
-                                    penRouteLine.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-                                }
-                                else
-                                {
-                                    penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth);
-                                }
+                            {
                                 g.DrawLine(penRouteLine, fKoefX * currPaintRoute.Cities[j].X, fKoefY * currPaintRoute.Cities[j].Y, fKoefX * currPaintRoute.Cities[j + 1].X, fKoefY * currPaintRoute.Cities[j + 1].Y);
                             }
                             // Путь из последнего города в первый
@@ -389,21 +354,6 @@ namespace ant.UserControls
         private void dgvRouteList_MouseUp(object sender, MouseEventArgs e)          
         {
             dgvRouteList.EndEdit();
-            DataGridView.HitTestInfo hitInfo = dgvRouteList.HitTest(e.X, e.Y);
-            if (hitInfo.ColumnIndex == dgvRLcolVisible.Index) // попали в столбец видимости
-            {
-                try
-                {
-                    int uNumber = Convert.ToInt32(dgvRouteList.Rows[hitInfo.RowIndex].Cells[dgvRLcolNumber.Name].Value);
-
-                    Route r = GetRouteFromNumber(uNumber);
-                    r.Drawing.Visible = Convert.ToBoolean(dgvRouteList.Rows[hitInfo.RowIndex].Cells[dgvRLcolVisible.Name].Value);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Невозможно сопоставить номер в таблице с номером маршрута из памяти");
-                }
-            }
             RefreshRoutePaint();
         }
         #endregion
