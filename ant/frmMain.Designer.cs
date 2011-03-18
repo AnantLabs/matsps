@@ -46,6 +46,7 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
+            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
@@ -57,7 +58,6 @@
             this.tlStrpBtnSettings = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpBtnStart = new System.Windows.Forms.ToolStripButton();
-            this.ucCP = new ant.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
@@ -235,6 +235,14 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
+            // 
             // tlStrpMainContainer
             // 
             // 
@@ -369,14 +377,6 @@
             this.tlStrpBtnStart.Text = "Расчет";
             this.tlStrpBtnStart.ToolTipText = "Выбор алгоритмов для расчета";
             this.tlStrpBtnStart.Click += new System.EventHandler(this.tlStrpBtnStart_Click);
-            // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
             // 
             // frmMain
             // 
