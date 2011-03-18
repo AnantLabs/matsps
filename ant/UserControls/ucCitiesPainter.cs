@@ -22,7 +22,7 @@ namespace ant.UserControls
         {
             InitializeComponent();
             
-            _brushLiteLine = new SolidBrush(Color.FromArgb( 32, Color.Silver)); // прозрачность 20
+            _brushLiteLine = new SolidBrush(Color.FromArgb( 100, Color.Silver)); // прозрачность 20
             _penLiteLine = new Pen(_brushLiteLine, 1);
 
             _fontPointsLabel = new Font("Arial", _fontSize );            
@@ -208,7 +208,7 @@ namespace ant.UserControls
             {
                 for (int i = 0; i < ListRoute.Count; i++)
                 {
-                    dgvRouteList.Rows.Add( false, i, ListRoute[i].Name, ListRoute[i].Length);
+                    dgvRouteList.Rows.Add( false, i, ListRoute[i].AlgorithmName, ListRoute[i].Length);
                 }
             }
         }
@@ -260,7 +260,7 @@ namespace ant.UserControls
                             int index = (int)dgvRouteList.Rows[i].Cells["dgvRLcolNumber"].Value;
                             Route currPaintRoute = ListRoute[index]; // текущий прорисовываемый маршрут из списка маршрутов
 
-                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Drawing.Color));
+                            _brushRouteLine = new SolidBrush(Color.FromArgb(64, currPaintRoute.Color));
                             Pen penRouteLine = new Pen(_brushRouteLine, _fRouteLineWidth);
                             for (int j = 0; j < currPaintRoute.Cities.Count - 1; j++)
                             {
