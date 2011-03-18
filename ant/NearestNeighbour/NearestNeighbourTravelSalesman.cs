@@ -262,6 +262,9 @@ namespace ant.NearestNeighbour
         }
         protected virtual void OnFinally(EventArgs e)                                   
         {
+            //OnProgressChanged(NearestNeighbourChangesEventArgs(100, true));
+            curTime = maxTime;
+            tmrTimer_Elapsed(this, EventArgs.Empty);
             EventHandler<EventArgs> tmp = eventFinally;
 
             if (tmp != null)

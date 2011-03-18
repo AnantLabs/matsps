@@ -12,7 +12,6 @@ namespace ant
     class ProcessNearestNeighbour
     {
 
-
         #region Конструкторы и Данные
 
         public delegate void ProgressChanged(int value);
@@ -37,8 +36,6 @@ namespace ant
 
         private DateTime timeStart;
         #endregion
-
-
 
         #region Свойства
         /// <summary>
