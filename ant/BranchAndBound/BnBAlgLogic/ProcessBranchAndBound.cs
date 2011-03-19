@@ -112,7 +112,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                 throw new Exception(ex.Message);
             }
 
-            _travelSalesmanBnB = new BranchAndBoundTravelSalesman();
+            _travelSalesmanBnB = new BranchAndBoundTravelSalesman(cities, (BnBParameters)parameters);
         }
         #endregion
 
@@ -130,7 +130,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
 
             timeStart = DateTime.Now;
             // Зпуск алгоритма
-            ;
+            _travelSalesmanBnB.Calculate();
         }
 
         #endregion

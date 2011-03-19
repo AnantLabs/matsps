@@ -11,15 +11,20 @@ namespace matsps.BranchAndBound.BnBAlgData
     class BnBNode
     {
         #region Поля
-
-
+        
         #endregion
 
         #region Конструкторы
 
-        BnBNode()
-        { 
-            
+        public BnBNode()                                    
+        {
+            Forbidden = false;
+            Nodes = new BnBNodesCollection();
+        }
+        public BnBNode(BnBNodeData data)
+            : this()                                        
+        {
+            Data = data;
         }
 
         #endregion
@@ -43,8 +48,14 @@ namespace matsps.BranchAndBound.BnBAlgData
             set;
             get;
         }
-
-
+        /// <summary>
+        /// Данные о матрице, пути и т.д.
+        /// </summary>
+        private BnBNodeData Data                
+        {
+            set;
+            get;
+        }
         #endregion
     }
 }

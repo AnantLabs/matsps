@@ -7,12 +7,12 @@ namespace matsps.BranchAndBound.BnBAlgData
     /// <summary>
     /// Данные в ячейке матрицы расстояний
     /// </summary>
-    public struct CellData
+    public struct CellData              
     {
         /// <summary>
         /// Длина дуги
         /// </summary>
-        public double Value
+        public double Value         
         {
             set;
             get;
@@ -20,7 +20,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// <summary>
         /// Степень ячейки
         /// </summary>
-        public double Pow
+        public double Pow           
         {
             set;
             get;

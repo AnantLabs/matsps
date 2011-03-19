@@ -20,7 +20,7 @@ namespace matsps.BranchAndBound.BnBAlgData
 
         #region Конструкторы
 
-        BnBNodesCollection()
+        public BnBNodesCollection()
         {
 
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using matsps.CommonData;
-using matsps.BranchAndBound;
+using matsps.BranchAndBound.BnBAlgData;
 using matsps.Parameters;
 
 namespace matsps.BranchAndBound.BnBAlgLogic
@@ -33,6 +33,15 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// поле параметров алгоритма ветвей и границ
         /// </summary>
         private BnBParameters _parameters;
+
+        /// <summary>
+        /// Первый родительский узел. Начало дерева.
+        /// </summary>
+        /// 
+        ///         0 - это он
+        ///        / \
+        ///       *   *
+        private BnBNode _greatParentNode;
         #endregion
 
         #region Свойства
@@ -47,7 +56,6 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         #endregion
 
         #region Методы (внутренние)
-
         #endregion
 
         #region Методы (внешние)
@@ -56,6 +64,9 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// </summary>
         public void Calculate()
         {
+            BnBNodeData nData = new BnBNodeData(Cities);    // заносим начальные данные из коллекции городов
+            nData.ReductedMatrix();                         // приводим матрице по столбцам и строкам
+            _greatParentNode = new BnBNode(nData);          // создаем первый родительский узел с данными
         }
         #endregion
     }
