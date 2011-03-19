@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.AntAlgData
+using ant.CommonData;
+
+namespace ant.Parameters
 {
     /// <summary>
     /// Класс с параметрами расчета алгоритма Муравья
     /// </summary>
-    class AntAlgDataParameters
+    class AntParameters : IParameters
     {
         #region Конструторы и Данные
-        public AntAlgDataParameters()
+        public AntParameters()
         {
             MaxCities = 50;
             MaxDistance = 100;

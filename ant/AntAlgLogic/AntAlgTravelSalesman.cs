@@ -5,8 +5,9 @@ using System.Text;
 using System.Timers;
 using System.Threading;     // потоки
 
-using ant.AntAlgData;
-using ant.CommonData;
+using ant.AntAlgData;           // данные для алгоритма муравья
+using ant.CommonData;           // совместные данные
+using ant.Parameters;           // параметры алгоритмов
 
 namespace ant.AntAlgLogic
 {
@@ -25,7 +26,7 @@ namespace ant.AntAlgLogic
         {
             Cities = cities;
         }
-        public AntAlgTravelSalesman(DataCitiesCollection cities, AntAlgDataParameters param)
+        public AntAlgTravelSalesman(DataCitiesCollection cities, AntParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -84,7 +85,7 @@ namespace ant.AntAlgLogic
         }
 
 
-        private AntAlgDataParameters _parameters;
+        private AntParameters _parameters;
         #endregion
 
 
@@ -128,7 +129,7 @@ namespace ant.AntAlgLogic
         /// <summary>
         /// Установить параметры алгоритма
         /// </summary>
-        public void SetParameters(AntAlgDataParameters param)               
+        public void SetParameters(AntParameters param)               
         {
             if (Cities != null)
             {

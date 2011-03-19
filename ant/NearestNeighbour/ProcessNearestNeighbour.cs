@@ -5,6 +5,8 @@ using System.Text;
 
 using ant.AntAlgData;
 using ant.NearestNeighbour;
+using ant.Parameters;
+
 using ant.CommonData;
 
 namespace ant
@@ -73,7 +75,7 @@ namespace ant
         /// <summary>
         /// Задает или возвращает параметры алгоритма
         /// </summary>
-        public AntAlgDataParameters Parameters          
+        public AntParameters Parameters          
         {
             set;
             get;
@@ -93,7 +95,7 @@ namespace ant
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(DataCitiesCollection cities, AntAlgDataParameters parameters)
+        private void Init(DataCitiesCollection cities, AntParameters parameters)
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -116,7 +118,7 @@ namespace ant
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(DataCitiesCollection cities, AntAlgDataParameters parameters)
+        public void Start(DataCitiesCollection cities, AntParameters parameters)
         {
             Init(cities, parameters);
 

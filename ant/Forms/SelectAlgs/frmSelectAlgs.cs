@@ -16,7 +16,7 @@ namespace ant.Forms.SelectAlgs
         /// <summary>
         /// Список выбранных алгоритмов
         /// </summary>
-        private List<int> _selectList = null;
+        private List<bool> _selectList = null;
 
         #endregion
 
@@ -43,13 +43,14 @@ namespace ant.Forms.SelectAlgs
             treeViewSelectAlgs.Nodes.Add("Алгоритмы");
             treeViewSelectAlgs.Nodes[0].Nodes.Add("Муравьиной колонии");
             treeViewSelectAlgs.Nodes[0].Nodes.Add("Ближайший сосед");
+            treeViewSelectAlgs.Nodes[0].Nodes.Add("Ветви и Границы");
 
 
             //Инициализация списка выбранных алгоритмов
-            _selectList = new List<int>();
+            _selectList = new List<bool>();
             int iCount = treeViewSelectAlgs.Nodes[0].Nodes.Count; //количество алгоритмов
             for (int i = 0; i < iCount; i++)
-                _selectList.Add(0);
+                _selectList.Add(false);
 
             //Настройка узлов дерева
             treeViewSelectAlgs.Nodes[0].Expand(); //разворачиваем главный узел
@@ -65,9 +66,9 @@ namespace ant.Forms.SelectAlgs
             foreach (TreeNode curNode in treeViewSelectAlgs.Nodes[0].Nodes)
             {
                 if (curNode.Checked)
-                    _selectList[curNode.Index] = 1; //выбран
+                    _selectList[curNode.Index] = true; //выбран
                 else
-                    _selectList[curNode.Index] = 0; //не выбран
+                    _selectList[curNode.Index] = false; //не выбран
             }
         }
 
@@ -86,7 +87,7 @@ namespace ant.Forms.SelectAlgs
         /// <summary>
         /// Возвращает список выбранных алгоритмов
         /// </summary>
-        public List<int> getSelectList()
+        public List<bool> getSelectList()
         {
             return _selectList;
         }

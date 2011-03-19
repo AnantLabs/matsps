@@ -9,6 +9,8 @@ using ant.AntAlgData;
 using ant.CommonData;
 using ant.AntAlgLogic;
 
+using ant.Parameters;       // классы параметров алгоритмов
+
 namespace ant.NearestNeighbour
 {
     class NearestNeighbourTravelSalesman
@@ -22,7 +24,7 @@ namespace ant.NearestNeighbour
         {
             Cities = cities;
         }
-        public NearestNeighbourTravelSalesman(DataCitiesCollection cities, AntAlgDataParameters param)
+        public NearestNeighbourTravelSalesman(DataCitiesCollection cities, AntParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -70,7 +72,7 @@ namespace ant.NearestNeighbour
         }
 
 
-        private AntAlgDataParameters _parameters;
+        private AntParameters _parameters;
         #endregion
 
         #region Свойства результатов расчета
@@ -112,7 +114,7 @@ namespace ant.NearestNeighbour
         /// <summary>
         /// Установить параметры алгоритма
         /// </summary>
-        public void SetParameters(AntAlgDataParameters param)
+        public void SetParameters(AntParameters param)
         {
             if (Cities != null)
             {
