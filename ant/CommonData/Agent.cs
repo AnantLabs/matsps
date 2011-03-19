@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 
-namespace ant.CommonData
+namespace matsps.CommonData
 {
-    class Agent
+    class Agent : IComparable<Agent>
     {
         #region Конструкторы и данные
         // Длина маршрута
@@ -78,6 +78,20 @@ namespace ant.CommonData
             try { return _liTaboo[index]; }
             catch (Exception ex)
             { throw new Exception(ex.Message + ex.StackTrace); }
+        }
+
+        /// <summary>
+        /// IComparable interface implementation
+        /// </summary>
+        /// <param name="a">Agent to Compare</param>
+        /// <returns>1 if current Route is better, -1 if not; otherwise - zero</returns>
+        public int CompareTo(Agent a)
+        {
+            if (a.RouteLength > this.RouteLength)
+            { return 1; }
+            else if (a.RouteLength < this.RouteLength)
+            { return -1; }
+            return 0;
         }
         #endregion
     }
