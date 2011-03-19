@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A72E8084-405E-4F3A-80FD-9B215A06D263}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -70,6 +70,11 @@
     <Compile Include="AntAlgData\AntAlgDataParameters.cs" />
     <Compile Include="AntAlgLogic\AntAlgTravelSalesman.cs" />
     <Compile Include="AntAlgLogic\ProcessAnt.cs" />
+    <Compile Include="BranchesAndBounds\BnBAlgData\BnBNode.cs" />
+    <Compile Include="BranchesAndBounds\BnBAlgData\BnBNodeData.cs" />
+    <Compile Include="BranchesAndBounds\BnBAlgData\BnBNodePath.cs" />
+    <Compile Include="BranchesAndBounds\BnBAlgData\BnBNodesCollection.cs" />
+    <Compile Include="BranchesAndBounds\BnBAlgData\BnBTypes.cs" />
     <Compile Include="CommonData\DataCitiesCollection.cs" />
     <Compile Include="CommonData\DataCity.cs" />
     <Compile Include="CommonData\Route.cs" />
@@ -195,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons\spanner_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BranchesAndBounds\BnBAlgLogic\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -80,7 +80,10 @@ namespace ant.CommonData
         #endregion
 
         #region Конструкторы
-
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="name"></param>
         public Route(string name)                                               
         {
             _name = name;
@@ -89,6 +92,9 @@ namespace ant.CommonData
             Drawing.Color = Color.Blue;     // Цвет по умолчанию - синий
             Drawing.Visible = false;        // Видимость по умолчанию - скрытый
         }
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public Route(DataCitiesCollection cities, string name):this(name)       
         {
             _cities = cities;
