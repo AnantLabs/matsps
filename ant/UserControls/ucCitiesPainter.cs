@@ -217,7 +217,7 @@ namespace ant.UserControls
                         ListRoute[i].Length.ToString("0.###"),                // Длина маршрута
                         ListRoute[i].Drawing.Color.Name,    // Цвет алгоритма (задается отдельно)
                         String.Format("{0}", dt.ToString("mm:ss:fff")),      // Информация о расчете
-                        String.Format("{0} - {1}", ListRoute[i].Cities[0].Index + 1, ListRoute[i].Cities[ ListRoute[i].Cities.Count - 1].Index + 1)       // Комментарий (произвольный текст)
+                        String.Format("{0} - {1}", ListRoute[i].Cities[0].Index + 1, ListRoute[i].Cities[1].Index + 1)       // Комментарий (произвольный текст)
                         );
                     DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
                     cellStyle.BackColor = ListRoute[i].Drawing.Color;
@@ -407,5 +407,6 @@ namespace ant.UserControls
             RefreshRoutePaint();
         }
         #endregion
+
     }
 }

@@ -33,7 +33,6 @@
             this.chbShowCitiesLabelNumber = new System.Windows.Forms.CheckBox();
             this.chbGrayLines = new System.Windows.Forms.CheckBox();
             this.dgvRouteList = new System.Windows.Forms.DataGridView();
-            this.btnShowHide = new System.Windows.Forms.Button();
             this.dgvRLcolVisible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgvRLcolNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolAlgorithmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +40,7 @@
             this.dgvRLcolColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolCalc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRLcolStartFinish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnShowHide = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.splContMain.Panel1.SuspendLayout();
             this.splContMain.Panel2.SuspendLayout();
@@ -127,19 +127,6 @@
             this.dgvRouteList.TabIndex = 0;
             this.dgvRouteList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseUp);
             // 
-            // btnShowHide
-            // 
-            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
-            this.btnShowHide.Name = "btnShowHide";
-            this.btnShowHide.Size = new System.Drawing.Size(764, 21);
-            this.btnShowHide.TabIndex = 0;
-            this.btnShowHide.Text = "скрыть/показать панель свойств";
-            this.btnShowHide.UseVisualStyleBackColor = false;
-            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
-            // 
             // dgvRLcolVisible
             // 
             this.dgvRLcolVisible.HeaderText = "Видимость";
@@ -186,6 +173,19 @@
             this.dgvRLcolStartFinish.HeaderText = "Старт-Финиш";
             this.dgvRLcolStartFinish.Name = "dgvRLcolStartFinish";
             this.dgvRLcolStartFinish.ReadOnly = true;
+            // 
+            // btnShowHide
+            // 
+            this.btnShowHide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowHide.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnShowHide.Location = new System.Drawing.Point(0, 2);
+            this.btnShowHide.Name = "btnShowHide";
+            this.btnShowHide.Size = new System.Drawing.Size(764, 21);
+            this.btnShowHide.TabIndex = 0;
+            this.btnShowHide.Text = "скрыть/показать панель свойств";
+            this.btnShowHide.UseVisualStyleBackColor = false;
+            this.btnShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
             // 
             // ucCitiesPainter
             // 
