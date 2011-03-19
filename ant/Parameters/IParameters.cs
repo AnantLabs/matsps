@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.Parameters
+namespace matsps.Parameters
 {
     /// <summary>
     /// Интерфейс параметров алгоритма

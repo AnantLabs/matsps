@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Collections.Generic;
+using matsps.AntAlgData;
+using matsps.NearestNeighbour;
+using matsps.Parameters;
 
-using ant.AntAlgData;
-using ant.NearestNeighbour;
-using ant.Parameters;
+using matsps.CommonData;
 
-using ant.CommonData;
-
-namespace ant
+namespace matsps
 {
     class ProcessNearestNeighbour
     {
@@ -84,7 +82,7 @@ namespace ant
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public DataCitiesCollection Cities        
+        public CitiesCollection Cities        
         {
             set;
             get;
@@ -95,7 +93,7 @@ namespace ant
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(DataCitiesCollection cities, AntParameters parameters)
+        private void Init(CitiesCollection cities, AntParameters parameters)
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -118,7 +116,7 @@ namespace ant
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(DataCitiesCollection cities, AntParameters parameters)
+        public void Start(CitiesCollection cities, AntParameters parameters)
         {
             Init(cities, parameters);
 

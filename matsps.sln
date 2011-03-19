@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C# Express 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ant", "ant\ant.csproj", "{A72E8084-405E-4F3A-80FD-9B215A06D263}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "matsps", "ant\matsps.csproj", "{A72E8084-405E-4F3A-80FD-9B215A06D263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-using ant.CommonData;
+using matsps.CommonData;
 
-namespace ant.AntAlgData
+namespace matsps.AntAlgData
 {
     class AntAlgDataAntsCollection
     {
@@ -48,7 +47,7 @@ namespace ant.AntAlgData
         #endregion
 
         #region Функции
-        public void InitAnts(DataCitiesCollection cities)     
+        public void InitAnts(CitiesCollection cities)     
         {
             if (_liAnts != null)
             {

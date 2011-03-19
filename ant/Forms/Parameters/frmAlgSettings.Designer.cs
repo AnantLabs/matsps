@@ -1,4 +1,4 @@
-﻿namespace ant.Forms.Parameters
+﻿namespace matsps.Forms.Parameters
 {
     partial class frmSelectAlgs
     {
@@ -249,7 +249,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCancel.BackgroundImage = global::ant.Properties.Resources.cancel_48;
+            this.btnCancel.BackgroundImage = global::matsps.Properties.Resources.cancel_48;
             this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(38, 253);
@@ -261,7 +261,7 @@
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStart.BackgroundImage = global::ant.Properties.Resources.accepted_48;
+            this.btnStart.BackgroundImage = global::matsps.Properties.Resources.accepted_48;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStart.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnStart.Location = new System.Drawing.Point(1, 253);

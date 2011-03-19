@@ -6,12 +6,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using ant.Forms;
-using ant.CommonData;
-using ant.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
-using ant.Parameters;                    // параметры алгоритмов
+using matsps.Forms;
+using matsps.CommonData;
+using matsps.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
+using matsps.Parameters;                    // параметры алгоритмов
 
-namespace ant
+namespace matsps
 {
     public partial class frmMain : Form
     {
@@ -32,15 +32,15 @@ namespace ant
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        private DataCitiesCollection _cities;
+        private CitiesCollection _cities;
         /// <summary>
         /// Параметры расчета алгоритма муравьиной колонии
         /// </summary>
-        private ant.Parameters.AntParameters   _paramAnt;
+        private matsps.Parameters.AntParameters   _paramAnt;
         /// <summary>
         /// Параметры расчета алгоритма Ветвей и границ
         /// </summary>
-        private ant.Parameters.BnBParameters  _paramBnB;
+        private matsps.Parameters.BnBParameters  _paramBnB;
 
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
@@ -90,7 +90,7 @@ namespace ant
         private void toolStripMenuItemParameters_Click(object sender, EventArgs e)      
         {
             // Запускаем форму настроек. Если она завершилась нажатием кнопки "ОК", применяем настройки
-            Forms.Parameters.frmSelectAlgs frmPar = new ant.Forms.Parameters.frmSelectAlgs(_paramAnt, _cities.Count);
+            Forms.Parameters.frmSelectAlgs frmPar = new matsps.Forms.Parameters.frmSelectAlgs(_paramAnt, _cities.Count);
             DialogResult res = frmPar.ShowDialog(this);
 
             switch (res)
@@ -108,7 +108,7 @@ namespace ant
         /// </summary>
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)           
         {
-            Forms.About.frmAbout ab = new ant.Forms.About.frmAbout();
+            Forms.About.frmAbout ab = new matsps.Forms.About.frmAbout();
             ab.ShowDialog(this);
         }
         #endregion
@@ -131,7 +131,7 @@ namespace ant
                 MessageBox.Show("Ошибка преобразования из текста в целое число: " + ex.Message);
                 return;
             }
-            _cities = new DataCitiesCollection(iCitiesCount);
+            _cities = new CitiesCollection(iCitiesCount);
             liRoute.Clear();
             _paramAnt.MaxCities = iCitiesCount;
             _paramAnt.MaxAnts = iCitiesCount;
@@ -163,7 +163,7 @@ namespace ant
         private void tlStrpBtnStart_Click(object sender, EventArgs e)               
         {
             // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
-            Forms.SelectAlgs.frmSelectAlgs sa = new ant.Forms.SelectAlgs.frmSelectAlgs();
+            Forms.SelectAlgs.frmSelectAlgs sa = new matsps.Forms.SelectAlgs.frmSelectAlgs();
             DialogResult res = sa.ShowDialog();
 
             switch (res)
@@ -332,7 +332,7 @@ namespace ant
                     }
                     rtxbOut.AppendText("--------------------------------------------\n");
                     // Лист последовательности городов
-                    DataCitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
+                    CitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {
@@ -373,7 +373,7 @@ namespace ant
                     }
                     rtxbOut.AppendText("\n--------------------------------------------\n");
                     // Лист последовательности городов
-                    DataCitiesCollection CitiesInPath = _pnn.ResultPath.Cities;
+                    CitiesCollection CitiesInPath = _pnn.ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.BranchAndBound.BnBAlgData
+namespace matsps.BranchAndBound.BnBAlgData
 {
     class BnBNodePath
     {

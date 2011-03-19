@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using ant.CommonData;
+using matsps.CommonData;
 
-namespace ant.Parameters
+namespace matsps.Parameters
 {
     /// <summary>
     /// Класс с параметрами расчета алгоритма Ветвей и границ

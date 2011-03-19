@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-using ant.CommonData;                   // классы совместрых данных
-using ant.BranchAndBound.BnBAlgData;    // классы с данными алгоритма
-using ant.Parameters;                   // классы параметров
+using matsps.CommonData;                   // классы совместрых данных
+using matsps.BranchAndBound.BnBAlgData;    // классы с данными алгоритма
+using matsps.Parameters;                   // классы параметров
 
 
-namespace ant.BranchAndBound.BnBAlgLogic
+namespace matsps.BranchAndBound.BnBAlgLogic
 {
     /// <summary>
     /// Процесс расчета методом Ветвей и границ
@@ -21,6 +21,11 @@ namespace ant.BranchAndBound.BnBAlgLogic
         #endregion
 
         #region Поля
+        /// <summary>
+        /// Экземпляр класса алгоритма
+        /// </summary>
+        private BranchAndBoundTravelSalesman _travelSalesmanBnB;
+
         /// <summary>
         /// Лист с отладочной информацией
         /// </summary>
@@ -49,7 +54,7 @@ namespace ant.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public DataCitiesCollection Cities          
+        public CitiesCollection Cities          
         {
             set;
             get;
@@ -91,7 +96,7 @@ namespace ant.BranchAndBound.BnBAlgLogic
         #endregion
 
         #region Методы (внутренние)
-        private void Init(DataCitiesCollection cities, IParameters parameters)      
+        private void Init(CitiesCollection cities, IParameters parameters)      
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -107,7 +112,7 @@ namespace ant.BranchAndBound.BnBAlgLogic
                 throw new Exception(ex.Message);
             }
 
-
+            _travelSalesmanBnB = new BranchAndBoundTravelSalesman();
         }
         #endregion
 
@@ -119,7 +124,7 @@ namespace ant.BranchAndBound.BnBAlgLogic
         {
             this.Start(Cities, Parameters);
         }
-        public void Start(DataCitiesCollection cities, IParameters parameters)          
+        public void Start(CitiesCollection cities, IParameters parameters)          
         {
             Init(cities, parameters);
 

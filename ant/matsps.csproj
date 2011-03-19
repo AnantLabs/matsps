@@ -8,9 +8,9 @@
     <ProjectGuid>{A72E8084-405E-4F3A-80FD-9B215A06D263}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ant</RootNamespace>
-    <AssemblyName>ant</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>matsps</RootNamespace>
+    <AssemblyName>matsps</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -29,6 +29,8 @@
     <ApplicationVersion>0.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,9 +51,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -78,8 +77,8 @@
     <Compile Include="BranchAndBound\BnBAlgData\BnBTypes.cs" />
     <Compile Include="BranchAndBound\BnBAlgLogic\BranchAndBoundTravelSalesman.cs" />
     <Compile Include="BranchAndBound\BnBAlgLogic\ProcessBranchAndBound.cs" />
-    <Compile Include="CommonData\DataCitiesCollection.cs" />
-    <Compile Include="CommonData\DataCity.cs" />
+    <Compile Include="CommonData\CitiesCollection.cs" />
+    <Compile Include="CommonData\City.cs" />
     <Compile Include="Parameters\IParameters.cs" />
     <Compile Include="CommonData\IProcessAlgorithm.cs" />
     <Compile Include="CommonData\Route.cs" />
@@ -204,6 +203,7 @@
     <None Include="Resources\icons\folder_48.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\icons\spanner_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

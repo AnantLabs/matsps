@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ant.Forms.SelectAlgs
+namespace matsps.Forms.SelectAlgs
 {
     public partial class frmSelectAlgs : Form
     {

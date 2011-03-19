@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.CommonData
+namespace matsps.CommonData
 {
     /// <summary>
     /// Класс коллекции городов
     /// </summary>
-    internal class DataCitiesCollection
+    internal class CitiesCollection
     {
         #region Конструкторы и Данные
-        public DataCitiesCollection()                             
+        public CitiesCollection()                             
         {
-            _liCities = new List<DataCity>();
+            _liCities = new List<City>();
         }
-        public DataCitiesCollection(int countCities):this()       
+        public CitiesCollection(int countCities):this()       
         {
             _iCount = countCities;
         }
@@ -26,7 +26,7 @@ namespace ant.CommonData
         /// <summary>
         /// Список городов
         /// </summary>
-        private List<DataCity> _liCities = null;
+        private List<City> _liCities = null;
 
         // Глобальные переменные
         /// <summary>
@@ -50,7 +50,7 @@ namespace ant.CommonData
         /// </summary>
         /// <param name="index">Порядковый номер города</param>
         /// <returns></returns>
-        public DataCity this[int index]       
+        public City this[int index]       
         {
             set { _liCities[index] = value; }
             get { return _liCities[index]; }
@@ -96,7 +96,7 @@ namespace ant.CommonData
                     }
                 }
 
-                _liCities.Add( new DataCity( x,y ) );
+                _liCities.Add( new City( x,y ) );
                 _liCities[i].Index = i;
             }
 
@@ -110,7 +110,7 @@ namespace ant.CommonData
         /// <summary>
         /// Добавить город в коллекцию городов
         /// </summary>
-        public void Add(DataCity city)        
+        public void Add(City city)        
         {
             _liCities.Add(city);
             _iCount++;

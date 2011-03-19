@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-using ant.Parameters;
+using matsps.Parameters;
 
-namespace ant.CommonData
+namespace matsps.CommonData
 {
     /// <summary>
     /// Интерфейс обработчиков алгоритма
@@ -16,7 +15,7 @@ namespace ant.CommonData
         /// <summary>
         /// Коллекция городов для алгоритма
         /// </summary>
-        DataCitiesCollection Cities             
+        CitiesCollection Cities             
         {
             set;
             get;
@@ -68,7 +67,7 @@ namespace ant.CommonData
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры алгоиртма</param>
-        void Start(DataCitiesCollection cities, IParameters parameters);
+        void Start(CitiesCollection cities, IParameters parameters);
                 
         #endregion
     }

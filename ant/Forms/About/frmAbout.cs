@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ant.Forms.About
+namespace matsps.Forms.About
 {
     partial class frmAbout : Form
     {
