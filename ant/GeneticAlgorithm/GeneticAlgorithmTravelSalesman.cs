@@ -24,7 +24,7 @@ namespace matsps.GeneticAlgorithm
         {
             Cities = cities;
         }
-        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, AntAlgDataParameters param)
+        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, AntParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -83,7 +83,7 @@ namespace matsps.GeneticAlgorithm
        //     get { return _BestPath; }
        // }
 
-        private AntAlgDataParameters _parameters;
+        private AntParameters _parameters;
         #endregion
 
         #region Свойства результатов расчета
@@ -131,7 +131,7 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Установить параметры алгоритма
         /// </summary>
-        public void SetParameters(AntAlgDataParameters param)
+        public void SetParameters(AntParameters param)
         {
             if (Cities != null)
             {
@@ -192,7 +192,7 @@ namespace matsps.GeneticAlgorithm
 
                     int iCurrentCity = rnd.Next(0, Cities.Count);
 
-                    DataCity city = Cities[iCurrentCity];
+                    City city = Cities[iCurrentCity];
                     city.Index = iCurrentCity;
                     ccRoute.Add(city);
                     ccRoute.MaxDistance = _parameters.MaxDistance;

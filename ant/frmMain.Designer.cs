@@ -348,7 +348,7 @@
             this.tlStrpBtnStart});
             this.toolStrip2.Location = new System.Drawing.Point(181, 21);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(85, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(116, 25);
             this.toolStrip2.TabIndex = 4;
             // 
             // tlStrpBtnSettings

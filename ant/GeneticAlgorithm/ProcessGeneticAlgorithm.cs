@@ -5,6 +5,7 @@ using System.Text;
 
 using matsps.CommonData;
 using matsps.AntAlgData;
+using matsps.Parameters;
 
 
 
@@ -41,7 +42,7 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Возвращает лист с дефолтными результатами расчета
         /// </summary>
-        public List<string> ResultList                  
+        public List<string> ResultInfo                  
         {
             get {
                 return _liResult;
@@ -73,7 +74,7 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Задает или возвращает параметры алгоритма
         /// </summary>
-        public AntAlgDataParameters Parameters          
+        public IParameters Parameters          
         {
             set;
             get;
@@ -93,13 +94,13 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(CitiesCollection cities, AntAlgDataParameters parameters)
+        private void Init(CitiesCollection cities, IParameters parameters)
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
             if (parameters == null)
                 throw new Exception("В алгоритме на определены параметры расчета");
-            travelSalesmanGA = new GeneticAlgorithmTravelSalesman(cities, parameters);
+            travelSalesmanGA = new GeneticAlgorithmTravelSalesman(cities, (AntParameters)parameters);
             travelSalesmanGA.eventProgressChanged += new EventHandler<GeneticAlgorithmChangesEventArgs>(ProgressChange);
             travelSalesmanGA.eventFinally += new EventHandler<EventArgs>(Finally);
         }
@@ -116,7 +117,7 @@ namespace matsps.GeneticAlgorithm
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(CitiesCollection cities, AntAlgDataParameters parameters)
+        public void Start(CitiesCollection cities, IParameters parameters)
         {
             this.Init(cities, parameters);
 
