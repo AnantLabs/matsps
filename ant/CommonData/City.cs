@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ant.CommonData
+namespace matsps.CommonData
 {
     /// <summary>
     /// Хранит данные о координатах города
     /// </summary>
-    class DataCity
+    class City
     {
         #region Конструктор и Данные
-        public DataCity():this(0,0)        
+        public City():this(0,0)        
         {}
-        public DataCity(int x, int y)      
+        public City(int x, int y)      
         {
             X = x;
             Y = y;

@@ -1,4 +1,4 @@
-﻿namespace ant
+﻿namespace matsps
 {
     partial class frmMain
     {
@@ -46,7 +46,7 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.ucCP = new ant.UserControls.ucCitiesPainter();
+            this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
@@ -296,7 +296,7 @@
             // tlStrpBtnSaveCities
             // 
             this.tlStrpBtnSaveCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnSaveCities.Image = global::ant.Properties.Resources.folder_48;
+            this.tlStrpBtnSaveCities.Image = global::matsps.Properties.Resources.folder_48;
             this.tlStrpBtnSaveCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnSaveCities.Name = "tlStrpBtnSaveCities";
             this.tlStrpBtnSaveCities.Size = new System.Drawing.Size(23, 22);
@@ -306,7 +306,7 @@
             // tlStrpBtnLoadCities
             // 
             this.tlStrpBtnLoadCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnLoadCities.Image = global::ant.Properties.Resources.floppy_disk_48;
+            this.tlStrpBtnLoadCities.Image = global::matsps.Properties.Resources.floppy_disk_48;
             this.tlStrpBtnLoadCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnLoadCities.Name = "tlStrpBtnLoadCities";
             this.tlStrpBtnLoadCities.Size = new System.Drawing.Size(23, 22);
@@ -354,7 +354,7 @@
             // tlStrpBtnSettings
             // 
             this.tlStrpBtnSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnSettings.Image = global::ant.Properties.Resources.spanner_48;
+            this.tlStrpBtnSettings.Image = global::matsps.Properties.Resources.spanner_48;
             this.tlStrpBtnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnSettings.Name = "tlStrpBtnSettings";
             this.tlStrpBtnSettings.Size = new System.Drawing.Size(23, 22);
@@ -428,7 +428,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHelp;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAbout;
         private System.Windows.Forms.SplitContainer splContMain;
-        private ant.UserControls.ucCitiesPainter ucCP;
+        private matsps.UserControls.ucCitiesPainter ucCP;
         private System.Windows.Forms.RichTextBox rtxbCities;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSettings;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemParameters;

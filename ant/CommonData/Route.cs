@@ -4,9 +4,9 @@ using System.Text;
 
 using System.Drawing; // для класса Color
 
-using ant.CommonData;
+using matsps.CommonData;
 
-namespace ant.CommonData
+namespace matsps.CommonData
 {
     /// <summary>
     /// параметры прорисовки маршрута
@@ -64,7 +64,7 @@ namespace ant.CommonData
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        private readonly DataCitiesCollection _cities = null;
+        private readonly CitiesCollection _cities = null;
         /// <summary>
         /// Длина маршрута
         /// </summary>
@@ -95,7 +95,7 @@ namespace ant.CommonData
         /// <summary>
         /// Конструктор
         /// </summary>
-        public Route(DataCitiesCollection cities, string name):this(name)       
+        public Route(CitiesCollection cities, string name):this(name)       
         {
             _cities = cities;
             LengthCalculation(); //расчет длинны маршрута
@@ -176,7 +176,7 @@ namespace ant.CommonData
         /// <summary>
         /// Список городов в маршруте
         /// </summary>
-        public DataCitiesCollection Cities              
+        public CitiesCollection Cities              
         {
             get { return _cities; }
         }

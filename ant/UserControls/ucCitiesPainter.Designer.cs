@@ -1,4 +1,4 @@
-﻿namespace ant.UserControls
+﻿namespace matsps.UserControls
 {
     partial class ucCitiesPainter
     {

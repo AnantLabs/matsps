@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-using ant.CommonData;
+using matsps.CommonData;
 
-namespace ant.AntAlgData
+namespace matsps.AntAlgData
 {
     /// <summary>
     /// Хранит данные о проходе одного муравья
@@ -15,12 +14,12 @@ namespace ant.AntAlgData
         #region Конструкторы и Данные
         public AntAlgDataAnt() { }
 
-        private DataCity _currCity;
-        private DataCity _nextCity;
+        private City _currCity;
+        private City _nextCity;
 
         private List<int> _liTabuIndexes;
         private int _iPathIndex;
-        private List<DataCity> _liCitiesPath;
+        private List<City> _liCitiesPath;
 
         private double _dTourLength;
         #endregion
@@ -29,7 +28,7 @@ namespace ant.AntAlgData
         /// <summary>
         /// Текущий город, где находится сейчас муравей
         /// </summary>
-        public DataCity CurrentCity            
+        public City CurrentCity            
         {
             set
             {
@@ -41,7 +40,7 @@ namespace ant.AntAlgData
         /// <summary>
         /// Следующий город, который должен посетить муравей
         /// </summary>
-        public DataCity NextCity               
+        public City NextCity               
         {
             set
             {
@@ -128,7 +127,7 @@ namespace ant.AntAlgData
         /// <param name="countCities">Количество городов</param>
         public void PathInit(int countCities)                           
         {
-            _liCitiesPath = new List<DataCity>();
+            _liCitiesPath = new List<City>();
             for (int i = 0; i < countCities; i++)
             {
                 _liCitiesPath.Add(null);
@@ -140,7 +139,7 @@ namespace ant.AntAlgData
         /// </summary>
         /// <param name="indexTabu">Индекс города</param>
         /// <param name="value">Ссылка на город</param>
-        public void PathSet(int indexPath, DataCity value)        
+        public void PathSet(int indexPath, City value)        
         {
             try
             {
@@ -157,7 +156,7 @@ namespace ant.AntAlgData
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public DataCity PathGet(int index)                        
+        public City PathGet(int index)                        
         {
             try
             {

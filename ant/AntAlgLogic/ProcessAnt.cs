@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 
-using ant.AntAlgData;               // данные алгоритма муравья
-using ant.AntAlgLogic;              // логика алгоритма Муравья
-using ant.CommonData;               // совместные данные
-using ant.Parameters;               // параметры алгоритмов
+using matsps.AntAlgData;               // данные алгоритма муравья
+using matsps.AntAlgLogic;              // логика алгоритма Муравья
+using matsps.CommonData;               // совместные данные
+using matsps.Parameters;               // параметры алгоритмов
 
-namespace ant
+namespace matsps
 {
     /// <summary>
     /// Процесс расчета методом Муравьиной колонии
@@ -90,7 +90,7 @@ namespace ant
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public DataCitiesCollection Cities        
+        public CitiesCollection Cities        
         {
             set;
             get;
@@ -102,7 +102,7 @@ namespace ant
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(DataCitiesCollection cities, IParameters parameters)         
+        private void Init(CitiesCollection cities, IParameters parameters)         
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -137,7 +137,7 @@ namespace ant
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(DataCitiesCollection cities, IParameters parameters)         
+        public void Start(CitiesCollection cities, IParameters parameters)         
         {
             Init(cities, parameters);
 

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 
-namespace ant.BranchAndBound.BnBAlgData
+namespace matsps.BranchAndBound.BnBAlgData
 {
     /// <summary>
     /// Узел дерева
@@ -30,7 +29,7 @@ namespace ant.BranchAndBound.BnBAlgData
         /// <summary>
         /// Запрещен ли узел для обхода
         /// </summary>
-        public bool Forbidden
+        public bool Forbidden                   
         {
             set;
             get;
@@ -39,7 +38,7 @@ namespace ant.BranchAndBound.BnBAlgData
         /// <summary>
         /// Коллекция узлов
         /// </summary>
-        public BnBNodesCollection Nodes
+        public BnBNodesCollection Nodes         
         {
             set;
             get;

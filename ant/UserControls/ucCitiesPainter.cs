@@ -6,11 +6,11 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using ant.AntAlgData;
-using ant.AntAlgLogic;
-using ant.CommonData;
+using matsps.AntAlgData;
+using matsps.AntAlgLogic;
+using matsps.CommonData;
 
-namespace ant.UserControls
+namespace matsps.UserControls
 {
     /// <summary>
     /// Пользовательский контрол, который прорисовывает Коллекцию городов и путь между ними (по порядку следования в коллекции)
@@ -30,7 +30,7 @@ namespace ant.UserControls
         }
 
         // Данные городов и маршрутов
-        private DataCitiesCollection _cities;
+        private CitiesCollection _cities;
 
         // Данные состояния контроллов формы
         /// <summary>
@@ -85,7 +85,7 @@ namespace ant.UserControls
         /// <summary>
         /// Коллекция городов
         /// </summary>
-        internal DataCitiesCollection Cities
+        internal CitiesCollection Cities
         {
             set
             {

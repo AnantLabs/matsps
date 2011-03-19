@@ -1,4 +1,4 @@
-﻿namespace ant.Forms.About
+﻿namespace matsps.Forms.About
 {
     partial class frmAbout
     {
@@ -138,7 +138,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::ant.Properties.Resources.imgProgrammerPaul;
+            this.pictureBox2.Image = global::matsps.Properties.Resources.imgProgrammerPaul;
             this.pictureBox2.Location = new System.Drawing.Point(2, 189);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(130, 174);
@@ -148,8 +148,8 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::ant.Properties.Resources.imgProgrammerAlex;
-            this.pictureBox1.InitialImage = global::ant.Properties.Resources.imgProgrammerAlex;
+            this.pictureBox1.Image = global::matsps.Properties.Resources.imgProgrammerAlex;
+            this.pictureBox1.InitialImage = global::matsps.Properties.Resources.imgProgrammerAlex;
             this.pictureBox1.Location = new System.Drawing.Point(2, 9);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(130, 174);

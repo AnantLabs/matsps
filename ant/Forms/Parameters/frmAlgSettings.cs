@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using ant.Parameters;           // параметры алгоритмов
+using matsps.Parameters;           // параметры алгоритмов
 
-namespace ant.Forms.Parameters
+namespace matsps.Forms.Parameters
 {
     public partial class frmSelectAlgs : Form
     {

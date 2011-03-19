@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Timers;
 
-using ant.AntAlgData;
-using ant.CommonData;
-using ant.AntAlgLogic;
+using matsps.AntAlgData;
+using matsps.CommonData;
+using matsps.AntAlgLogic;
 
-using ant.Parameters;       // классы параметров алгоритмов
+using matsps.Parameters;       // классы параметров алгоритмов
 
-namespace ant.NearestNeighbour
+namespace matsps.NearestNeighbour
 {
     class NearestNeighbourTravelSalesman
     {
@@ -20,11 +19,11 @@ namespace ant.NearestNeighbour
         {
 
         }
-        public NearestNeighbourTravelSalesman(DataCitiesCollection cities):this()       
+        public NearestNeighbourTravelSalesman(CitiesCollection cities):this()       
         {
             Cities = cities;
         }
-        public NearestNeighbourTravelSalesman(DataCitiesCollection cities, AntParameters param)
+        public NearestNeighbourTravelSalesman(CitiesCollection cities, AntParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -34,8 +33,8 @@ namespace ant.NearestNeighbour
 
 
         //private List<int> liRoute = new List<int>();
-        private DataCitiesCollection ccRoute = new DataCitiesCollection();
-        public DataCitiesCollection BestPath = new DataCitiesCollection();
+        private CitiesCollection ccRoute = new CitiesCollection();
+        public CitiesCollection BestPath = new CitiesCollection();
         private double best;
         private int bestIndex;
 
@@ -65,7 +64,7 @@ namespace ant.NearestNeighbour
         /// <summary>
         /// Возвращает или задает Коллекцию городов
         /// </summary>
-        public DataCitiesCollection Cities                        
+        public CitiesCollection Cities                        
         {
             set;
             get;
@@ -165,7 +164,7 @@ namespace ant.NearestNeighbour
                 int iCurrentCity = 0;
                 //ccRoute = new AntAlgDataCitiesCollection();
                 //Cities[iCurrentCity].Index = iCurrentCity;
-                DataCity city = Cities[iCurrentCity];
+                City city = Cities[iCurrentCity];
                 city.Index = iCurrentCity;
                 ccRoute.Add(city);
                 ccRoute.MaxDistance = _parameters.MaxDistance;
@@ -179,14 +178,14 @@ namespace ant.NearestNeighbour
                     double dCurrentDistance = double.MaxValue;
                     double dMinimum = double.MaxValue;
                     int iMinimum = -1;
-                    DataCity CityI = Cities[iCurrentCity];
+                    City CityI = Cities[iCurrentCity];
                     //CityI.Index = i;
                     for (int j = 0; j < Cities.Count; j++)
                     {
                         //if (ant.TabuGet(j) == 0 && j != i && (ccRoute.Count == 0 || PointIsNotFound(ccRoute, j)))
                         if (ant.TabuGet(j) != 1)
                         {
-                            DataCity CityJ = Cities[j];
+                            City CityJ = Cities[j];
                             // CityJ.Index = j;
 
                             dCurrentDistance = Cities.Distance[iCurrentCity, j];
@@ -202,7 +201,7 @@ namespace ant.NearestNeighbour
                     if (iMinimum != -1)
                     {
                         iCurrentCity = iMinimum;
-                        DataCity city_temp = Cities[iCurrentCity];
+                        City city_temp = Cities[iCurrentCity];
                         city_temp.Index = iCurrentCity;
                         ccRoute.Add(city_temp);
                         ant.TabuSet(iCurrentCity, 1);

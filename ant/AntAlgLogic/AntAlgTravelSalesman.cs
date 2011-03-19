@@ -5,11 +5,11 @@ using System.Text;
 using System.Timers;
 using System.Threading;     // потоки
 
-using ant.AntAlgData;           // данные для алгоритма муравья
-using ant.CommonData;           // совместные данные
-using ant.Parameters;           // параметры алгоритмов
+using matsps.AntAlgData;           // данные для алгоритма муравья
+using matsps.CommonData;           // совместные данные
+using matsps.Parameters;           // параметры алгоритмов
 
-namespace ant.AntAlgLogic
+namespace matsps.AntAlgLogic
 {
     /// <summary>
     /// Алгоритм расчета задачи коммивояжера с помощью муравьиной колонии
@@ -21,12 +21,12 @@ namespace ant.AntAlgLogic
         {
 
         }
-        public AntAlgTravelSalesman(DataCitiesCollection cities)
+        public AntAlgTravelSalesman(CitiesCollection cities)
             : this()       
         {
             Cities = cities;
         }
-        public AntAlgTravelSalesman(DataCitiesCollection cities, AntParameters param)
+        public AntAlgTravelSalesman(CitiesCollection cities, AntParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -78,7 +78,7 @@ namespace ant.AntAlgLogic
         /// <summary>
         /// Возвращает или задает Коллекцию городов
         /// </summary>
-        public DataCitiesCollection Cities                        
+        public CitiesCollection Cities                        
         {
             set;
             get;
@@ -109,11 +109,11 @@ namespace ant.AntAlgLogic
         {
             get
             {
-                DataCitiesCollection cities = new DataCitiesCollection();
+                CitiesCollection cities = new CitiesCollection();
                 cities.MaxDistance = Cities.MaxDistance;
                 for (int i = 0; i < Cities.Count; i++)
                 {
-                    DataCity newCity = new DataCity(Ants[bestIndex].PathGet(i).X, Ants[bestIndex].PathGet(i).Y);
+                    City newCity = new City(Ants[bestIndex].PathGet(i).X, Ants[bestIndex].PathGet(i).Y);
                     newCity.Index = Ants[bestIndex].PathGet(i).Index;
                     cities.Add(newCity);
                 }
@@ -465,9 +465,7 @@ namespace ant.AntAlgLogic
     }
 
 
-    //------------------------------------------------------------------
-    //          Аргументы событий изменения в алгоритме муравья
-    //------------------------------------------------------------------
+    //          Аргументы событий изменения в алгоритме муравья   
     /// <summary>
     /// Аргументы событий изменения в алгоритме муравья
     /// </summary>
