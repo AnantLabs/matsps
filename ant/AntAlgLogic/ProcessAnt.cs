@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-using ant.AntAlgData;
-using ant.AntAlgLogic;
-using ant.CommonData;
+using ant.AntAlgData;               // данные алгоритма муравья
+using ant.AntAlgLogic;              // логика алгоритма Муравья
+using ant.CommonData;               // совместные данные
+using ant.Parameters;               // параметры алгоритмов
 
 namespace ant
 {
     /// <summary>
-    /// Процесс расчета
+    /// Процесс расчета методом Муравьиной колонии
     /// </summary>
-    class ProcessAnt
+    class ProcessAnt : IProcessAlgorithm
     {
         #region Конструкторы и Данные
 
@@ -49,7 +49,7 @@ namespace ant
         /// <summary>
         /// Возвращает лист с дефолтными результатами расчета
         /// </summary>
-        public List<string> ResultList                  
+        public List<string> ResultInfo                  
         {
             get {
                 return _liResult;
@@ -59,7 +59,7 @@ namespace ant
         /// <summary>
         /// Возвращает коллекцию городов, расположенных в порядке лучшего пути
         /// </summary>
-        public Route ResultPath    
+        public Route ResultPath                         
         {
             get
             {
@@ -81,7 +81,7 @@ namespace ant
         /// <summary>
         /// Задает или возвращает параметры алгоритма
         /// </summary>
-        public AntAlgDataParameters Parameters          
+        public IParameters Parameters          
         {
             set;
             get;
@@ -98,35 +98,46 @@ namespace ant
         #endregion
 
 
-        #region Методы
+        #region Методы (внутренние)
         /// <summary>
         /// Инициализируем данные
         /// </summary>
-        private void Init(DataCitiesCollection cities, AntAlgDataParameters parameters)         
+        private void Init(DataCitiesCollection cities, IParameters parameters)         
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
             if (parameters == null)
                 throw new Exception("В алгоритме на определены параметры расчета");
-            travelSalesmanAnt = new AntAlgTravelSalesman(cities, parameters);
+
+            try
+            {
+                Parameters = (AntParameters)parameters;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            travelSalesmanAnt = new AntAlgTravelSalesman(cities, (AntParameters)Parameters);
             travelSalesmanAnt.eventProgressChanged += new EventHandler<AntAlgChangesEventArgs>(ProgressChange);
             travelSalesmanAnt.eventFinally += new EventHandler<EventArgs>(Finally);
         }
+        #endregion
 
+        #region Методы (внешние)
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
-        public void Start()                                                                                 
+        public void Start()                                                                     
         {
             this.Start(Cities, Parameters);
-            
+
         }
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(DataCitiesCollection cities, AntAlgDataParameters parameters)               
+        public void Start(DataCitiesCollection cities, IParameters parameters)         
         {
             Init(cities, parameters);
 
@@ -138,7 +149,7 @@ namespace ant
         /// <summary>
         /// Продолжить алгоритм расчета
         /// </summary>
-        public void Continue()
+        public void Continue()                                                                  
         {
             travelSalesmanAnt.CalculateContinue();
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BranchesAndBounds.BnBAlgData
+namespace ant.BranchAndBound.BnBAlgData
 {
     /// <summary>
     /// Коллекция узлов

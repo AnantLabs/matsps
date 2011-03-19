@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using ant.Parameters;           // параметры алгоритмов
+
 namespace ant.Forms.Parameters
 {
     public partial class frmSelectAlgs : Form
@@ -19,7 +21,8 @@ namespace ant.Forms.Parameters
             InitializeComponent();
         }
 
-        internal frmSelectAlgs(ant.AntAlgData.AntAlgDataParameters param):this()
+        internal frmSelectAlgs(AntParameters param)
+            : this()
         {
             _parameters = param;
 
@@ -27,7 +30,7 @@ namespace ant.Forms.Parameters
             SetDataToControls();
         }
 
-        internal frmSelectAlgs(ant.AntAlgData.AntAlgDataParameters param, int citiesCount):this(param)
+        internal frmSelectAlgs(AntParameters param, int citiesCount):this(param)
         {
             _iCitiesCount = citiesCount;
 
@@ -38,7 +41,7 @@ namespace ant.Forms.Parameters
         /// <summary>
         /// Изменяемые параметры алгоритма
         /// </summary>
-        private ant.AntAlgData.AntAlgDataParameters _parameters;
+        private AntParameters _parameters;
 
         /// <summary>
         /// Количество городов
@@ -139,7 +142,7 @@ namespace ant.Forms.Parameters
         /// Получить параметры
         /// </summary>
         /// <returns></returns>
-        internal ant.AntAlgData.AntAlgDataParameters GetParameters()                    
+        internal AntParameters GetParameters()                    
         {
             SetControlsToData();
 

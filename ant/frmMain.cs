@@ -8,6 +8,8 @@ using System.Windows.Forms;
 
 using ant.Forms;
 using ant.CommonData;
+using ant.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
+using ant.Parameters;                    // параметры алгоритмов
 
 namespace ant
 {
@@ -19,7 +21,8 @@ namespace ant
             InitializeComponent();
 
             // Начальная инициализация параметров расчета. Используются параметры по умолчанию.
-            _paramAnt = new ant.AntAlgData.AntAlgDataParameters();
+            _paramAnt = new AntParameters();
+            _paramBnB = new BnBParameters();
 
             // Отправляем ссылку на Лист Маршрутов контроллу прорисовки
             liRoute = new List<Route>();
@@ -31,18 +34,26 @@ namespace ant
         /// </summary>
         private DataCitiesCollection _cities;
         /// <summary>
-        /// Параметры расчета
+        /// Параметры расчета алгоритма муравьиной колонии
         /// </summary>
-        private AntAlgData.AntAlgDataParameters     _paramAnt;
+        private ant.Parameters.AntParameters   _paramAnt;
+        /// <summary>
+        /// Параметры расчета алгоритма Ветвей и границ
+        /// </summary>
+        private ant.Parameters.BnBParameters  _paramBnB;
 
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
         /// </summary>
-        private ProcessAnt                  _prAnt;
+        private ProcessAnt                      _prAnt;
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Ближайшего соседа
         /// </summary>
-        private ProcessNearestNeighbour     _pnn;
+        private ProcessNearestNeighbour         _pnn;
+        /// <summary>       
+        /// /// Обрабочик алгоритма расчета по методу Ветвей и границ
+        /// </summary>
+        private ProcessBranchAndBound           _prBnB;
 
         /// <summary>
         /// Лист расчитанных маршрутов. Все расчитанные маршруты за текущую сессию, помещаются сюда.
@@ -159,17 +170,19 @@ namespace ant
             {
                 case DialogResult.OK:
                     {
-                        List<int> selectList = sa.getSelectList();//список выбранных алгоритмов                        
+                        List<bool> selectList = sa.getSelectList();//список выбранных алгоритмов                        
                         int iCount = selectList.Count; //количество выбранных алгоритмов
 
                         //Последовательный запуск выбранных алгоритмов
 
-                        if (selectList[0] == 1)
-                            AntAlgStart(); //запуск алгоритма муравьиной колонии
+                        if (selectList[0])
+                            AntAlgStart();              //запуск алгоритма муравьиной колонии
 
-                        if (selectList[1] == 1)
-                            NearestNeighbourStart(); //запуск алгоритма соседа
+                        if (selectList[1])
+                            NearestNeighbourStart();    //запуск алгоритма соседа
 
+                        if (selectList[2])
+                            BranchAndBoundStart();    //запуск алгоритма соседа
                     }
                     break;
             }
@@ -242,6 +255,32 @@ namespace ant
 
         }
 
+
+        /// <summary>
+        /// Начать расчет методом Ветвей и границ
+        /// </summary>
+        private void BranchAndBoundStart()
+        {
+            // АЛГОРИТМ
+            if (_prBnB == null)
+            {
+                // Интерфейс
+                toolSTLProgress.Visible = true;
+                ToolStripProgress.Visible = true;
+                toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
+                tlStrpTxbCitiesCount.Enabled = false;
+                //tlStrpBtnAntAlgStart.Enabled = false;
+                tlStrpBtnCreateRandomCities.Enabled = false;
+
+                _prBnB = new ProcessBranchAndBound();
+                //_prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+                //_prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+                _prBnB.Parameters = _paramBnB;
+                _prBnB.Cities = _cities;
+                //_prAnt.Start();
+                _prBnB.Start();
+            }
+        }
         #endregion
 
         #region События алгоритмов
@@ -286,7 +325,7 @@ namespace ant
                 {
                     // РЕЗУЛЬТАТЫ
                     // Лист результатов по времени
-                    List<string> listr = _prAnt.ResultList;
+                    List<string> listr = _prAnt.ResultInfo;
                     foreach (string str in listr)
                     {
                         rtxbOut.AppendText(str);

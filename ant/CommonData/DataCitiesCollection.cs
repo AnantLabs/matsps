@@ -7,7 +7,7 @@ namespace ant.CommonData
     /// <summary>
     /// Класс коллекции городов
     /// </summary>
-    class DataCitiesCollection
+    internal class DataCitiesCollection
     {
         #region Конструкторы и Данные
         public DataCitiesCollection()                             

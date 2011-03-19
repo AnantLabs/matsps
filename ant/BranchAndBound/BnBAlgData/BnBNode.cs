@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace BranchesAndBounds.BnBAlgData
+namespace ant.BranchAndBound.BnBAlgData
 {
     /// <summary>
     /// Узел дерева
