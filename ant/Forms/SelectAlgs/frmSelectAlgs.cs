@@ -15,7 +15,7 @@ namespace matsps.Forms.SelectAlgs
         /// <summary>
         /// Список выбранных алгоритмов
         /// </summary>
-        private List<bool> _selectList = null;
+        private  List<bool> _selectList = null;
 
         #endregion
 
@@ -53,7 +53,6 @@ namespace matsps.Forms.SelectAlgs
 
             //Настройка узлов дерева
             treeViewSelectAlgs.Nodes[0].Expand(); //разворачиваем главный узел
-            //treeViewSelectAlgs.Nodes[0].Checked = true; // по умолчанию отмечены все
         }
 
         /// <summary>

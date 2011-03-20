@@ -197,7 +197,7 @@ namespace matsps.UserControls
         #endregion
 
         #region Методы(внутренние) | New
-        // <summary>
+        /// <summary>
         /// обновляем список расчитанных маршрутов в dataGridView
         /// </summary>
         private void UpdateDgvRouteList()                                   
@@ -330,6 +330,14 @@ namespace matsps.UserControls
         {
             // Обновляем Лист Маршрутов  dataGridView
             UpdateDgvRouteList();
+        }
+        /// <summary>
+        /// Очищает лист маршрутов и DataGridView
+        /// </summary>
+        public void ClearDgvRouteList()
+        {
+            ListRoute.Clear();
+            dgvRouteList.Rows.Clear();
         }
         #endregion
 
