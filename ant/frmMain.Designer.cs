@@ -49,8 +49,8 @@
             this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
             this.tlStrpBtnLoadCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpTxbCitiesCount = new System.Windows.Forms.ToolStripTextBox();
             this.tlStrpBtnCreateRandomCities = new System.Windows.Forms.ToolStripButton();
@@ -111,7 +111,7 @@
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(27, 17);
+            this.toolSTLInfo.Size = new System.Drawing.Size(28, 17);
             this.toolSTLInfo.Text = "Info";
             // 
             // menuStrip1
@@ -235,6 +235,14 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
+            // 
             // tlStrpMainContainer
             // 
             // 
@@ -281,7 +289,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(216, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(185, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -342,7 +350,7 @@
             this.tlStrpBtnStart});
             this.toolStrip2.Location = new System.Drawing.Point(181, 21);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(116, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(89, 25);
             this.toolStrip2.TabIndex = 4;
             // 
             // tlStrpBtnSettings
@@ -371,14 +379,6 @@
             this.tlStrpBtnStart.Text = "Расчет";
             this.tlStrpBtnStart.ToolTipText = "Выбор алгоритмов для расчета";
             this.tlStrpBtnStart.Click += new System.EventHandler(this.tlStrpBtnStart_Click);
-            // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
             // 
             // frmMain
             // 
