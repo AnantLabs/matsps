@@ -63,6 +63,10 @@ namespace matsps.CommonData
         {
             get { return _liCities.Count; }
         }
+        public List<City> Cities
+        {
+            get { return _liCities; }
+        }
         #endregion
 
         #region Методы
@@ -114,6 +118,12 @@ namespace matsps.CommonData
         {
             _liCities.Add(city);
             _iCount++;
+            InitDistance();
+        }
+        public void RemoveAll()
+        {
+            _liCities.Clear();
+            _iCount = 0;
             InitDistance();
         }
         #endregion
