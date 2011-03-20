@@ -459,48 +459,42 @@ namespace matsps
         }
 
         private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)
-        {
+        {           
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
 
             if ( DialogOpen.ShowDialog() == DialogResult.OK)
             {
                 _cities.RemoveAll();
-               //_cities.MaxDistance = _paramAnt.MaxDistance;
                 string sFileName = DialogOpen.FileName; //Получаем имя файла
+                StreamReader sr = null;
                 try
                 {
-                    // Create an instance of StreamReader to read from a file.
-                    // The using statement also closes the StreamReader.
-                    using (StreamReader sr = new StreamReader(sFileName))
+                    sr = new StreamReader(sFileName);
+                    String line;
+                    string[] param; //массив координат записи (x,y)
+                    int i=0;
+
+                    while ((line = sr.ReadLine()) != "")
                     {
-                        String line;
-                        // Read and display lines from the file until the end of
-                        // the file is reached.
-                        string[] param; //массив координат записи (x,y)
-                        int i=0;
-                        while ((line = sr.ReadLine()) != "")
-                        {
-                            param = Regex.Split(line, "\t");
-                            int PosX = Convert.ToInt32(param[0]);
-                            int PosY = Convert.ToInt32(param[1]);
-                            _cities.Add(new City(PosX,PosY));
-                            _cities[i].Index = i;
-                            i++;
-                        }
+                        param = Regex.Split(line, "\t");
+                        int PosX = Convert.ToInt32(param[0]);
+                        int PosY = Convert.ToInt32(param[1]);
+                        _cities.Add(new City(PosX,PosY));
+                        _cities[i].Index = i;
+                        i++;
                     }
                 }
-                catch (Exception ex)
+                catch (IOException fe)
                 {
-                    // Let the user know what went wrong.
-                    //Console.WriteLine("The file could not be read:");
-                    //Console.WriteLine(e.Message);
+                    string sDir = Directory.GetCurrentDirectory();
+                    string s = Path.Combine(sDir, sFileName);
+                    MessageBox.Show("Ошибка в " + s + ".  " + fe.Message);
                 }
                 // Прорисовка городов
                 ucCP.Cities = _cities;
-                //ucCP.PaintCities();
-                ucCP.RefreshRoutePaint();
-                ucCP.RefreshRouteList();
+                ucCP.ClearDgvRouteList(); //Очищает лист маршрутов и DataGridView
+                ucCP.RefreshRoutePaint(); //Перерисовывает маршруты
             }
         }
     }
