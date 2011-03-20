@@ -5,6 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Data;
+using System.Text.RegularExpressions;
 
 using matsps.Forms;
 using matsps.CommonData;
@@ -404,5 +407,101 @@ namespace matsps
 
         }
         #endregion
+
+        private void tlStrpBtnSaveCities_Click(object sender, EventArgs e)
+        {
+            // Создаем новый файловый диалог
+            SaveFileDialog DialogSave = new SaveFileDialog();
+            // Задаем расширение файла по умолчангию
+            DialogSave.DefaultExt = "txt";
+            //Формируем название файла
+            DialogSave.FileName = "matsps_" + String.Format("{0:0000}", _cities.Count) + "_" + String.Format("{0:yyyy.MM.dd-HH.mm.ss}", DateTime.Now);
+            // Задаема доступные расширения файлов
+            DialogSave.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
+            // Разрешаем автоматическое добавление расширения файла
+            DialogSave.AddExtension = true;
+            // Разрешаем восстановление текущей папки перед закрытием
+            DialogSave.RestoreDirectory = true;
+            // Заголовог диалога
+            DialogSave.Title = "Вы хотите сохранить файл?";
+            // Дириктория по умолчанию
+            DialogSave.InitialDirectory = @"C:/";
+
+            // Показать диалоговое окно
+            if (DialogSave.ShowDialog() == DialogResult.OK)
+            {
+                int Count = _cities.Count;  //количество городов
+                string text="";             //обнуляем строку
+                for (int i = 0; i < Count; i++)
+                {
+                    string posX = _cities.Cities[i].X.ToString(); //координата X
+                    string posY = _cities.Cities[i].Y.ToString(); //координата Y
+                    text += posX + "\t" + posY + "\r\n";
+                }
+
+                string sFileName = DialogSave.FileName; //Получаем имя файла
+                StreamWriter sw = null;
+                try
+                {
+                    FileStream fs = File.Create(sFileName); //Создаем файл с заданным именем                               
+                    sw = new StreamWriter(fs);
+                    sw.WriteLine(text);   //записываем текст в файл
+                }
+                catch (IOException fe)
+                {
+                    string sDir = Directory.GetCurrentDirectory();
+                    string s = Path.Combine(sDir, sFileName);
+                    MessageBox.Show("Ошибка в " + s + ".  " + fe.Message);
+                }
+                    sw.Close();  //закрываем файл
+            }
+
+        }
+
+        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)
+        {
+            // Создаем новый файловый диалог
+            OpenFileDialog DialogOpen = new OpenFileDialog();
+
+            if ( DialogOpen.ShowDialog() == DialogResult.OK)
+            {
+                _cities.RemoveAll();
+               //_cities.MaxDistance = _paramAnt.MaxDistance;
+                string sFileName = DialogOpen.FileName; //Получаем имя файла
+                try
+                {
+                    // Create an instance of StreamReader to read from a file.
+                    // The using statement also closes the StreamReader.
+                    using (StreamReader sr = new StreamReader(sFileName))
+                    {
+                        String line;
+                        // Read and display lines from the file until the end of
+                        // the file is reached.
+                        string[] param; //массив координат записи (x,y)
+                        int i=0;
+                        while ((line = sr.ReadLine()) != "")
+                        {
+                            param = Regex.Split(line, "\t");
+                            int PosX = Convert.ToInt32(param[0]);
+                            int PosY = Convert.ToInt32(param[1]);
+                            _cities.Add(new City(PosX,PosY));
+                            _cities[i].Index = i;
+                            i++;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Let the user know what went wrong.
+                    //Console.WriteLine("The file could not be read:");
+                    //Console.WriteLine(e.Message);
+                }
+                // Прорисовка городов
+                ucCP.Cities = _cities;
+                //ucCP.PaintCities();
+                ucCP.RefreshRoutePaint();
+                ucCP.RefreshRouteList();
+            }
+        }
     }
 }
