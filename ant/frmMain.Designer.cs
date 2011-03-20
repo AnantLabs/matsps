@@ -46,11 +46,10 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
             this.tlStrpBtnLoadCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpTxbCitiesCount = new System.Windows.Forms.ToolStripTextBox();
             this.tlStrpBtnCreateRandomCities = new System.Windows.Forms.ToolStripButton();
@@ -58,6 +57,7 @@
             this.tlStrpBtnSettings = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpBtnStart = new System.Windows.Forms.ToolStripButton();
+            this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
@@ -111,7 +111,7 @@
             // toolSTLInfo
             // 
             this.toolSTLInfo.Name = "toolSTLInfo";
-            this.toolSTLInfo.Size = new System.Drawing.Size(27, 17);
+            this.toolSTLInfo.Size = new System.Drawing.Size(28, 17);
             this.toolSTLInfo.Text = "Info";
             // 
             // menuStrip1
@@ -132,13 +132,13 @@
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemExit});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(45, 20);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItemFile.Text = "Файл";
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItemExit.Text = "Выход";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
@@ -147,13 +147,13 @@
             this.toolStripMenuItemSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemParameters});
             this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(73, 20);
+            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(79, 20);
             this.toolStripMenuItemSettings.Text = "Настройки";
             // 
             // toolStripMenuItemParameters
             // 
             this.toolStripMenuItemParameters.Name = "toolStripMenuItemParameters";
-            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(131, 22);
+            this.toolStripMenuItemParameters.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItemParameters.Text = "Параметры";
             this.toolStripMenuItemParameters.ToolTipText = "Параметры алгоритмов";
             this.toolStripMenuItemParameters.Click += new System.EventHandler(this.toolStripMenuItemParameters_Click);
@@ -163,14 +163,14 @@
             this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAbout});
             this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(62, 20);
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(65, 20);
             this.toolStripMenuItemHelp.Text = "Справка";
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(138, 22);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(149, 22);
             this.toolStripMenuItemAbout.Text = "О программе";
             this.toolStripMenuItemAbout.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
@@ -235,14 +235,6 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
-            this.ucCP.TabIndex = 0;
-            // 
             // tlStrpMainContainer
             // 
             // 
@@ -281,37 +273,39 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tlStrpBtnSaveCities,
             this.tlStrpBtnLoadCities,
+            this.tlStrpBtnSaveCities,
             this.toolStripSeparator1,
             this.tlStrpTxbCitiesCount,
             this.tlStrpBtnCreateRandomCities});
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(181, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(216, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // tlStrpBtnSaveCities
-            // 
-            this.tlStrpBtnSaveCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnSaveCities.Image = global::matsps.Properties.Resources.folder_48;
-            this.tlStrpBtnSaveCities.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tlStrpBtnSaveCities.Name = "tlStrpBtnSaveCities";
-            this.tlStrpBtnSaveCities.Size = new System.Drawing.Size(23, 22);
-            this.tlStrpBtnSaveCities.Text = "toolStripButton1";
-            this.tlStrpBtnSaveCities.ToolTipText = "Сохранить текущие города в файл";
             // 
             // tlStrpBtnLoadCities
             // 
             this.tlStrpBtnLoadCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnLoadCities.Image = global::matsps.Properties.Resources.floppy_disk_48;
+            this.tlStrpBtnLoadCities.Image = global::matsps.Properties.Resources.folder_48;
             this.tlStrpBtnLoadCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnLoadCities.Name = "tlStrpBtnLoadCities";
             this.tlStrpBtnLoadCities.Size = new System.Drawing.Size(23, 22);
-            this.tlStrpBtnLoadCities.Text = "toolStripButton2";
+            this.tlStrpBtnLoadCities.Text = "toolStripButton1";
             this.tlStrpBtnLoadCities.ToolTipText = "Загрузить города из файла";
+            this.tlStrpBtnLoadCities.Click += new System.EventHandler(this.tlStrpBtnLoadCities_Click);
+            // 
+            // tlStrpBtnSaveCities
+            // 
+            this.tlStrpBtnSaveCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlStrpBtnSaveCities.Image = global::matsps.Properties.Resources.floppy_disk_48;
+            this.tlStrpBtnSaveCities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnSaveCities.Name = "tlStrpBtnSaveCities";
+            this.tlStrpBtnSaveCities.Size = new System.Drawing.Size(23, 22);
+            this.tlStrpBtnSaveCities.Text = "toolStripButton2";
+            this.tlStrpBtnSaveCities.ToolTipText = "Сохранить  города в файл";
+            this.tlStrpBtnSaveCities.Click += new System.EventHandler(this.tlStrpBtnSaveCities_Click);
             // 
             // toolStripSeparator1
             // 
@@ -334,7 +328,7 @@
             this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
             this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
-            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(93, 22);
+            this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(95, 22);
             this.tlStrpBtnCreateRandomCities.Text = "Создать города";
             this.tlStrpBtnCreateRandomCities.ToolTipText = "Создать заданное количество городов со случаными координатами";
             this.tlStrpBtnCreateRandomCities.Click += new System.EventHandler(this.tlStrpBtnCreateRandomCities_Click);
@@ -348,7 +342,7 @@
             this.tlStrpBtnStart});
             this.toolStrip2.Location = new System.Drawing.Point(181, 21);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(85, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(89, 25);
             this.toolStrip2.TabIndex = 4;
             // 
             // tlStrpBtnSettings
@@ -373,10 +367,18 @@
             this.tlStrpBtnStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnStart.Image")));
             this.tlStrpBtnStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnStart.Name = "tlStrpBtnStart";
-            this.tlStrpBtnStart.Size = new System.Drawing.Size(46, 22);
+            this.tlStrpBtnStart.Size = new System.Drawing.Size(48, 22);
             this.tlStrpBtnStart.Text = "Расчет";
             this.tlStrpBtnStart.ToolTipText = "Выбор алгоритмов для расчета";
             this.tlStrpBtnStart.Click += new System.EventHandler(this.tlStrpBtnStart_Click);
+            // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -441,8 +443,8 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripTextBox tlStrpTxbCitiesCount;
         private System.Windows.Forms.ToolStripButton tlStrpBtnCreateRandomCities;
-        private System.Windows.Forms.ToolStripButton tlStrpBtnSaveCities;
         private System.Windows.Forms.ToolStripButton tlStrpBtnLoadCities;
+        private System.Windows.Forms.ToolStripButton tlStrpBtnSaveCities;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton tlStrpBtnStart;
