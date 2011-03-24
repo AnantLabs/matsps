@@ -105,7 +105,7 @@ namespace matsps.AntAlgLogic
         /// <summary>
         /// Коллекция с лучшим маршрутом
         /// </summary>
-        public Route BestPath                          
+        public CitiesCollection BestPath                          
         {
             get
             {
@@ -117,9 +117,9 @@ namespace matsps.AntAlgLogic
                     newCity.Index = Ants[bestIndex].PathGet(i).Index;
                     cities.Add(newCity);
                 }
-                Route route = new Route(cities,"муравьиной колонии");
+                //Route route = new Route(cities,"муравьиной колонии");
 
-                return route;
+                return cities;
             }
         }
         #endregion
