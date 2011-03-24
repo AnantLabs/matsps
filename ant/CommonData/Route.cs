@@ -145,12 +145,6 @@ namespace matsps.CommonData
             get { return _name; }
         }
 
-        public Drawing Drawing2                         
-        {
-            set;
-            get;
-        }
-
         ///// <summary>
         ///// Доступ к городу маршрута по индексу
         ///// </summary>

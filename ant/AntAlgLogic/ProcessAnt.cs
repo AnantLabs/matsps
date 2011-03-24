@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using System.ComponentModel;
 
 using matsps.AntAlgData;               // данные алгоритма муравья
@@ -11,11 +12,61 @@ using matsps.Parameters;               // параметры алгоритмо�
 namespace matsps
 {
     /// <summary>
+    /// параметры прорисовки алгоритма муравьиной колонии
+    /// </summary>
+    struct Drawing
+    {
+        #region Свойства
+        /// <summary>
+        /// видимость маршрута
+        /// </summary>
+        public bool Visible
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// цвет прорисовки
+        /// </summary>
+        public Color Color
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// прозрачность
+        /// </summary>
+        public int Opacity
+        {
+            set
+            {
+                _opacity = value;
+                if (_opacity < 0 || _opacity > 100)
+                    throw new Exception("неверно задана прозрачность");
+            }
+            get { return _opacity; }
+        }
+        #endregion
+
+        #region Поля
+        /// <summary>
+        /// прозрачность
+        /// </summary>
+        private int _opacity;
+
+        #endregion
+    };
+    /// <summary>
     /// Процесс расчета методом Муравьиной колонии
     /// </summary>
     class ProcessAnt : IProcessAlgorithm
     {
         #region Конструкторы и Данные
+
+        /// <summary>
+        /// параметры прорисовки маршрута
+        /// </summary>
+        public Drawing Drawing;
 
         public delegate void ProgressChanged(int value);        
         public event ProgressChanged eventProgressChanged;     
@@ -168,7 +219,16 @@ namespace matsps
         {
             // Результаты
             _liResult = travelSalesmanAnt.ListTimeRoute;
-            _bestPath = travelSalesmanAnt.BestPath;            
+            //_bestPath = travelSalesmanAnt.BestPath;            
+            Route path = new Route(travelSalesmanAnt.BestPath, "муравьиной колонии"); ;
+            _bestPath = path;
+            //_bestPath.Drawing = this.Drawing;
+            
+            //Копирование параметров прорисовки
+            _bestPath.Drawing.Color = this.Drawing.Color;
+            _bestPath.Drawing.Opacity = this.Drawing.Opacity;
+            _bestPath.Drawing.Visible = this.Drawing.Visible;
+            //
 
             _tsProcessTime = DateTime.Now - timeStart;
             _bestPath.СalcTime = _tsProcessTime;

@@ -13,7 +13,11 @@ namespace matsps
     {
 
         #region Конструкторы и Данные
-
+        
+/// <summary>
+        /// параметры прорисовки маршрута
+        /// </summary>
+        public Drawing Drawing;
         public delegate void ProgressChanged(int value);
         public event ProgressChanged eventProgressChanged;
   
@@ -146,6 +150,11 @@ namespace matsps
             _liResult = travelSalesmanNN.ListTimeRoute;
             Route path = new Route( travelSalesmanNN.BestPath,"ближайшего соседа");
             _bestPath = path;
+
+            //Копирование параметров прорисовки
+            _bestPath.Drawing.Color = this.Drawing.Color;
+            _bestPath.Drawing.Opacity = this.Drawing.Opacity;
+            _bestPath.Drawing.Visible = this.Drawing.Visible;
 
             _tsProcessTime = DateTime.Now - timeStart;
 
