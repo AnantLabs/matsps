@@ -17,10 +17,12 @@ namespace matsps.CommonData
         {
             _dRouteLength = 0;
             _route = null;
-            for (int i = 0; i < Route.Cities.Count; i++)
-            {
-                _liTaboo.Add(false);// первоначальное заполнение нулями
-            }
+           // Маршрута-то ещё нет!
+           // for (int i = 0; i < Route.Cities.Count; i++)
+           // {
+           //     _liTaboo.Add(false);// первоначальное заполнение нулями
+           // }
+
         }
 
         #endregion
@@ -55,6 +57,61 @@ namespace matsps.CommonData
         #endregion
 
         #region Методы
+
+        /// <summary>
+        /// Инициализировать список Табу
+        /// </summary>
+        public void TabooInit()
+       {
+            try
+            {
+                if(Route == null)
+                { 
+                    throw new Exception("В Агенте не задан маршрут!");
+                }
+                if (_liTaboo.Count > 0)
+                { 
+                    _liTaboo.Clear(); 
+                }
+                for (int i = 0; i < Route.Cities.Count; i++)
+                {
+                    _liTaboo.Add(false);// первоначальное заполнение нулями
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Инициализировать список Табу
+        /// </summary>
+        /// <param name="CitiesCount">Количество городов</param>
+        public void TabooInit(int CitiesCount)
+        {
+            try
+            {
+                //if (_liTaboo != null)
+                //{
+                //    if (_liTaboo.Count > 0)
+                //    { _liTaboo.Clear(); }
+                //}
+                //else
+                //{
+
+                //}
+                _liTaboo = new List<bool>();
+                for (int i = 0; i < CitiesCount; i++)
+                {
+                    _liTaboo.Add(false);// первоначальное заполнение нулями
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
+      }
 
         /// <summary>
         /// Установить Табу для определённого города
