@@ -100,7 +100,7 @@ namespace matsps.GeneticAlgorithm
                 throw new Exception("В алгоритме на определены города");
             if (parameters == null)
                 throw new Exception("В алгоритме на определены параметры расчета");
-            travelSalesmanGA = new GeneticAlgorithmTravelSalesman(cities, (AntParameters)parameters);
+            travelSalesmanGA = new GeneticAlgorithmTravelSalesman(cities, (GAParameters)parameters);
             travelSalesmanGA.eventProgressChanged += new EventHandler<GeneticAlgorithmChangesEventArgs>(ProgressChange);
             travelSalesmanGA.eventFinally += new EventHandler<EventArgs>(Finally);
         }

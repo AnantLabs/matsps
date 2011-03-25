@@ -6,12 +6,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Data;
 using System.Text.RegularExpressions;
 
 using matsps.Forms;
 using matsps.CommonData;
 using matsps.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
+using matsps.GeneticAlgorithm;
 using matsps.Parameters;                    // параметры алгоритмов
 
 namespace matsps
@@ -26,6 +26,7 @@ namespace matsps
             // Начальная инициализация параметров расчета. Используются параметры по умолчанию.
             _paramAnt = new AntParameters();
             _paramBnB = new BnBParameters();
+            _paramGA  = new GAParameters();
 
             // Отправляем ссылку на Лист Маршрутов контроллу прорисовки
             liRoute = new List<Route>();
@@ -39,11 +40,15 @@ namespace matsps
         /// <summary>
         /// Параметры расчета алгоритма муравьиной колонии
         /// </summary>
-        private matsps.Parameters.AntParameters   _paramAnt;
+        private matsps.Parameters.AntParameters _paramAnt;
         /// <summary>
         /// Параметры расчета алгоритма Ветвей и границ
         /// </summary>
-        private matsps.Parameters.BnBParameters  _paramBnB;
+        private matsps.Parameters.BnBParameters _paramBnB;
+        /// <summary>
+        /// Параметры расчета Генетического алгоритма
+        /// </summary>
+        private matsps.Parameters.GAParameters  _paramGA;
 
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Муравьиной колонии
@@ -52,11 +57,15 @@ namespace matsps
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Ближайшего соседа
         /// </summary>
-        private ProcessNearestNeighbour         _pnn;
+        private ProcessNearestNeighbour         _prNN;
         /// <summary>       
-        /// /// Обрабочик алгоритма расчета по методу Ветвей и границ
+        /// Обрабочик алгоритма расчета по методу Ветвей и границ
         /// </summary>
         private ProcessBranchAndBound           _prBnB;
+        /// <summary>       
+        /// Обрабочик алгоритма расчета Генетического алгоритма
+        /// </summary>
+        private ProcessGeneticAlgorithm         _pGA;
 
         /// <summary>
         /// Лист расчитанных маршрутов. Все расчитанные маршруты за текущую сессию, помещаются сюда.
@@ -186,6 +195,8 @@ namespace matsps
 
                         if (selectList[2])
                             BranchAndBoundStart();    //запуск алгоритма соседа
+                        if (selectList[3]) 
+                            GeneticAlgorithmStart();  // запуск генетического алгоритма
                     }
                     break;
             }
@@ -224,7 +235,7 @@ namespace matsps
         {
 
             // АЛГОРИТМ
-            if (_pnn == null)
+            if (_prNN == null)
             {
                 // Интерфейс
                 //ucCP.RouteLengthTextOut("");
@@ -235,12 +246,12 @@ namespace matsps
                 //tsbNearestNeighbour.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _pnn = new ProcessNearestNeighbour();
-                _pnn.eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
-                _pnn.eventFinally += new EventHandler<EventArgs>(PNNFinally);
-                _pnn.Parameters = _paramAnt;
-                _pnn.Cities = _cities;
-                _pnn.Start();
+                _prNN = new ProcessNearestNeighbour();
+                _prNN.eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
+                _prNN.eventFinally += new EventHandler<EventArgs>(PNNFinally);
+                _prNN.Parameters = _paramAnt;
+                _prNN.Cities = _cities;
+                _prNN.Start();
             }
             //toolSTLInfo.Text = "";
 
@@ -258,11 +269,10 @@ namespace matsps
 
         }
 
-
         /// <summary>
         /// Начать расчет методом Ветвей и границ
         /// </summary>
-        private void BranchAndBoundStart()
+        private void BranchAndBoundStart()                      
         {
             // АЛГОРИТМ
             if (_prBnB == null)
@@ -284,6 +294,32 @@ namespace matsps
                 _prBnB.Start();
             }
         }
+
+        /// <summary>
+        /// Начать расчёт с помощью Генетического алгоритма
+        /// </summary>
+        private void GeneticAlgorithmStart()
+        {
+            // АЛГОРИТМ
+            if (_pGA == null)
+            {
+                // Интерфейс
+                //ucCP.RouteLengthTextOut("");
+                toolSTLProgress.Visible = true;
+                ToolStripProgress.Visible = true;
+                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+                tlStrpTxbCitiesCount.Enabled = false;
+                //tsbNearestNeighbour.Enabled = false;
+                tlStrpBtnCreateRandomCities.Enabled = false;
+
+                _pGA = new ProcessGeneticAlgorithm();
+                _pGA.eventProgressChanged += new ProcessGeneticAlgorithm.ProgressChanged(AntAlgProgressChange);
+                _pGA.eventFinally += new EventHandler<EventArgs>(PNNFinally);
+                _pGA.Parameters = _paramGA;
+                _pGA.Cities = _cities;
+                _pGA.Start();
+            }
+        }
         #endregion
 
         #region События алгоритмов
@@ -300,7 +336,7 @@ namespace matsps
             {
                 this.Invoke(new MethodInvoker(delegate()
                 {
-                    toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
+                    toolSTLProgress.Text = "Процент выполнения: " + value.ToString() + "%";
                 }));
 
                 if (statusStrip1.InvokeRequired)
@@ -369,14 +405,14 @@ namespace matsps
                 {
                     // РЕЗУЛЬТАТЫ
                     // Лист результатов по времени
-                    List<string> listr = _pnn.ResultList;
+                    List<string> listr = _prNN.ResultList;
                     foreach (string str in listr)
                     {
                         rtxbOut.AppendText(str);
                     }
                     rtxbOut.AppendText("\n--------------------------------------------\n");
                     // Лист последовательности городов
-                    CitiesCollection CitiesInPath = _pnn.ResultPath.Cities;
+                    CitiesCollection CitiesInPath = _prNN.ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {
@@ -385,15 +421,15 @@ namespace matsps
 
                     // Путь городов
                     //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
-                    _pnn.ResultPath.Drawing.Color = Color.LightSeaGreen;
-                    liRoute.Add(_pnn.ResultPath);
+                    _prNN.ResultPath.Drawing.Color = Color.LightSeaGreen;
+                    liRoute.Add(_prNN.ResultPath);
                     ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                     ucCP.RefreshRoutePaint(); // обновляем прорисовку
 
-                    toolSTLInfo.Text = "Время расчета: " + _pnn.ProcessTime.ToString();
+                    toolSTLInfo.Text = "Время расчета: " + _prNN.ProcessTime.ToString();
 
                     // Готовность интерфейса
-                    _pnn = null;
+                    _prNN = null;
                     tlStrpTxbCitiesCount.Enabled = true;
                     //tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;

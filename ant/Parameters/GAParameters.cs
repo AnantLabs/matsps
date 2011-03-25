@@ -14,7 +14,13 @@ namespace matsps.Parameters
         {
             MaxDistance = 100;
             GenerationsCount = 1000;
+            Population = 100;
         }
+        public GAParameters(int CCount) :this()
+        {
+            CitiesCount = CCount;
+        }
+
         #endregion
 
         #region Свойства
@@ -31,6 +37,24 @@ namespace matsps.Parameters
         /// Количество создаваемых поколений
         /// </summary>
         public int GenerationsCount                    
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// Количество городов
+        /// </summary>
+        public int CitiesCount
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// Популяция(количество Агентов)
+        /// </summary>
+        public int Population
         {
             set;
             get;
