@@ -14,7 +14,7 @@ namespace matsps.BranchAndBound.BnBAlgData
     /// </summary>
     class BnBNodeData : ICloneable
     {
-        #region Конктрукторы
+        #region Конструкторы
         public BnBNodeData()                                                            
         {
         }
@@ -22,7 +22,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// Переводит данные из коллекции городов в тип данные узла
         /// </summary>
         /// <param name="cities">коллекция городов</param>
-        public BnBNodeData(CitiesCollection cities):this()                              
+        public BnBNodeData(CitiesCollection cities)                                         
         {
             try
             {
@@ -32,15 +32,12 @@ namespace matsps.BranchAndBound.BnBAlgData
             {
                 throw new Exception(ex.Message);
             }                  
-
-            // Суммарный вес равен 0, т.к. мартица еще не приведена
-            _dSumWeight = 0.0;
         }
         /// <summary>
         /// Копирует из данных узла
         /// </summary>
-        /// <param name="nodeData">данные узла</param>
-        public BnBNodeData(BnBNodeData nodeData)                                        
+        /// <param name="nodeData">данные узла</param>   
+        public BnBNodeData(BnBNodeData nodeData)                                            
         {
             try
             {
@@ -57,7 +54,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// <param name="nodeData">Данные узла дерева, из которых нужно получить копию</param>
         /// <param name="indexRow">Индекс строки, которую НЕ нужно копировать</param>
         /// <param name="indexColumn">Индекс столбца, который НЕ нужно копировать</param>
-        public BnBNodeData(BnBNodeData nodeData, int indexRow, int indexColumn)         
+        public BnBNodeData(BnBNodeData nodeData, int indexRow, int indexColumn)             
         {
             if (indexColumn < 0 || indexRow < 0)
                 throw new Exception("Индексы удаляемых строки и столбца должны быть положительными");
@@ -68,7 +65,7 @@ namespace matsps.BranchAndBound.BnBAlgData
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
+            }            
         }
         #endregion
 
@@ -124,6 +121,17 @@ namespace matsps.BranchAndBound.BnBAlgData
             get
             {
                 return _arrDistance;
+            }
+        }
+
+        /// <summary>
+        /// Сформированный путь (только для чтения)
+        /// </summary>
+        public BnBNodePath Path             
+        {
+            get
+            {
+                return _path;
             }
         }
 
@@ -221,7 +229,7 @@ namespace matsps.BranchAndBound.BnBAlgData
                             cell.Value = double.PositiveInfinity;
                         else
                             cell.Value = Convert.ToDouble(cities.Distance[i, j]);
-                        cell.Pow = 0;
+                        cell.Pow = double.PositiveInfinity;
                     }
                     else
                     {
@@ -236,9 +244,15 @@ namespace matsps.BranchAndBound.BnBAlgData
             }
 
             if (cities != null)
+            {
                 _dSumWeight = 0.0;
+                _path = new BnBNodePath();
+            }
             else
+            {
                 _dSumWeight = nodeData.SummWeight;
+                _path = new BnBNodePath(nodeData.Path);
+            }
         }
 
         #endregion
@@ -300,6 +314,75 @@ namespace matsps.BranchAndBound.BnBAlgData
         }
 
         /// <summary>
+        /// Подсчет степеней у матрицы
+        /// </summary>
+        public void PowCalc()                                               
+        {
+            for (int i = 0; i < Length; i++)
+                for(int j =0; j < Length; j++)
+                    if (_arrDistance[i, j].Value == 0) // нашли нулевой элемент
+                    {
+                        double minI = double.MaxValue;
+                        double minJ = double.MaxValue;
+
+                        for (int k = 0; k < Length; k++) // минимум по строке
+                            if (k != j && _arrDistance[i, k].Value < minJ)
+                                minJ = _arrDistance[i, k].Value;
+                        for (int l = 0; l < Length; l++) // минимум по столбцу
+                            if (l != i && _arrDistance[l, j].Value < minI)
+                                minI = _arrDistance[l, j].Value;
+
+                        _arrDistance[i, j].Pow = (minI + minJ);
+                    }
+        }
+
+        /// <summary>
+        /// Возвращает значение максимальной степени в матрице
+        /// </summary>
+        public double GetMaxPowValue()                                      
+        {
+            double max = double.MinValue;
+            for(int  i=0; i < Length; i++)
+                for(int j=0; j < Length; j++)
+                    if(_arrDistance[i,j].Pow > max && !double.IsInfinity( _arrDistance[i,j].Pow ))
+                    {
+                        max = _arrDistance[i,j].Pow;
+                    }
+            return max;
+        }
+
+        /// <summary>
+        /// Убирает закольцованность(выставляет бесконечность), учитывая индексы строки и столбца
+        /// </summary>
+        /// <param name="col">номер столбца</param>
+        /// <param name="row">номер строки</param>
+        public void RemoveLoopback(int indexRow, int indexCol)
+        {
+            for (int i = 0; i < HorIndexes.Length; i++)
+                for (int j = 0; j < VerIndexes.Length; j++)
+                    if (indexRow == VerIndexes[i] && indexCol == HorIndexes[j])
+                    {
+                        _arrDistance[i, j].Value = double.PositiveInfinity;
+                        _arrDistance[i, j].Pow = double.PositiveInfinity;
+                    }
+        }
+
+        /// <summary>
+        /// Пересчитывает путь c учетом вхождения дуги i,j , а также запрещает некоторые дуги
+        /// </summary>
+        /// <param name="indexRow">индекс строки новой дуги</param>
+        /// <param name="indexCol">индекс столбца новой дуги</param>
+        public void RecalcPath(int indexRow, int indexCol)
+        {
+            RemoveLoopback(indexCol, indexRow);
+            int row2 = indexRow, col2 =indexCol;          // вторая дуга
+            _path.AddArc(indexRow, indexCol, ref row2, ref col2);
+
+            if (row2 != indexRow && col2 != indexCol)
+                RemoveLoopback(row2 - 1, col2 -1);
+        }
+
+        /// <summary>
         /// Получить копию данного экземпляра класса
         /// </summary>
         /// <returns>Объект NodeData, заполненный данными как в текущем экземпляре класса</returns>
@@ -323,6 +406,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         public void LogMatrix()                                             
         {
             // Печать индексов столбцов
+            log.Debug("------------------value------------");
             string strColIndexes = "   ";
             for (int i = 0; i < Length; i++)
                 strColIndexes += String.Format("  {0:00}  ", _iArrHorIndexes[i]);
@@ -332,10 +416,24 @@ namespace matsps.BranchAndBound.BnBAlgData
                 {
                     string strRow = string.Format("{0:00} ", _iArrVerIndexes[i]);
                     for (int j = 0; j < Length; j++)
-                        strRow += String.Format("{0:00.00} ", (double.IsInfinity(_arrDistance[i, j].Value)) ? 0.0 : _arrDistance[i, j].Value);
+                        strRow += (double.IsInfinity(_arrDistance[i, j].Value)) ? "----- " : String.Format("{0:00.00} ", _arrDistance[i, j].Value) ;
                     log.Debug(strRow);
                 }
-            log.Debug("-----------------------------------");
+            log.Debug("-----------------pow---------------");
+            strColIndexes = "   ";
+            for (int i = 0; i < Length; i++)
+                strColIndexes += String.Format("  {0:00}  ", _iArrHorIndexes[i]);
+            log.Debug(strColIndexes);
+
+            for (int i = 0; i < Length; i++)
+            {
+                string strRow = string.Format("{0:00} ", _iArrVerIndexes[i]);
+                for (int j = 0; j < Length; j++)
+                    strRow += (double.IsInfinity(_arrDistance[i, j].Pow)) ? "----- " : String.Format("{0:00.00} ", _arrDistance[i, j].Pow);
+                log.Debug(strRow);
+            }
+            log.DebugFormat("Общий вес {0:0000.00}",_dSumWeight);
+            log.Debug(" ");
         }
         #endregion
     }

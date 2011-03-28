@@ -54,7 +54,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public CitiesCollection Cities          
+        public CitiesCollection Cities              
         {
             set;
             get;
