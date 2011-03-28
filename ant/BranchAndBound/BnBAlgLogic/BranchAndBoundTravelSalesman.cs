@@ -56,6 +56,70 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         #endregion
 
         #region Методы (внутренние)
+        /// <summary>
+        /// Обход вниз
+        /// </summary>
+        /// <param name="parent">Текущий родительский узел</param>
+        private void GoDown(BnBNode currentNode)
+        {
+            currentNode.Data.PowCalc();                     // подсчет степеней у нулевых элементов            
+
+            currentNode.Data.LogMatrix();
+
+            double dMaxPowValue = currentNode.Data.GetMaxPowValue();
+            for (int i = 0; i < currentNode.Data.Length; i++ )
+                for (int j = 0; j < currentNode.Data.Length; j++)
+                    if (currentNode.Data.Distance[i, j].Pow == dMaxPowValue)
+                    {
+                        // Пересечение с максимальным значением степени
+
+                        int childI = currentNode.Data.VerIndexes[i];
+                        int childJ= currentNode.Data.HorIndexes[j];
+
+                        // Берется дуга i,j
+                        BnBNodeData childDataFirst = new BnBNodeData( currentNode.Data, i,j);
+                        BnBNode childNodeFirst = new BnBNode(childDataFirst);                        
+                        childDataFirst.RecalcPath(childI, childJ);               // добавляем дугу в маршрут и исключаем закольцованность
+                        childDataFirst.ReductedMatrix();                         // приведение матрицы
+                        childDataFirst.PowCalc();                                // подсчет степеней матрицы
+                        childDataFirst.LogMatrix();
+
+                        // Не берется дуга i,j
+                        BnBNodeData childDataSecond = new BnBNodeData(currentNode.Data);
+                        BnBNode childNodeSecond = new BnBNode(childDataSecond);  
+                        childDataSecond.RemoveLoopback(childI, childJ);
+                        childDataSecond.RemoveLoopback(childJ, childI);
+                        childDataSecond.ReductedMatrix();
+                        childDataSecond.PowCalc();
+                        childDataSecond.LogMatrix();
+
+                        currentNode.Nodes.Add(childNodeFirst);
+                        currentNode.Nodes.Add(childNodeSecond);
+
+                        break;
+                    }
+
+            // Находим минимальный суммарный вес у потомков
+            double minSummWeight = double.MaxValue;
+            for (int i = 0; i < currentNode.Nodes.Count; i++)
+                if (currentNode.Nodes[i].Data.SummWeight < minSummWeight)
+                    minSummWeight = currentNode.Nodes[i].Data.SummWeight;
+            // Запускаем функцию ОбходВверх для первого дочернего элемента с минимальным суммарным весом
+            for (int i = 0; i < currentNode.Nodes.Count; i++ )
+                if(currentNode.Nodes[i].Data.SummWeight == minSummWeight)
+                {
+                    GoUp(currentNode.Nodes[i]);
+                    break;
+                }
+        }
+
+        /// <summary>
+        /// Обход вверх
+        /// </summary>
+        private void GoUp(BnBNode currentNode)
+        {
+
+        }
         #endregion
 
         #region Методы (внешние)
@@ -67,6 +131,8 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             BnBNodeData nData = new BnBNodeData(Cities);    // заносим начальные данные из коллекции городов
             nData.ReductedMatrix();                         // приводим матрице по столбцам и строкам
             _greatParentNode = new BnBNode(nData);          // создаем первый родительский узел с данными
+
+            GoDown(_greatParentNode);
         }
         #endregion
     }

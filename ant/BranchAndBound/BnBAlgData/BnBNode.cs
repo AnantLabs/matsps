@@ -51,7 +51,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// <summary>
         /// Данные о матрице, пути и т.д.
         /// </summary>
-        private BnBNodeData Data                
+        public BnBNodeData Data                
         {
             set;
             get;
