@@ -42,6 +42,7 @@ namespace matsps.Forms.SelectAlgs
             treeViewSelectAlgs.Nodes[0].Nodes.Add("Муравьиной колонии");
             treeViewSelectAlgs.Nodes[0].Nodes.Add("Ближайший сосед");
             treeViewSelectAlgs.Nodes[0].Nodes.Add("Ветви и Границы");
+            treeViewSelectAlgs.Nodes[0].Nodes.Add("Генетический");
 
 
             //Инициализация списка выбранных алгоритмов
