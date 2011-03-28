@@ -17,39 +17,15 @@ using matsps.Parameters;                       // параметры алгор�
 
 namespace matsps
 {
-    /// <summary>
-    /// Содержит параметры запуска алгоритма
-    /// </summary>
-    public class algStartParam
-    {
-        public algStartParam(bool selected, int instCount)
-        {
-            this.selected = selected;
-            this.instCount = instCount;
-        }
-        #region Свойства
-        /// <summary>
-        /// Выбран/не выбран
-        /// </summary>
-        public bool selected
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Ко-во экземаляров для запуска
-        /// </summary>
-        public int instCount
-        {
-            get;
-            set;
-        }
-
-        #endregion
-    }
     public partial class frmMain : Form
     {
         #region Конструкторы и Данные
+        
+        /// <summary>
+        /// лист отладочных данных
+        /// </summary>
+        private List<string> listr = null;
+       
         public frmMain()                    
         {
             InitializeComponent();
@@ -65,6 +41,7 @@ namespace matsps
 
             //инициализация списка экземпляров алгоритма муравья
             _prAntList = new List<ProcessAnt>();
+            _prNNList = new List<ProcessNearestNeighbour>();
         }
 
         /// <summary>
@@ -85,6 +62,7 @@ namespace matsps
         private matsps.Parameters.GAParameters  _paramGA;
 
         private List<ProcessAnt> _prAntList;
+        private List<ProcessNearestNeighbour> _prNNList;
         ///// <summary>
         ///// Обрабочик алгоритма расчета по методу Муравьиной колонии
         ///// </summary>
@@ -92,7 +70,7 @@ namespace matsps
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Ближайшего соседа
         /// </summary>
-        private ProcessNearestNeighbour         _prNN;
+        //private ProcessNearestNeighbour         _prNN;
         /// <summary>       
         /// Обрабочик алгоритма расчета по методу Ветвей и границ
         /// </summary>
@@ -119,6 +97,8 @@ namespace matsps
             tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
             tlStrpTxbCitiesCount.Focus();
             tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
+
+            listr = new List<string>();
         }
         #endregion
 
@@ -302,8 +282,8 @@ namespace matsps
         {
 
             // АЛГОРИТМ
-            if (_prNN == null)
-            {
+            //if (_prNN == null)
+            //{
                 // Интерфейс
                 //ucCP.RouteLengthTextOut("");
                 toolSTLProgress.Visible = true;
@@ -313,13 +293,13 @@ namespace matsps
                 //tsbNearestNeighbour.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _prNN = new ProcessNearestNeighbour();
-                _prNN.eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
-                _prNN.eventFinally += new EventHandler<EventArgs>(PNNFinally);
-                _prNN.Parameters = _paramAnt;
-                _prNN.Cities = _cities;
-                _prNN.Start();
-            }
+                _prNNList.Add(new ProcessNearestNeighbour());
+                _prNNList[_prNNList.Count - 1].eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
+                _prNNList[_prNNList.Count - 1].eventFinally += new EventHandler<EventArgs>(PNNFinally);
+                _prNNList[_prNNList.Count - 1].Parameters = _paramAnt;
+                _prNNList[_prNNList.Count - 1].Cities = _cities;
+                _prNNList[_prNNList.Count - 1].Start();
+            //}
             //toolSTLInfo.Text = "";
 
             //ProcessNearestNeighbour pnn = new ProcessNearestNeighbour();
@@ -422,99 +402,135 @@ namespace matsps
             }
         }
 
-
         /// <summary>
         /// Событие завершение расчета по Алгоритму Муравья
         /// </summary>
-        private void AntAlgFinally(object sender, EventArgs e)          
+        private void AntAlgFinally(object sender, EventArgs e)
         {
-            this.Invoke(new MethodInvoker(delegate()
+            Object thisLock = new Object();
+            lock (thisLock)
+            {
+                // Critical code section
+                this.Invoke(new MethodInvoker(delegate()
                 {
                     // РЕЗУЛЬТАТЫ
-                    // Лист результатов по времени
-                    //List<string> listr = _prAnt.ResultInfo;
-                    List<string> listr = _prAntList[_prAntList.Count-1].ResultInfo;
-                    foreach (string str in listr)
-                    {
-                        rtxbOut.AppendText(str);
-                    }
-                    rtxbOut.AppendText("--------------------------------------------\n");
-                    // Лист последовательности городов
-                    //CitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
-                    CitiesCollection CitiesInPath = _prAntList[_prAntList.Count-1].ResultPath.Cities;
-                    rtxbCities.Clear();
-                    for (int i = 0; i < CitiesInPath.Count; i++)
-                    {
-                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
-                    }
+                        //Начинаем перебор списка экземпляров алгоритма муравья
+                        #region while
+                        for (int i = 0; i < _prAntList.Count; i++ )
+                        {
+                            #region if
+                            if (_prAntList[i].ResultInfo != null)
+                            {
+                                // Лист результатов по времени
+                                List<string> listr = _prAntList[i].ResultInfo;
+                                foreach (string str in listr)
+                                {
+                                    rtxbOut.AppendText(str);
+                                }
+                                rtxbOut.AppendText("--------------------------------------------\n");
+                                // Лист последовательности городов
+                                CitiesCollection CitiesInPath = _prAntList[i].ResultPath.Cities;
+                                rtxbCities.Clear();
+                                for (int k = 0; k < CitiesInPath.Count; k++)
+                                {
+                                    rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[k].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                                }
 
-                    // Путь городов. Заносим лист.
-                   //_prAnt.ResultPath.AlgorithmName = "Муравей";
-                    _prAntList[_prAntList.Count-1].ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
-                    //_prAnt.ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
-                    liRoute.Add(_prAntList[_prAntList.Count-1].ResultPath);
-                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
-                    ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
+                                // Путь городов. Заносим лист.
+                                _prAntList[i].ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
+                                liRoute.Add(_prAntList[i].ResultPath);
+                                ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                                ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
+ 
+                                toolSTLInfo.Text = "Время расчета: " + _prAntList[i].ProcessTime.ToString();
 
-                    toolSTLInfo.Text = "Время расчета: " + _prAntList[_prAntList.Count-1].ProcessTime.ToString();
+                                // Готовность интерфейса
+                                _prAntList[i] = null;
+                                tlStrpTxbCitiesCount.Enabled = true;
+                                tlStrpBtnCreateRandomCities.Enabled = true;
+                                ToolStripProgress.Visible = false;
+                                toolSTLProgress.Visible = false;
 
-                    // Готовность интерфейса
-                    _prAntList[_prAntList.Count-1] = null;
-                    tlStrpTxbCitiesCount.Enabled = true;
-                    //tlStrpBtnAntAlgStart.Enabled = true;
-                    tlStrpBtnCreateRandomCities.Enabled = true;
-                    ToolStripProgress.Visible = false;
-                    toolSTLProgress.Visible = false;
+                                //удаление экземпляра алгортима из списка экземпляров
+                                _prAntList.RemoveAt(i);
+                                break;
+                            }
+                            #endregion
+                        }
+                        #endregion
                 }));
-        }
 
+            }
+            
+
+        }
         private void PNNFinally(object sender, EventArgs e)             
         {
-            this.Invoke(new MethodInvoker(delegate()
+            Object thisLock = new Object();
+            lock (thisLock)
             {
-                try
+                // Critical code section
+                this.Invoke(new MethodInvoker(delegate()
                 {
-                    // РЕЗУЛЬТАТЫ
-                    // Лист результатов по времени
-                    List<string> listr = _prNN.ResultList;
-                    foreach (string str in listr)
-                    {
-                        rtxbOut.AppendText(str);
-                    }
-                    rtxbOut.AppendText("\n--------------------------------------------\n");
-                    // Лист последовательности городов
-                    CitiesCollection CitiesInPath = _prNN.ResultPath.Cities;
-                    rtxbCities.Clear();
-                    for (int i = 0; i < CitiesInPath.Count; i++)
-                    {
-                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
-                    }
+                    //Начинаем перебор списка экземпляров алгоритма муравья
+                        #region while
+                        for (int i = 0; i < _prNNList.Count; i++)
+                        {
+                            #region if
+                            if (_prNNList[i].ResultList != null)
+                            {
+                                try
+                                {
+                                    // РЕЗУЛЬТАТЫ
+                                    // Лист результатов по времени
+                                    List<string> listr = _prNNList[i].ResultList;
+                                    foreach (string str in listr)
+                                    {
+                                        rtxbOut.AppendText(str);
+                                    }
+                                    rtxbOut.AppendText("\n--------------------------------------------\n");
+                                    // Лист последовательности городов
+                                    CitiesCollection CitiesInPath = _prNNList[i].ResultPath.Cities;
+                                    rtxbCities.Clear();
+                                    for (int k = 0; k < CitiesInPath.Count; k++)
+                                    {
+                                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[k].X + " Y:" + CitiesInPath[k].Y + Environment.NewLine);
+                                    }
 
-                    // Путь городов
-                    //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
-                    _prNN.ResultPath.Drawing.Color = Color.LightSeaGreen;
-                    liRoute.Add(_prNN.ResultPath);
-                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
-                    ucCP.RefreshRoutePaint(); // обновляем прорисовку
+                                    // Путь городов
+                                    //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
+                                    _prNNList[i].ResultPath.Drawing.Color = Color.LightSeaGreen;
+                                    liRoute.Add(_prNNList[i].ResultPath);
+                                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                                    ucCP.RefreshRoutePaint(); // обновляем прорисовку
 
-                    toolSTLInfo.Text = "Время расчета: " + _prNN.ProcessTime.ToString();
+                                    toolSTLInfo.Text = "Время расчета: " + _prNNList[i].ProcessTime.ToString();
 
-                    // Готовность интерфейса
-                    _prNN = null;
-                    tlStrpTxbCitiesCount.Enabled = true;
-                    //tlStrpBtnAntAlgStart.Enabled = true;
-                    tlStrpBtnCreateRandomCities.Enabled = true;
-                    //tsbNearestNeighbour.Enabled = true;
-                    //ToolStripProgress.Visible = false;
-                    //toolSTLProgress.Visible = false;
-                }
-                catch (Exception ex)
-                { MessageBox.Show(ex.Message + ex.StackTrace); }
-            }));
+                                    // Готовность интерфейса
+                                    _prNNList[i] = null;
+                                    tlStrpTxbCitiesCount.Enabled = true;
+                                    //tlStrpBtnAntAlgStart.Enabled = true;
+                                    tlStrpBtnCreateRandomCities.Enabled = true;
+                                    //tsbNearestNeighbour.Enabled = true;
+                                    //ToolStripProgress.Visible = false;
+                                    //toolSTLProgress.Visible = false;
+
+                                    //удаление экземпляра алгортима из списка экземпляров
+                                    _prNNList.RemoveAt(i);
+                                    break;
+                                }//try
+                                catch (Exception ex)
+                                { 
+                                    MessageBox.Show(ex.Message + ex.StackTrace); 
+                                } 
+                            }//IF
+                             #endregion
+                        }//For
+                        #endregion
+                }));
+            }
 
         }
-        #endregion
-
         private void tlStrpBtnSaveCities_Click(object sender, EventArgs e)
         {
             // Создаем новый файловый диалог
@@ -561,10 +577,9 @@ namespace matsps
                     MessageBox.Show("Ошибка в " + s + ".  " + fe.Message);
                 }
                     sw.Close();  //закрываем файл
-            }
+            }//IF
 
-        }
-
+        }//
         private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)
         {           
             // Создаем новый файловый диалог
@@ -602,7 +617,42 @@ namespace matsps
                 ucCP.Cities = _cities;
                 ucCP.ClearDgvRouteList(); //Очищает лист маршрутов и DataGridView
                 ucCP.RefreshRoutePaint(); //Перерисовывает маршруты
+                tlStrpTxbCitiesCount.Text = _cities.Count.ToString();
+                tlStrpTxbCitiesCount.SelectAll();
             }
         }
+        #endregion
+    }
+
+
+    /// <summary>
+    /// Содержит параметры запуска алгоритма
+    /// </summary>
+    public class algStartParam
+    {
+        public algStartParam(bool selected, int instCount)
+        {
+            this.selected = selected;
+            this.instCount = instCount;
+        }
+        #region Свойства
+        /// <summary>
+        /// Выбран/не выбран
+        /// </summary>
+        public bool selected
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Ко-во экземаляров для запуска
+        /// </summary>
+        public int instCount
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 }

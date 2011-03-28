@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.rtxbOut = new System.Windows.Forms.RichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
@@ -333,7 +332,6 @@
             // tlStrpBtnCreateRandomCities
             // 
             this.tlStrpBtnCreateRandomCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            //this.tlStrpBtnCreateRandomCities.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnCreateRandomCities.Image")));
             this.tlStrpBtnCreateRandomCities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnCreateRandomCities.Name = "tlStrpBtnCreateRandomCities";
             this.tlStrpBtnCreateRandomCities.Size = new System.Drawing.Size(95, 22);
@@ -372,7 +370,6 @@
             // tlStrpBtnStart
             // 
             this.tlStrpBtnStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            //this.tlStrpBtnStart.Image = ((System.Drawing.Image)(resources.GetObject("tlStrpBtnStart.Image")));
             this.tlStrpBtnStart.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlStrpBtnStart.Name = "tlStrpBtnStart";
             this.tlStrpBtnStart.Size = new System.Drawing.Size(48, 22);

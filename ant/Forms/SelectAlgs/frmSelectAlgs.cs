@@ -58,7 +58,7 @@ namespace matsps.Forms.SelectAlgs
             treeViewSelectAlgs.Nodes[0].Expand(); //разворачиваем главный узел
 
             //Настройка текстбокса
-            txbInstCount.Text = "0";      //ко-во запусков
+            txbInstCount.Text = "1";      //ко-во запусков
             txbInstCount.Visible = false; //видимость
         }
 
@@ -90,7 +90,12 @@ namespace matsps.Forms.SelectAlgs
         {
             //Настройка текстбокса
             txbInstCount.Visible = true; //видимость 
-            txbInstCount.Text = _selectList[e.Node.Index].instCount.ToString();
+            //txbInstCount.Text = _selectList[e.Node.Index].instCount.ToString();
+            if (_selectList[e.Node.Index].instCount == 0)
+                txbInstCount.Text = "1";
+            else
+                txbInstCount.Text = _selectList[e.Node.Index].instCount.ToString();
+
             //Перемещение текстбокса
             if(e.Node.Index == 0)
                 txbInstCount.Location = new Point(195,35);
