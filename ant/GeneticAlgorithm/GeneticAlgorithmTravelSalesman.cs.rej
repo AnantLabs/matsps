@@ -1,0 +1,45 @@
+--- GeneticAlgorithmTravelSalesman.cs
++++ GeneticAlgorithmTravelSalesman.cs
+@@ -24,7 +24,7 @@
+         {
+             Cities = cities;
+         }
+-        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, AntAlgDataParameters param)
++        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, GAParameters param)
+             :this(cities)                                                           
+         {
+             SetParameters(param);
+@@ -83,7 +83,7 @@
+        //     get { return _BestPath; }
+        // }
+ 
+-        private AntAlgDataParameters _parameters;
++        private GAParameters _parameters;
+         #endregion
+ 
+         #region Свойства результатов расчета
+@@ -131,7 +131,7 @@
+         /// <summary>
+         /// Установить параметры алгоритма
+         /// </summary>
+-        public void SetParameters(AntAlgDataParameters param)
++        public void SetParameters(GAParameters param)
+         {
+             if (Cities != null)
+             {
+@@ -194,10 +194,10 @@
+ 
+-                    DataCity city = Cities[iCurrentCity];
+-                    city.Index = iCurrentCity;
+-                    ccRoute.Add(city);
+-                    ccRoute.MaxDistance = _parameters.MaxDistance;
+-                    curTime = j;
++                    //City city = Cities[iCurrentCity];
++                    //city.Index = iCurrentCity;
++                    //ccRoute.Add(city);
++                    //ccRoute.MaxDistance = _parameters.MaxDistance;
++                    //curTime = j;
+                    // for (int k = 0; k < ; k++)
+                     //{
+                         
+                     //}

@@ -24,7 +24,7 @@ namespace matsps.GeneticAlgorithm
         {
             Cities = cities;
         }
-        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, AntParameters param)
+        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, GAParameters param)
             :this(cities)                                                           
         {
             SetParameters(param);
@@ -83,7 +83,7 @@ namespace matsps.GeneticAlgorithm
        //     get { return _BestPath; }
        // }
 
-        private AntParameters _parameters;
+        private GAParameters _parameters;
         #endregion
 
         #region Свойства результатов расчета
@@ -131,7 +131,7 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Установить параметры алгоритма
         /// </summary>
-        public void SetParameters(AntParameters param)
+        public void SetParameters(GAParameters param)
         {
             if (Cities != null)
             {
@@ -176,40 +176,45 @@ namespace matsps.GeneticAlgorithm
                 tmrTimer.Start();
 
 
-                int iGenerations = 1000; // Прописать в настройках!!!
+                int iGenerations = _parameters.CitiesCount; //= 1000; // Прописать в настройках!!!
                 DateTime dtStart = DateTime.Now;
                 string strOut;
                 maxTime = iGenerations;
-                for (int j = 0; j < iGenerations; j++)
-                {
-                    Random rnd = new Random();
-                    // У меня свой список Табу, без блэкджека и ...
-                    bool[] iarrTaboo = new bool[Cities.Count];
-                    for (int i = 0; i < iarrTaboo.Length; i++)
-                    {
-                        iarrTaboo[i] = false;
-                    }
+                Generation gen = new Generation(_parameters, Cities);
+               // for (int j = 0; j < iGenerations; j++)
+                //{
+                 //   Generation gen = new Generation(_parameters, Cities);
+                //    Random rnd = new Random();
+                //    // У меня свой список Табу, без блэкджека и ...
+                //    bool[] iarrTaboo = new bool[Cities.Count];
+                //    for (int i = 0; i < iarrTaboo.Length; i++)
+                //    {
+                //        iarrTaboo[i] = false;
+                //    }
 
-                    int iCurrentCity = rnd.Next(0, Cities.Count);
+                //    int iCurrentCity = rnd.Next(0, Cities.Count);
 
-                    City city = Cities[iCurrentCity];
-                    city.Index = iCurrentCity;
-                    ccRoute.Add(city);
-                    ccRoute.MaxDistance = _parameters.MaxDistance;
-                    curTime = j;
+                //    City city = Cities[iCurrentCity];
+                //    city.Index = iCurrentCity;
+                //    ccRoute.Add(city);
+                //    ccRoute.MaxDistance = _parameters.MaxDistance;
+                //    curTime = j;
                    // for (int k = 0; k < ; k++)
                     //{
                         
                     //}
                     
-                }
+               // }
 
                 
             }
             catch (ThreadAbortException taex)
             { listrTime.Add(taex.Message); }
             catch(Exception ex)
-            {listrTime.Add(ex.Message);}
+            {
+                listrTime.Add(ex.Message);
+                throw new Exception(ex.Message + ex.StackTrace);
+            }
         }
         
         private static decimal Summ(int num)
