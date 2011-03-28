@@ -12,10 +12,40 @@ using System.Text.RegularExpressions;
 using matsps.Forms;
 using matsps.CommonData;
 using matsps.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
-using matsps.Parameters;                    // параметры алгоритмов
+using matsps.Parameters;                       // параметры алгоритмов
 
 namespace matsps
 {
+    /// <summary>
+    /// Содержит параметры запуска алгоритма
+    /// </summary>
+    public class algStartParam
+    {
+        public algStartParam(bool selected, int instCount)
+        {
+            this.selected = selected;
+            this.instCount = instCount;
+        }
+        #region Свойства
+        /// <summary>
+        /// Выбран/не выбран
+        /// </summary>
+        public bool selected
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Ко-во экземаляров для запуска
+        /// </summary>
+        public int instCount
+        {
+            get;
+            set;
+        }
+
+        #endregion
+    }
     public partial class frmMain : Form
     {
         #region Конструкторы и Данные
@@ -30,6 +60,9 @@ namespace matsps
             // Отправляем ссылку на Лист Маршрутов контроллу прорисовки
             liRoute = new List<Route>();
             ucCP.ListRoute = liRoute;
+
+            //инициализация списка экземпляров алгоритма муравья
+            _prAntList = new List<ProcessAnt>();
         }
 
         /// <summary>
@@ -45,10 +78,11 @@ namespace matsps
         /// </summary>
         private matsps.Parameters.BnBParameters  _paramBnB;
 
-        /// <summary>
-        /// Обрабочик алгоритма расчета по методу Муравьиной колонии
-        /// </summary>
-        private ProcessAnt                      _prAnt;
+        private List<ProcessAnt> _prAntList;
+        ///// <summary>
+        ///// Обрабочик алгоритма расчета по методу Муравьиной колонии
+        ///// </summary>
+        //private ProcessAnt _prAnt;
         /// <summary>
         /// Обрабочик алгоритма расчета по методу Ближайшего соседа
         /// </summary>
@@ -173,19 +207,41 @@ namespace matsps
             {
                 case DialogResult.OK:
                     {
-                        List<bool> selectList = sa.getSelectList();//список выбранных алгоритмов                        
-                        int iCount = selectList.Count; //количество выбранных алгоритмов
+                        List<algStartParam> selectList = sa.getSelectList();//список выбранных алгоритмов                        
+                        //int iCount = selectList.Count; //количество выбранных алгоритмов
 
                         //Последовательный запуск выбранных алгоритмов
 
-                        if (selectList[0])
-                            AntAlgStart();              //запуск алгоритма муравьиной колонии
-
-                        if (selectList[1])
-                            NearestNeighbourStart();    //запуск алгоритма соседа
-
-                        if (selectList[2])
-                            BranchAndBoundStart();    //запуск алгоритма соседа
+                        if (selectList[0].selected)
+                        {
+                            //количество запусков
+                            int iCount = selectList[0].instCount;
+                            for (int i = 0; i < iCount; i++)
+                            {
+                                //запуск алгоритма муравьиной колонии
+                                AntAlgStart();
+                            }
+                        }
+                        if (selectList[1].selected)
+                        {
+                            //количество запусков
+                            int iCount = selectList[1].instCount;
+                            for (int i = 0; i < iCount; i++)
+                            {
+                                //запуск алгоритма соседа
+                                NearestNeighbourStart();  
+                            }
+                        }
+                        if (selectList[2].selected)
+                        {
+                            //количество запусков
+                            int iCount = selectList[2].instCount;
+                            for (int i = 0; i < iCount; i++)
+                            {
+                                //запуск алгоритма соседа
+                                BranchAndBoundStart();   
+                            }
+                        }
                     }
                     break;
             }
@@ -197,8 +253,8 @@ namespace matsps
         private void AntAlgStart()                              
         {
             // АЛГОРИТМ
-            if (_prAnt == null)
-            {
+            //if (_prAnt == null)
+            //{
                 // Интерфейс
                 toolSTLProgress.Visible = true;
                 ToolStripProgress.Visible = true;
@@ -207,13 +263,25 @@ namespace matsps
                 //tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _prAnt = new ProcessAnt();
-                _prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
-                _prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
-                _prAnt.Parameters = _paramAnt;
-                _prAnt.Cities = _cities;
-                _prAnt.Start();
-            }
+                //_prAnt = new ProcessAnt();
+                //_prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+                //_prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+                //_prAnt.Parameters = _paramAnt;
+                //_prAnt.Cities = _cities;
+                //_prAnt.Start();
+                
+                //Добавляем экземпляр алгоритма в список
+                _prAntList.Add(new ProcessAnt());
+                //Подписываем последний в списке экземпляр алгоритма на необходимые события
+                _prAntList[_prAntList.Count-1].eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+                _prAntList[_prAntList.Count - 1].eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+                //Загружаем параметры расчета алгоритма в последний в списке экземпляр
+                _prAntList[_prAntList.Count - 1].Parameters = _paramAnt;
+                //Загружаем коллекия городов в последний в списке экземпляр алгоритма
+                _prAntList[_prAntList.Count - 1].Cities = _cities;
+                //Запускаем последний в списке экземпляр алгоритма
+                _prAntList[_prAntList.Count - 1].Start();
+            //}
         }
 
         /// <summary>
@@ -300,7 +368,7 @@ namespace matsps
             {
                 this.Invoke(new MethodInvoker(delegate()
                 {
-                    toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
+                    //toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
                 }));
 
                 if (statusStrip1.InvokeRequired)
@@ -328,14 +396,16 @@ namespace matsps
                 {
                     // РЕЗУЛЬТАТЫ
                     // Лист результатов по времени
-                    List<string> listr = _prAnt.ResultInfo;
+                    //List<string> listr = _prAnt.ResultInfo;
+                    List<string> listr = _prAntList[_prAntList.Count-1].ResultInfo;
                     foreach (string str in listr)
                     {
                         rtxbOut.AppendText(str);
                     }
                     rtxbOut.AppendText("--------------------------------------------\n");
                     // Лист последовательности городов
-                    CitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
+                    //CitiesCollection CitiesInPath = _prAnt.ResultPath.Cities;
+                    CitiesCollection CitiesInPath = _prAntList[_prAntList.Count-1].ResultPath.Cities;
                     rtxbCities.Clear();
                     for (int i = 0; i < CitiesInPath.Count; i++)
                     {
@@ -344,15 +414,16 @@ namespace matsps
 
                     // Путь городов. Заносим лист.
                    //_prAnt.ResultPath.AlgorithmName = "Муравей";
-                    _prAnt.ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
-                    liRoute.Add( _prAnt.ResultPath );
+                    _prAntList[_prAntList.Count-1].ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
+                    //_prAnt.ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
+                    liRoute.Add(_prAntList[_prAntList.Count-1].ResultPath);
                     ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                     ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
 
-                    toolSTLInfo.Text = "Время расчета: " + _prAnt.ProcessTime.ToString();
+                    toolSTLInfo.Text = "Время расчета: " + _prAntList[_prAntList.Count-1].ProcessTime.ToString();
 
                     // Готовность интерфейса
-                    _prAnt = null;
+                    _prAntList[_prAntList.Count-1] = null;
                     tlStrpTxbCitiesCount.Enabled = true;
                     //tlStrpBtnAntAlgStart.Enabled = true;
                     tlStrpBtnCreateRandomCities.Enabled = true;
