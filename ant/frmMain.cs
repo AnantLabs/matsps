@@ -222,16 +222,16 @@ namespace matsps
                                 NearestNeighbourStart();  
                             }
                         }
-                        if (selectList[2].selected)
-                        {
-                            //количество запусков
-                            int iCount = selectList[2].instCount;
-                            for (int i = 0; i < iCount; i++)
-                            {
-                                //запуск алгоритма соседа
-                                BranchAndBoundStart();   
-                            }
-                        }
+                        //if (selectList[2].selected)
+                        //{
+                        //    //количество запусков
+                        //    int iCount = selectList[2].instCount;
+                        //    for (int i = 0; i < iCount; i++)
+                        //    {
+                        //        //запуск алгоритма соседа
+                        //        BranchAndBoundStart();   
+                        //    }
+                        //}
                     }
                     break;
             }
