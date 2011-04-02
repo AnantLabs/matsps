@@ -34,32 +34,63 @@ namespace matsps.Forms.SelectAlgs
         /// </summary>
         private void frmSelectAlgs_Load(object sender, EventArgs e)
         {
-            //Подписка на события
-            treeViewSelectAlgs.AfterCheck += new TreeViewEventHandler(treeViewSelectAlgs_AfterCheck);
-            treeViewSelectAlgs.AfterSelect += new TreeViewEventHandler(treeViewSelectAlgs_AfterSelect);
-            //Создание узлов дерева алгоритмов
-            treeViewSelectAlgs.Nodes.Add("Алгоритмы");
-            treeViewSelectAlgs.Nodes[0].Nodes.Add("Муравьиной колонии");
-            treeViewSelectAlgs.Nodes[0].Nodes.Add("Ближайший сосед");
-            treeViewSelectAlgs.Nodes[0].Nodes.Add("Ветви и Границы");
-            treeViewSelectAlgs.Nodes[0].Nodes.Add("Генетический");
-
-
-            //Инициализация списка выбранных алгоритмов
+            //инициализируем список
             _selectList = new List<algStartParam>();
-            int iCount = treeViewSelectAlgs.Nodes[0].Nodes.Count; //количество алгоритмов
-            for (int i = 0; i < iCount; i++)
-            {
-                // по умолчанию не выбран, 0 раз запустить
-                _selectList.Add(new algStartParam(false,0));
-            }
+            //Убираем заголовок
+            dataGridView.RowHeadersVisible = false;
+            //Новые стоки
+            DataGridViewRow antAlgRow = new DataGridViewRow();
+            DataGridViewRow nnAlgRow = new DataGridViewRow();
+            DataGridViewRow bnbAlgRow = new DataGridViewRow();
 
-            //Настройка узлов дерева
-            treeViewSelectAlgs.Nodes[0].Expand(); //разворачиваем главный узел
+            //Создаем Ячейки
+            DataGridViewCheckBoxCell antAlgCalcSatatus = new DataGridViewCheckBoxCell();
+            DataGridViewTextBoxCell antAlgName = new DataGridViewTextBoxCell();
+            DataGridViewTextBoxCell antAlgCalcCount = new DataGridViewTextBoxCell();           
+            //Задаем значения ячейкам
+            antAlgCalcSatatus.Value = true;
+            antAlgName.Value = "Муравьиной колонии";
+            antAlgCalcCount.Value = "1";
+            //Добавляем ячейки в строку
+            antAlgRow.Cells.Add(antAlgCalcSatatus);
+            antAlgRow.Cells.Add(antAlgName);
+            antAlgRow.Cells.Add(antAlgCalcCount);           
+            //Добавляем строку в DataGridView
+            dataGridView.Rows.Add(antAlgRow);
+            //
+            //Создаем Ячейки
+            DataGridViewCheckBoxCell nnAlgCalcSatatus = new DataGridViewCheckBoxCell();
+            DataGridViewTextBoxCell nnAlgName = new DataGridViewTextBoxCell();
+            DataGridViewTextBoxCell nnAlgCalcCount = new DataGridViewTextBoxCell();           
+            //Задаем значения ячейкам
+            nnAlgCalcSatatus.Value = true;
+            nnAlgName.Value = "Ближайшего соседушки";
+            nnAlgCalcCount.Value = "1";
+            //Добавляем ячейки в строку
+            nnAlgRow.Cells.Add(nnAlgCalcSatatus);
+            nnAlgRow.Cells.Add(nnAlgName);
+            nnAlgRow.Cells.Add(nnAlgCalcCount);
+            //Добавляем строку в DataGridView
+            dataGridView.Rows.Add(nnAlgRow);
+            //
+            //Создаем Ячейки
+            DataGridViewCheckBoxCell bnbAlgCalcSatatus = new DataGridViewCheckBoxCell();
+            DataGridViewTextBoxCell bnbAlgName = new DataGridViewTextBoxCell();
+            DataGridViewTextBoxCell bnbAlgCalcCount = new DataGridViewTextBoxCell();
+            //Задаем значения ячейкам
+            bnbAlgCalcSatatus.Value = true;
+            bnbAlgName.Value = "Ветвей и границ";
+            bnbAlgCalcCount.Value = "1";
+            //Добавляем ячейки в строку
+            bnbAlgRow.Cells.Add(bnbAlgCalcSatatus);
+            bnbAlgRow.Cells.Add(bnbAlgName);
+            bnbAlgRow.Cells.Add(bnbAlgCalcCount);
+            //Добавляем строку в DataGridView
+            dataGridView.Rows.Add(bnbAlgRow);
 
-            //Настройка текстбокса
-            txbInstCount.Text = "1";      //ко-во запусков
-            txbInstCount.Visible = false; //видимость
+            //Настройка
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.Rows[2].Cells[0].Value = false;
         }
 
         /// <summary>
@@ -67,44 +98,16 @@ namespace matsps.Forms.SelectAlgs
         /// </summary>
         private void btnStart_Click(object sender, EventArgs e)
         {
-            //Проверяем, какие узлы выбранны и заносим их в список
-            foreach (TreeNode curNode in treeViewSelectAlgs.Nodes[0].Nodes)
+            int Count = dataGridView.Rows.Count;
+            for (int i = 0; i < Count; i++)
             {
-                if (curNode.Checked)
-                    _selectList[curNode.Index].selected = true; //выбран
-                else
-                    _selectList[curNode.Index].selected = false; //не выбран
+                bool algChecked = (bool)dataGridView.Rows[i].Cells[0].Value;
+                if (algChecked == true)
+                { 
+                    int CalcCount = Convert.ToInt32((string)dataGridView.Rows[i].Cells[2].Value);
+                    _selectList.Add(new algStartParam(true,CalcCount));
+                }                
             }
-        }
-
-        /// <summary>
-        /// Выбора главного узла
-        /// </summary>
-        private void treeViewSelectAlgs_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            SelectAllSubnodes(e.Node);
-            //считывание данных из текстбокса
-            _selectList[e.Node.Index].instCount = Convert.ToInt16(txbInstCount.Text);
-        }
-        private void treeViewSelectAlgs_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            //Настройка текстбокса
-            txbInstCount.Visible = true; //видимость 
-            //txbInstCount.Text = _selectList[e.Node.Index].instCount.ToString();
-            if (_selectList[e.Node.Index].instCount == 0)
-                txbInstCount.Text = "1";
-            else
-                txbInstCount.Text = _selectList[e.Node.Index].instCount.ToString();
-
-            //Перемещение текстбокса
-            if(e.Node.Index == 0)
-                txbInstCount.Location = new Point(195,35);
-            if (e.Node.Index == 1)
-                txbInstCount.Location = new Point(195, 50);
-            if (e.Node.Index == 2)
-                txbInstCount.Location = new Point(195, 65);
-            //Считывание данных из тексбокса
-            _selectList[e.Node.Index].instCount = Convert.ToInt16(txbInstCount.Text);
         }
         
         #endregion
@@ -117,16 +120,6 @@ namespace matsps.Forms.SelectAlgs
         public List<algStartParam> getSelectList()
         {
             return _selectList;
-        }
-        /// <summary>
-        /// Выделить все подузлы дерева
-        /// </summary>
-        private void SelectAllSubnodes(TreeNode treeNode)
-        {
-            foreach (TreeNode treeSubNode in treeNode.Nodes)
-            {
-                treeSubNode.Checked = treeNode.Checked;
-            }
         }
 
         #endregion
