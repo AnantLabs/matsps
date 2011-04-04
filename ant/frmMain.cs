@@ -627,6 +627,8 @@ namespace matsps
         {           
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
+            // Задаема доступные расширения файлов
+            DialogOpen.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
 
             if ( DialogOpen.ShowDialog() == DialogResult.OK)
             {
