@@ -1,0 +1,10 @@
+--- matsps.csproj
++++ matsps.csproj
+@@ -69,7 +69,6 @@
+     <Compile Include="CommonData\Agent.cs" />
+     <Compile Include="GeneticAlgorithm\Generation.cs" />
+     <Compile Include="GeneticAlgorithm\GeneticAlgorithmTravelSalesman.cs" />
+-    <Compile Include="GeneticAlgorithm\Individual.cs" />
+     <Compile Include="GeneticAlgorithm\ProcessGeneticAlgorithm.cs" />
+     <Compile Include="Parameters\AntParameters.cs" />
+     <Compile Include="AntAlgLogic\AntAlgTravelSalesman.cs" />
