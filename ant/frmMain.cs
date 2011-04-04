@@ -198,42 +198,39 @@ namespace matsps
                 case DialogResult.OK:
                     {
                         List<algStartParam> selectList = sa.getSelectList();//список выбранных алгоритмов                        
-                        //int iCount = selectList.Count; //количество выбранных алгоритмов
 
                         //Последовательный запуск выбранных алгоритмов
-
-                        if (selectList[0].selected)
-                        {
-                            //количество запусков
-                            int iCount = selectList[0].instCount;
-                            for (int i = 0; i < iCount; i++)
-                            {
-                                //запуск алгоритма муравьиной колонии
-                                AntAlgStart();
-                            }
-                        }
-                        if (selectList[1].selected)
-                        {
-                            //количество запусков
-                            int iCount = selectList[1].instCount;
-                            for (int i = 0; i < iCount; i++)
-                            {
-                                //запуск алгоритма соседа
-                                NearestNeighbourStart();  
-                            }
-                        }
-                        //if (selectList[2].selected)
-                        //{
-                        //    //количество запусков
-                        //    int iCount = selectList[2].instCount;
-                        //    for (int i = 0; i < iCount; i++)
-                        //    {
-                        //        //запуск алгоритма соседа
-                        //        BranchAndBoundStart();   
-                        //    }
-                        //}
-                    }
+                        for (int k = 0; k < selectList.Count; k++)
+                        {       
+                           string alg = selectList[k].name;
+                             switch(alg)
+                                {
+                                    case "Муравьиной колонии":   
+                                        {                                          
+                                            for (int i = 0; i < selectList[k].instCount; i++)
+                                                AntAlgStart();
+                                        } break;
+                                    case "Ближайшего соседа": 
+                                        {
+                                            for (int j = 0; j < selectList[k].instCount; j++)
+                                                NearestNeighbourStart();  
+                                        } break;
+                                    case "Ветвей и границ":
+                                        {
+                                            for (int j = 0; j < selectList[k].instCount; j++)
+                                                BranchAndBoundStart();
+                                        } break;
+                                    case "Генетический":
+                                        {
+                                            for (int j = 0; j < selectList[k].instCount; j++)
+                                                { //GeneticAlgorithmStart(); 
+                                                }
+                                        } break;
+                                }; //switch(alg)                            
+                         }//for
+                    }//case DialogResult.OK
                     break;
+
             }
         }
 
@@ -384,7 +381,7 @@ namespace matsps
             {
                 this.Invoke(new MethodInvoker(delegate()
                 {
-                    //toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
+                    toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
                 }));
 
                 if (statusStrip1.InvokeRequired)
@@ -584,6 +581,8 @@ namespace matsps
         {           
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
+            // Задаема доступные расширения файлов
+            DialogOpen.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
 
             if ( DialogOpen.ShowDialog() == DialogResult.OK)
             {
@@ -624,30 +623,29 @@ namespace matsps
         #endregion
     }
 
-
     /// <summary>
-    /// Содержит параметры запуска алгоритма
+    /// Содержит имя и параметры запуска алгоритма
     /// </summary>
     public class algStartParam
     {
-        public algStartParam(bool selected, int instCount)
+        public algStartParam(string name, int instCount)
         {
-            this.selected = selected;
             this.instCount = instCount;
+            this.name = name;
         }
         #region Свойства
         /// <summary>
-        /// Выбран/не выбран
+        /// Ко-во экземаляров для запуска
         /// </summary>
-        public bool selected
+        public int instCount
         {
             get;
             set;
         }
         /// <summary>
-        /// Ко-во экземаляров для запуска
+        /// Имя алгоритма
         /// </summary>
-        public int instCount
+        public string name
         {
             get;
             set;
