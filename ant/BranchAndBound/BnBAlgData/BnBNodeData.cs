@@ -356,7 +356,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// </summary>
         /// <param name="col">номер столбца</param>
         /// <param name="row">номер строки</param>
-        public void RemoveLoopback(int indexRow, int indexCol)
+        public void RemoveLoopback(int indexRow, int indexCol)              
         {
             for (int i = 0; i < HorIndexes.Length; i++)
                 for (int j = 0; j < VerIndexes.Length; j++)
@@ -372,14 +372,17 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// </summary>
         /// <param name="indexRow">индекс строки новой дуги</param>
         /// <param name="indexCol">индекс столбца новой дуги</param>
-        public void RecalcPath(int indexRow, int indexCol)
+        public void RecalcPath(int indexRow, int indexCol)                  
         {
             RemoveLoopback(indexCol, indexRow);
             int row2 = indexRow, col2 =indexCol;          // вторая дуга
             _path.AddArc(indexRow, indexCol, ref row2, ref col2);
 
-            if (row2 != indexRow && col2 != indexCol)
-                RemoveLoopback(row2 - 1, col2 -1);
+            if (row2 != indexRow || col2 != indexCol)
+            {
+                RemoveLoopback(row2, col2);
+                RemoveLoopback(col2, row2);
+            }
         }
 
         /// <summary>
@@ -419,7 +422,15 @@ namespace matsps.BranchAndBound.BnBAlgData
                         strRow += (double.IsInfinity(_arrDistance[i, j].Value)) ? "----- " : String.Format("{0:00.00} ", _arrDistance[i, j].Value) ;
                     log.Debug(strRow);
                 }
-            log.Debug("-----------------pow---------------");
+
+                log.Debug("\tДуги:");
+                for (int i = 0; i > _path.Arc.Count; i++)
+                    log.Debug("\t" + (i+1).ToString() + _path.Arc[i] );
+                log.Debug("\tКуски пути:");
+                for (int i = 0; i > _path.PiePath.Count; i++)
+                    log.Debug("\t" + (i + 1).ToString() + _path.PiePath[i]);
+
+                    log.Debug("-----------------pow---------------");
             strColIndexes = "   ";
             for (int i = 0; i < Length; i++)
                 strColIndexes += String.Format("  {0:00}  ", _iArrHorIndexes[i]);
