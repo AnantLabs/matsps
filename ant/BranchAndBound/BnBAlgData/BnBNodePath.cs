@@ -38,7 +38,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// <summary>
         /// Разделитель в дуге и куске пути
         /// </summary>
-        static private char charSplit = '-';
+        static private char _charSplit = '-';
         #endregion
 
         #region Свойства
@@ -62,7 +62,18 @@ namespace matsps.BranchAndBound.BnBAlgData
             {
                 return _piePath;
             }
-        }  
+        }
+
+        /// <summary>
+        /// Разделитель
+        /// </summary>
+        public char CharSplit                       
+        {
+            get
+            {
+                return _charSplit;
+            }
+        }
         #endregion
 
         #region Методы (внешние)
@@ -75,7 +86,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         /// <param name="to">индекс конца запрещенной дуги</param>
         public void AddArc(int indexI, int indexJ, ref int from, ref int to)            
         {
-            string strNewArc = indexI + charSplit.ToString() + indexJ;
+            string strNewArc = indexI + _charSplit.ToString() + indexJ;
             _liArc.Add(strNewArc);
 
             string strNewPie = "";
@@ -90,17 +101,17 @@ namespace matsps.BranchAndBound.BnBAlgData
                 for (int i = 0; i < _piePath.Count; i++)
                 {
                     bool flagPlus = false;
-                    string[] strarrPies = _piePath[i].Split(charSplit);
+                    string[] strarrPies = _piePath[i].Split(_charSplit);
                     if (strarrPies[0] == indexJ.ToString()) // пытаемся плюсануть в начало
                     {
-                        _piePath[i] = indexI + charSplit.ToString() + _piePath[i];
+                        _piePath[i] = indexI + _charSplit.ToString() + _piePath[i];
                         strNewPie = _piePath[i];
                         flagPlus = true;
                     }
 
                     if (strarrPies[strarrPies.Length - 1] == indexI.ToString()) // пытаемся плюсануть в конец
                     {
-                        _piePath[i] = _piePath[i] + charSplit.ToString() + indexJ;
+                        _piePath[i] = _piePath[i] + _charSplit.ToString() + indexJ;
                         strNewPie = _piePath[i];
                         flagPlus = true;
                     }
@@ -115,17 +126,17 @@ namespace matsps.BranchAndBound.BnBAlgData
                     {
                         strNewArc = _piePath[i];
                         // Цикл на "сливание" кусочков пути
-                        strarrPies = _piePath[i].Split(charSplit);
+                        strarrPies = _piePath[i].Split(_charSplit);
                         for (int k = 0; k < _piePath.Count; k++)
                         {
                             // Разделяем k-й кусок на элементы
-                            string[] strarrK = _piePath[k].Split(charSplit);
+                            string[] strarrK = _piePath[k].Split(_charSplit);
                             if (strarrPies[0] == strarrK[strarrK.Length - 1])
                             {
                                 // Плюсуем 
                                 string newStr = "";
                                 for (int l = 0; l < strarrK.Length - 1; l++)
-                                    newStr += strarrK[l] + charSplit;
+                                    newStr += strarrK[l] + _charSplit;
                                 newStr += _piePath[i];
                                 _piePath[i] = newStr;
                                 strNewPie = _piePath[i];
@@ -137,7 +148,7 @@ namespace matsps.BranchAndBound.BnBAlgData
                                 // Плюсуем 
                                 string newStr = "";
                                 for (int l = 0; l < strarrPies.Length - 1; l++)
-                                    newStr += strarrPies[l] + charSplit;
+                                    newStr += strarrPies[l] + _charSplit;
                                 newStr += _piePath[i];
 
                                 _piePath[i] = newStr;
@@ -151,7 +162,7 @@ namespace matsps.BranchAndBound.BnBAlgData
             }
 
             // Находим запрещенную дугу
-            string[] forbiddenArc = strNewPie.Split(charSplit);
+            string[] forbiddenArc = strNewPie.Split(_charSplit);
             if (forbiddenArc[0] != "")
             {
                 from = Convert.ToInt32(forbiddenArc[0]);

@@ -375,6 +375,7 @@ namespace matsps.BranchAndBound.BnBAlgData
         public void RecalcPath(int indexRow, int indexCol)                  
         {
             RemoveLoopback(indexCol, indexRow);
+            RemoveLoopback(indexRow, indexCol);
             int row2 = indexRow, col2 =indexCol;          // вторая дуга
             _path.AddArc(indexRow, indexCol, ref row2, ref col2);
 
@@ -430,7 +431,7 @@ namespace matsps.BranchAndBound.BnBAlgData
                 for (int i = 0; i > _path.PiePath.Count; i++)
                     log.Debug("\t" + (i + 1).ToString() + _path.PiePath[i]);
 
-                    log.Debug("-----------------pow---------------");
+            log.Debug("-----------------pow---------------");
             strColIndexes = "   ";
             for (int i = 0; i < Length; i++)
                 strColIndexes += String.Format("  {0:00}  ", _iArrHorIndexes[i]);

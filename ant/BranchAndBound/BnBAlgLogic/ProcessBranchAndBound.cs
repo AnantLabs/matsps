@@ -22,6 +22,14 @@ namespace matsps.BranchAndBound.BnBAlgLogic
 
         #region Поля
         /// <summary>
+        /// параметры прорисовки маршрута
+        /// </summary>
+        public Drawing Drawing;
+
+        public delegate void ProgressChanged(int value);
+        public event ProgressChanged eventProgressChanged;     
+
+        /// <summary>
         /// Экземпляр класса алгоритма
         /// </summary>
         private BranchAndBoundTravelSalesman _travelSalesmanBnB;
@@ -32,21 +40,22 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         private List<string> _liStrInfo;
 
         /// <summary>
-        /// Время рачета алгоритма
-        /// </summary>
-        private TimeSpan _tsProcessTime;
-
-        /// <summary>
         /// Время начала расчета
         /// </summary>
         private DateTime timeStart;
+
+        private Route _bestPath = null;
+        /// <summary>
+        /// Время рачета алгоритма
+        /// </summary>
+        private TimeSpan _tsProcessTime;
         #endregion
 
         #region Свойства
         /// <summary>
         /// Задает или возвращает параметры алгоритма
         /// </summary>
-        public IParameters Parameters               
+        public IParameters Parameters           
         {
             set;
             get;
@@ -54,7 +63,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Задает или возвращает колличество городов
         /// </summary>
-        public CitiesCollection Cities              
+        public CitiesCollection Cities          
         {
             set;
             get;
@@ -64,7 +73,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Возвращает лист с отладочной информацией расчета
         /// </summary>
-        public List<string> ResultInfo              
+        public List<string> ResultInfo
         {
             get
             {
@@ -75,18 +84,18 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Возвращает коллекцию городов, расположенных в порядке лучшего пути
         /// </summary>
-        public Route ResultPath                     
+        public Route ResultPath
         {
             get
             {
-                return null;
+                return _bestPath;
             }
         }
 
         /// <summary>
         /// Возвращает время расчета алгоритма
         /// </summary>
-        public TimeSpan ProcessTime                 
+        public TimeSpan ProcessTime
         {
             get
             {
@@ -96,7 +105,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         #endregion
 
         #region Методы (внутренние)
-        private void Init(CitiesCollection cities, IParameters parameters)      
+        private void Init(CitiesCollection cities, IParameters parameters)
         {
             if (cities == null)
                 throw new Exception("В алгоритме на определены города");
@@ -113,6 +122,8 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             }
 
             _travelSalesmanBnB = new BranchAndBoundTravelSalesman(cities, (BnBParameters)parameters);
+            _travelSalesmanBnB.eventProgressChanged += new EventHandler<BnBAlgChangesEventArgs>(ProgressChange);
+            _travelSalesmanBnB.eventFinally += new EventHandler<EventArgs>(Finally);
         }
         #endregion
 
@@ -120,17 +131,60 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Запуск алгоритма Ветвей и границ
         /// </summary>
-        public void Start()                                                             
+        public void Start()
         {
             this.Start(Cities, Parameters);
         }
-        public void Start(CitiesCollection cities, IParameters parameters)          
+        public void Start(CitiesCollection cities, IParameters parameters)
         {
             Init(cities, parameters);
 
             timeStart = DateTime.Now;
             // Зпуск алгоритма
             _travelSalesmanBnB.Calculate();
+        }
+        #endregion
+
+        #region Обработчики событий
+
+        private void ProgressChange(object sender, BnBAlgLogic.BnBAlgChangesEventArgs e)    
+        {
+            //пересылка сообщения
+            if (eventProgressChanged != null) //проверяем наличие подписчиков
+                eventProgressChanged((int)e.Percent);
+        }
+
+        private void Finally(object sender, EventArgs e)                                    
+        {
+            // Результаты            
+            Route path = new Route( _travelSalesmanBnB.BestPath, "ветвей и границ");
+            _bestPath = path;
+            _liStrInfo = new List<string>();
+            _liStrInfo.Add(" ");
+            //_bestPath.Drawing = this.Drawing;
+
+            //Копирование параметров прорисовки
+            _bestPath.Drawing.Color = this.Drawing.Color;
+            _bestPath.Drawing.Opacity = this.Drawing.Opacity;
+            _bestPath.Drawing.Visible = this.Drawing.Visible;
+            //
+
+            _tsProcessTime = DateTime.Now - timeStart;
+            _bestPath.СalcTime = _tsProcessTime;
+
+            OnFinallyCalculate(new EventArgs());
+        }
+
+        /// <summary>
+        /// Событие завершения вычислений
+        /// </summary>
+        public event EventHandler<EventArgs> eventFinally;
+        protected virtual void OnFinallyCalculate(EventArgs e)                              
+        {
+            EventHandler<EventArgs> tmp = eventFinally;
+
+            if (tmp != null)
+                tmp(this, e);
         }
 
         #endregion
