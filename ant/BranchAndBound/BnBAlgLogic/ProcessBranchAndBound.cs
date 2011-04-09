@@ -17,6 +17,8 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         #region Конструкторы
         public ProcessBranchAndBound()
         {
+            Drawing = new Drawing();
+            Drawing.Color = System.Drawing.Color.Orange;
         }
         #endregion
 
@@ -26,7 +28,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// </summary>
         public Drawing Drawing;
 
-        public delegate void ProgressChanged(object sender,int value);
+        public delegate void ProgressChanged(object sender,int value, string label);
         public event ProgressChanged eventProgressChanged;     
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         {
             //пересылка сообщения
             if (eventProgressChanged != null) //проверяем наличие подписчиков
-                eventProgressChanged(this, (int)e.Percent);
+                eventProgressChanged(this, (int)e.Percent, e.Label);
         }
 
         private void Finally(object sender, EventArgs e)                                    
@@ -173,7 +175,11 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             _bestPath = path;
             List<CitiesCollection> ct = _travelSalesmanBnB.BestPathList;
             foreach (CitiesCollection singleCollection in ct)
-                _liBestPath.Add( new Route(singleCollection, "ветвей и границ"));
+            {
+                Route r = new Route(singleCollection, "ветвей и границ");
+                r.Drawing.Color = this.Drawing.Color;
+                _liBestPath.Add( r );
+            }
 
             _liStrInfo = new List<string>();
             _liStrInfo.Add(" ");

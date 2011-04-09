@@ -68,7 +68,7 @@ namespace matsps
         /// </summary>
         public Drawing Drawing;
 
-        public delegate void ProgressChanged(object sender, int value);        
+        public delegate void ProgressChanged(object sender, int value, string label);        
         public event ProgressChanged eventProgressChanged;     
 
         public ProcessAnt() 
@@ -214,7 +214,7 @@ namespace matsps
         {
                 //пересылка сообщения
                 if (eventProgressChanged != null) //проверяем наличие подписчиков
-                    eventProgressChanged(this, (int)e.Percent);
+                    eventProgressChanged(this, (int)e.Percent, "%");
         }
 
         private void Finally(object sender, EventArgs e)                                         
