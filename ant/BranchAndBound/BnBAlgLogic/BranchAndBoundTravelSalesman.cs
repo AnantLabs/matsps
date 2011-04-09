@@ -152,11 +152,24 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// Обход вниз
         /// </summary>
         /// <param name="parent">Текущий родительский узел</param>
-        private void GoDown(BnBNode currentNode)                
+        /// <param name="calledNode">Вызвавший узел</param>
+        private void GoDown(BnBNode currentNode, BnBNode calledNode)                
         {
             bool _continue = true;
             while (_continue)
             {
+                // Если текущий суммарный вес больше, чем Критериальный суммарный вес
+                if (currentNode.Data.SummWeight > _dCriterialWeight)
+                {
+                    currentNode.Forbidden = true;
+                    currentNode.Viewed = true;
+
+                    // Запускаем функцию ОбходВверх(текущий_узел);
+                    GoUp(currentNode, calledNode);
+                    _continue = false;
+                    break;
+                }
+
                 // Если матрица 2х2
                 if (currentNode.Data.Length == 2)
                 {
@@ -175,10 +188,9 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                     currentNode.Viewed = true;
                     _strCountUp++;
                     // Запускаем функцию ОбходВверх(текущий_узел);
-                    GoUp(currentNode);
+                    GoUp(currentNode, calledNode);
                     _continue = false;
-                    return;
-
+                    break;
                 }
 
                 //currentNode.Data.LogMatrix();
@@ -229,7 +241,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                             _stCountDown++;
                             //GoDown(currentNode.Nodes[i]);
                             currentNode = currentNode.Nodes[i];
-                            break;
+                            continue;
                         }
                 }
             }
@@ -239,16 +251,14 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Обход вверх
         /// </summary>
-        private void GoUp(BnBNode currentNode)                  
+        private void GoUp(BnBNode currentNode, BnBNode calledNode)                  
         {
-            if (_bGoUpEnded) // функция возвратилась
-                return;
-
-            bool _continue = true;;
-            while (_continue)
+            while (currentNode != calledNode)
             {
                 //получили родителя
                 BnBNode parentNode = currentNode.ParentNode;
+                if (parentNode == null)
+                    return;
                 BnBNode childNode = currentNode;
                 for (int i = 0; i < parentNode.Nodes.Count; i++)
                 {
@@ -258,10 +268,11 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                         {
                             if (parentNode.Nodes[i].Viewed == false)
                             {
-                                //parentNode.Nodes[i].Viewed = true;
                                 // Обход вниз для i-го ребенка
                                 _stCountDown++;
-                                GoDown(parentNode.Nodes[i]);
+                                currentNode.Viewed = true;
+                                GoDown(parentNode.Nodes[i], currentNode);
+                                return;
                             }
                         }
                         else
@@ -270,21 +281,9 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                         }
                     }
                 }
-
-                // Продолжаем функцию ОбходВверх для родителя родителя.
-                if (parentNode.ParentNode != null)
-                {
-                    _strCountUp++;
-                    parentNode.Viewed = true;
-                    //GoUp(parentNode);
-                    currentNode = parentNode;
-                }
-                else
-                {
-                    _bGoUpEnded = true;
-                    _continue = false;
-                    return;                    
-                }
+                currentNode.Viewed = true;
+                // Продолжаем функцию ОбходВверх для родителя родителя.  (поднимаемся на уровень выше)
+                currentNode = currentNode.ParentNode;
             }
             return;
         }
@@ -337,7 +336,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             _greatParentNode = new BnBNode(null, nData);          // создаем первый родительский узел с данными
 
             // Обход
-            GoDown(_greatParentNode);
+            GoDown(_greatParentNode, null);
 
             liPath = FindBest(_greatParentNode, new List<string>());    // получаем лучшие пути
 

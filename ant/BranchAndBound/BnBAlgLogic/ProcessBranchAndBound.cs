@@ -26,7 +26,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// </summary>
         public Drawing Drawing;
 
-        public delegate void ProgressChanged(int value);
+        public delegate void ProgressChanged(object sender,int value);
         public event ProgressChanged eventProgressChanged;     
 
         /// <summary>
@@ -45,6 +45,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         private DateTime timeStart;
 
         private Route _bestPath = null;
+        private List<Route> _liBestPath = null;
         /// <summary>
         /// Время рачета алгоритма
         /// </summary>
@@ -73,7 +74,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Возвращает лист с отладочной информацией расчета
         /// </summary>
-        public List<string> ResultInfo
+        public List<string> ResultInfo          
         {
             get
             {
@@ -84,18 +85,28 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Возвращает коллекцию городов, расположенных в порядке лучшего пути
         /// </summary>
-        public Route ResultPath
+        public Route ResultPath                 
         {
             get
             {
                 return _bestPath;
             }
         }
+        /// <summary>
+        /// Список лучших путей (только для чтения)
+        /// </summary>
+        public List<Route> ResultPathList       
+        {
+            get
+            {
+                return _liBestPath;
+            }
+        }
 
         /// <summary>
         /// Возвращает время расчета алгоритма
         /// </summary>
-        public TimeSpan ProcessTime
+        public TimeSpan ProcessTime             
         {
             get
             {
@@ -151,14 +162,19 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         {
             //пересылка сообщения
             if (eventProgressChanged != null) //проверяем наличие подписчиков
-                eventProgressChanged((int)e.Percent);
+                eventProgressChanged(this, (int)e.Percent);
         }
 
         private void Finally(object sender, EventArgs e)                                    
         {
             // Результаты            
             Route path = new Route( _travelSalesmanBnB.BestPath, "ветвей и границ");
+            _liBestPath = new List<Route>();            
             _bestPath = path;
+            List<CitiesCollection> ct = _travelSalesmanBnB.BestPathList;
+            foreach (CitiesCollection singleCollection in ct)
+                _liBestPath.Add( new Route(singleCollection, "ветвей и границ"));
+
             _liStrInfo = new List<string>();
             _liStrInfo.Add(" ");
             //_bestPath.Drawing = this.Drawing;
