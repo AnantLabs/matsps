@@ -258,6 +258,7 @@ namespace matsps
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
+                // label c процентами
                 ToolStripLabel labelPercent = new ToolStripLabel();
                 labelPercent.BackColor = _prAntList[_prAntList.Count - 1].Drawing.Color;
                 labelPercent.ForeColor = Color.White;
@@ -318,14 +319,22 @@ namespace matsps
             // АЛГОРИТМ
             //if (_prBnB == null)
             //{
+            _prBnBList.Add(new ProcessBranchAndBound());
+
                 // Интерфейс
                 toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
+                // label c процентами
+                ToolStripLabel labelPercent = new ToolStripLabel();
+                labelPercent.BackColor = _prBnBList[_prBnBList.Count - 1].Drawing.Color;
+                labelPercent.ForeColor = Color.White;
+                labelPercent.Margin = new Padding(0, 0, 5, 0);
+                statusStrip1.Items.Add(labelPercent);
+                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prBnBList[_prBnBList.Count - 1], labelPercent));
 
-                //Добавляем экземпляр алгоритма в список            
-                _prBnBList.Add(new ProcessBranchAndBound() );
+                //Добавляем экземпляр алгоритма в список                            
                 _prBnBList[_prBnBList.Count - 1].eventProgressChanged += new ProcessBranchAndBound.ProgressChanged(AntAlgProgressChange);
                 _prBnBList[_prBnBList.Count - 1].eventFinally += new EventHandler<EventArgs>(BnBAlgFinally);
                 _prBnBList[_prBnBList.Count - 1].Parameters = _paramBnB;
@@ -361,11 +370,10 @@ namespace matsps
 
         #region События алгоритмов
         /// <summary>
-        /// Изменение в Алгоритме муравья
+        /// Изменение в Алгоритмах
         /// </summary>
         /// <param name="value"></param>
-        private delegate void IncrementCallback(int val);
-        private void AntAlgProgressChange(object sender, int value)                    
+        private void AntAlgProgressChange(object sender, int value, string label)                    
         {
             //prgbarProgress.Value = value;
             //toolSTProgress.Text = value + "%";
@@ -380,7 +388,10 @@ namespace matsps
                         for (int i = 0; i < liLinkedPrLabel.Count; i++)
                         {
                             if (liLinkedPrLabel[i].Process == sender)
-                                liLinkedPrLabel[i].Label.Text = value.ToString() + "%";
+                            {
+                                liLinkedPrLabel[i].Label.Text = (value==-1)?"-":(value.ToString() + label);
+                                break;
+                            }
                         }
                     }));
                 }
@@ -435,7 +446,7 @@ namespace matsps
                                 }
 
                                 // Путь городов. Заносим лист.
-                                _prAntList[i].ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
+                                _prAntList[i].ResultPath.Drawing.Color = _prAntList[i].Drawing.Color; // цвет маршрута
                                 liRoute.Add(_prAntList[i].ResultPath);
                                 ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                                 ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
@@ -450,8 +461,8 @@ namespace matsps
                                         break;
                                     }
 
-                                    // Готовность интерфейса
-                                    _prAntList[i] = null;
+                                // Готовность интерфейса
+                                _prAntList[i] = null;
                                 tlStrpTxbCitiesCount.Enabled = true;
                                 tlStrpBtnCreateRandomCities.Enabled = true;
 
@@ -509,6 +520,14 @@ namespace matsps
                                     ucCP.RefreshRoutePaint(); // обновляем прорисовку
 
                                     toolSTLInfo.Text = "Время расчета: " + _prNNList[i].ProcessTime.ToString();
+                                    // Удаляем label-процента исполнения
+                                    for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                        if (liLinkedPrLabel[j].Process == _prNNList[i])
+                                        {
+                                            toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                            liLinkedPrLabel.RemoveAt(j);
+                                            break;
+                                        }
 
                                     // Готовность интерфейса
                                     _prNNList[i] = null;
@@ -569,13 +588,22 @@ namespace matsps
                             }
 
                             // Путь городов. Заносим лист.
-                            _prBnBList[i].ResultPath.Drawing.Color = Color.Orange; // цвет маршрута
+                            //_prBnBList[i].ResultPath.Drawing.Color = Color.Orange; // цвет маршрута
                             //liRoute.Add(_prBnBList[i].ResultPath);
+                            _prBnBList[i].ResultPath.Drawing.Color = _prBnBList[i].Drawing.Color;
                             liRoute.AddRange(_prBnBList[i].ResultPathList);
                             ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                             ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
 
                             toolSTLInfo.Text = "Время расчета: " + _prBnBList[i].ProcessTime.ToString();
+                            // Удаляем label-процента исполнения
+                            for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                if (liLinkedPrLabel[j].Process == _prBnBList[i])
+                                {
+                                    toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                    liLinkedPrLabel.RemoveAt(j);
+                                    break;
+                                }
 
                             // Готовность интерфейса
                             _prBnBList[i] = null;

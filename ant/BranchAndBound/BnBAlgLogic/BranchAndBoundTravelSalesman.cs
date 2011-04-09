@@ -53,15 +53,10 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// </summary>
         private double _dCriterialWeight = double.PositiveInfinity;
 
-        /// <summary>
-        /// Флаг. Функция ОбходВверх закончена.
-        /// </summary>
-        private bool _bGoUpEnded = false;
-
-        private bool _bGoDownFirst = true;
-
         private static int _stCountDown = 0;
         private static int _strCountUp = 0;
+
+        private long _lNodeCount = 0;
 
         /// <summary>
         /// Список готовых путей
@@ -225,6 +220,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
 
                                 currentNode.Nodes.Add(childNodeFirst);
                                 currentNode.Nodes.Add(childNodeSecond);
+                                _lNodeCount += 2;       // количество узлов в дереве
 
                                 break;
                             }
@@ -382,7 +378,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         protected virtual void tmrTimer_Elapsed(object sender, EventArgs e)
         {
             //Подсчитываем процент прогресса
-            BnBAlgChangesEventArgs eee = new BnBAlgChangesEventArgs(0, "Расчет");
+            BnBAlgChangesEventArgs eee = new BnBAlgChangesEventArgs( _lNodeCount , "Расчет", " узлов");
 
             OnProgressChanged(eee);
         }
@@ -397,11 +393,13 @@ namespace matsps.BranchAndBound.BnBAlgLogic
     {
         private readonly double _dPercent;
         private readonly string _strStatus;
+        private readonly string _strLabel;
 
-        public BnBAlgChangesEventArgs(double percent, string status)
+        public BnBAlgChangesEventArgs(double percent, string status, string label)
         {
             _dPercent = percent;
             _strStatus = status;
+            _strLabel = label;
         }
 
         /// <summary>
@@ -411,13 +409,24 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         { get { return _dPercent; } }
 
         /// <summary>
-        /// Статус выполнения алгоритма
+        /// Статус выполнения алгоритма (только для чтения)
         /// </summary>
         public string Status            
         {
             get
             {
                 return _strStatus;
+            }
+        }
+
+        /// <summary>
+        /// Подпись к аргументу (только для чтения)
+        /// </summary>
+        public string Label             
+        {
+            get
+            {
+                return _strLabel;
             }
         }
     };

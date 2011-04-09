@@ -15,7 +15,7 @@ namespace matsps.GeneticAlgorithm
     {
         #region Конструкторы и Данные
 
-        public delegate void ProgressChanged(object sender, int value);
+        public delegate void ProgressChanged(object sender, int value, string label);
         public event ProgressChanged eventProgressChanged;
 
         public ProcessGeneticAlgorithm() { }
@@ -138,7 +138,7 @@ namespace matsps.GeneticAlgorithm
         {
             //пересылка сообщения
             if (eventProgressChanged != null) //проверяем наличие подписчиков
-                eventProgressChanged(this, (int)e.Percent);
+                eventProgressChanged(this, (int)e.Percent, "-");
         }
 
         private void Finally(object sender, EventArgs e)
