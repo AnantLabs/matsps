@@ -98,9 +98,9 @@ namespace matsps.BranchAndBound.BnBAlgData
             else
             {
                 // Цикл прохода по списку кусков
+                bool flagPlus = false;
                 for (int i = 0; i < _piePath.Count; i++)
-                {
-                    bool flagPlus = false;
+                {                    
                     string[] strarrPies = _piePath[i].Split(_charSplit);
                     if (strarrPies[0] == indexJ.ToString()) // пытаемся плюсануть в начало
                     {
@@ -115,50 +115,60 @@ namespace matsps.BranchAndBound.BnBAlgData
                         strNewPie = _piePath[i];
                         flagPlus = true;
                     }
+                    if (flagPlus)
+                        break;
+                }
                     
                     if (!flagPlus) // не удалось плюсануть, создаем новый кусок
                     {
                         _piePath.Add(strNewArc);
                         strNewPie = strNewArc;
-                        break;
                     }
                     else
                     {
-                        strNewArc = _piePath[i];
-                        // Цикл на "сливание" кусочков пути
-                        strarrPies = _piePath[i].Split(_charSplit);
-                        for (int k = 0; k < _piePath.Count; k++)
+                        for (int i = 0; i < _piePath.Count; i++)
                         {
-                            // Разделяем k-й кусок на элементы
-                            string[] strarrK = _piePath[k].Split(_charSplit);
-                            if (strarrPies[0] == strarrK[strarrK.Length - 1])
+                            strNewArc = _piePath[i];
+                            // Цикл на "сливание" кусочков пути
+                            string[] strarrPies = _piePath[i].Split(_charSplit);
+                            for (int k = i+1; k < _piePath.Count; k++)
                             {
-                                // Плюсуем 
-                                string newStr = "";
-                                for (int l = 0; l < strarrK.Length - 1; l++)
-                                    newStr += strarrK[l] + _charSplit;
-                                newStr += _piePath[i];
-                                _piePath[i] = newStr;
-                                strNewPie = _piePath[i];
-                                _piePath.RemoveAt(k);
+                                // Разделяем k-й кусок на элементы
+                                string[] strarrK = _piePath[k].Split(_charSplit);
+                                if (strarrPies[0] == strarrK[strarrK.Length - 1])
+                                {
+                                    // Плюсуем 
+                                    string newStr = "";
+                                    for (int l = 0; l < strarrK.Length - 1; l++)
+                                        newStr += strarrK[l] + _charSplit;
+                                    for (int j = 0; j < strarrPies.Length; j++)
+                                        newStr += strarrPies[j] + _charSplit;
+                                    newStr = newStr.Substring(0, newStr.Length - 1);
 
-                            }
-                            if (strarrPies[strarrPies.Length - 1] == strarrK[0])
-                            {
-                                // Плюсуем 
-                                string newStr = "";
-                                for (int l = 0; l < strarrPies.Length - 1; l++)
-                                    newStr += strarrPies[l] + _charSplit;
-                                newStr += _piePath[i];
+                                    //newStr += _piePath[i];
+                                    _piePath[i] = newStr;
+                                    strNewPie = _piePath[i];
+                                    _piePath.RemoveAt(k);
 
-                                _piePath[i] = newStr;
-                                //_piePath[i].Replace(charSplit.ToString() + strarrK[0] + strarrK[0] + charSplit.ToString() , charSplit.ToString() + strarrK[0]);
-                                strNewPie = _piePath[i];
-                                _piePath.RemoveAt(k);
+                                }
+                                if (strarrPies[strarrPies.Length - 1] == strarrK[0])
+                                {
+                                    // Плюсуем 
+                                    string newStr = "";
+                                    for (int l = 0; l < strarrPies.Length - 1; l++)
+                                        newStr += strarrPies[l] + _charSplit;
+                                    for (int j = 0; j < strarrK.Length; j++)
+                                        newStr += strarrK[j] + _charSplit;
+                                    newStr = newStr.Substring(0, newStr.Length - 1);
+
+                                    _piePath[i] = newStr;
+                                    //_piePath[i].Replace(charSplit.ToString() + strarrK[0] + strarrK[0] + charSplit.ToString() , charSplit.ToString() + strarrK[0]);
+                                    strNewPie = _piePath[i];
+                                    _piePath.RemoveAt(k);
+                                }
                             }
                         }
                     }
-                }
             }
 
             // Находим запрещенную дугу

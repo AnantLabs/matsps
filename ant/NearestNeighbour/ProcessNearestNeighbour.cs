@@ -18,7 +18,7 @@ namespace matsps
         /// параметры прорисовки маршрута
         /// </summary>
         public Drawing Drawing;
-        public delegate void ProgressChanged(int value);
+        public delegate void ProgressChanged(object sender, int value);
         public event ProgressChanged eventProgressChanged;
   
         public ProcessNearestNeighbour() { }
@@ -141,7 +141,7 @@ namespace matsps
         {
             //пересылка сообщения
             if (eventProgressChanged != null) //проверяем наличие подписчиков
-                eventProgressChanged((int)e.Percent);
+                eventProgressChanged(this, (int)e.Percent);
         }
 
         private void Finally(object sender, EventArgs e)

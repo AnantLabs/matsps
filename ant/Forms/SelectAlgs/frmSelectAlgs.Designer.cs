@@ -45,7 +45,7 @@
             this.btnStart.BackgroundImage = global::matsps.Properties.Resources.accepted_48;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStart.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnStart.Location = new System.Drawing.Point(12, 176);
+            this.btnStart.Location = new System.Drawing.Point(12, 211);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(32, 32);
             this.btnStart.TabIndex = 1;
@@ -54,11 +54,11 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.BackgroundImage = global::matsps.Properties.Resources.cancel_48;
             this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(50, 176);
+            this.btnCancel.Location = new System.Drawing.Point(50, 211);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(32, 32);
             this.btnCancel.TabIndex = 2;
@@ -72,7 +72,7 @@
             this.groupBox1.Controls.Add(this.dataGridView);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(353, 158);
+            this.groupBox1.Size = new System.Drawing.Size(297, 193);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выберите алгоритмы для расчета  :";
@@ -81,15 +81,22 @@
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CalcStatus,
             this.AlgName,
             this.CalcCount});
-            this.dataGridView.Location = new System.Drawing.Point(17, 28);
+            this.dataGridView.Location = new System.Drawing.Point(6, 28);
+            this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(326, 118);
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView.Size = new System.Drawing.Size(285, 159);
             this.dataGridView.TabIndex = 0;
             // 
             // CalcStatus
@@ -122,19 +129,18 @@
             this.CalcCount.Name = "CalcCount";
             this.CalcCount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.CalcCount.ToolTipText = "Сколько раз произвести расчет";
+            this.CalcCount.Width = 70;
             // 
             // frmSelectAlgs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(377, 211);
+            this.ClientSize = new System.Drawing.Size(329, 257);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStart);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(393, 249);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(393, 249);
             this.Name = "frmSelectAlgs";
             this.ShowIcon = false;
             this.Text = "Расчет";

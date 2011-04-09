@@ -14,7 +14,7 @@ namespace matsps.Forms.SelectAlgs
         /// <summary>
         /// Список выбранных алгоритмов
         /// </summary>
-        private List<algStartParam> _selectList = null;
+        private List<AlgStartParam> _selectList = null;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace matsps.Forms.SelectAlgs
         private void frmSelectAlgs_Load(object sender, EventArgs e)
         {
             //инициализируем список алгоритмов для запуска
-            _selectList = new List<algStartParam>();
+            _selectList = new List<AlgStartParam>();
             //Убираем заголовок
             dataGridView.RowHeadersVisible = false;
             
@@ -121,7 +121,7 @@ namespace matsps.Forms.SelectAlgs
                 //если алгоритм выбран, то добавляем в список
                 if (algChecked == true)
                 { 
-                    _selectList.Add(new algStartParam(
+                    _selectList.Add(new AlgStartParam(
                         (string)dataGridView.Rows[i].Cells[1].Value, //имя алгоритма
                         Convert.ToInt32((string)dataGridView.Rows[i].Cells[2].Value))); //кол-во запусков
                 }                
@@ -135,7 +135,7 @@ namespace matsps.Forms.SelectAlgs
         /// <summary>
         /// Возвращает список выбранных алгоритмов
         /// </summary>
-        public List<algStartParam> getSelectList()
+        public List<AlgStartParam> getSelectList()
         {
             return _selectList;
         }

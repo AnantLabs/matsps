@@ -86,6 +86,10 @@ namespace matsps
         /// Лист расчитанных маршрутов. Все расчитанные маршруты за текущую сессию, помещаются сюда.
         /// </summary>
         private List<Route> liRoute;
+        /// <summary>
+        /// Список связей между процессами алгоиртмов и метками процесса выполнения
+        /// </summary>
+        private List<ProcessLinkedLabelPercent> liLinkedPrLabel;
         #endregion
 
         #region События главной формы
@@ -95,7 +99,6 @@ namespace matsps
         /// </summary>
         private void frmMain_Load(object sender, EventArgs e)
         {
-            toolSTLProgress.Visible = false;
             tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
             tlStrpTxbCitiesCount.Focus();
             tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
@@ -194,12 +197,16 @@ namespace matsps
             // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
             Forms.SelectAlgs.frmSelectAlgs sa = new matsps.Forms.SelectAlgs.frmSelectAlgs();
             DialogResult res = sa.ShowDialog();
+            liLinkedPrLabel = new List<ProcessLinkedLabelPercent>();
+            statusStrip1.Items.Clear();
+            ToolStripLabel toolSTLInfo = new ToolStripLabel();
+            statusStrip1.Items.Add(toolSTLInfo);
 
             switch (res)
             {
                 case DialogResult.OK:
                     {
-                        List<algStartParam> selectList = sa.getSelectList();//список выбранных алгоритмов                        
+                        List<AlgStartParam> selectList = sa.getSelectList();//список выбранных алгоритмов                        
                         //int iCount = selectList.Count; //количество выбранных алгоритмов
 
                         for (int k = 0; k < selectList.Count; k++)
@@ -243,13 +250,20 @@ namespace matsps
             // АЛГОРИТМ
             //if (_prAnt == null)
             //{
+            //Добавляем экземпляр алгоритма в список
+            _prAntList.Add(new ProcessAnt());
+
                 // Интерфейс
-                toolSTLProgress.Visible = true;
-                ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tlStrpBtnAntAlgStart.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
+                ToolStripLabel labelPercent = new ToolStripLabel();
+                labelPercent.BackColor = _prAntList[_prAntList.Count - 1].Drawing.Color;
+                labelPercent.ForeColor = Color.White;
+                labelPercent.Margin = new Padding(0,0,5,0);
+                statusStrip1.Items.Add(labelPercent);
+                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prAntList[_prAntList.Count - 1],labelPercent));
 
                 //_prAnt = new ProcessAnt();
                 //_prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
@@ -257,9 +271,8 @@ namespace matsps
                 //_prAnt.Parameters = _paramAnt;
                 //_prAnt.Cities = _cities;
                 //_prAnt.Start();
+               
                 
-                //Добавляем экземпляр алгоритма в список
-                _prAntList.Add(new ProcessAnt());
                 //Подписываем последний в списке экземпляр алгоритма на необходимые события
                 _prAntList[_prAntList.Count-1].eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
                 _prAntList[_prAntList.Count - 1].eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
@@ -284,8 +297,6 @@ namespace matsps
             //{
                 // Интерфейс
                 //ucCP.RouteLengthTextOut("");
-                toolSTLProgress.Visible = true;
-                ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tsbNearestNeighbour.Enabled = false;
@@ -299,7 +310,6 @@ namespace matsps
                 _prNNList[_prNNList.Count - 1].Start();
         }
 
-
         /// <summary>
         /// Начать расчет методом Ветвей и границ
         /// </summary>
@@ -309,8 +319,6 @@ namespace matsps
             //if (_prBnB == null)
             //{
                 // Интерфейс
-                toolSTLProgress.Visible = true;
-                ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tlStrpBtnAntAlgStart.Enabled = false;
@@ -329,15 +337,13 @@ namespace matsps
         /// <summary>
         /// Начать расчёт с помощью Генетического алгоритма
         /// </summary>
-        private void GeneticAlgorithmStart()
+        private void GeneticAlgorithmStart()                    
         {
             // АЛГОРИТМ
             if (_pGA == null)
             {
                 // Интерфейс
                 //ucCP.RouteLengthTextOut("");
-                toolSTLProgress.Visible = true;
-                ToolStripProgress.Visible = true;
                 toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tsbNearestNeighbour.Enabled = false;
@@ -359,17 +365,26 @@ namespace matsps
         /// </summary>
         /// <param name="value"></param>
         private delegate void IncrementCallback(int val);
-        private void AntAlgProgressChange(int value)                    
+        private void AntAlgProgressChange(object sender, int value)                    
         {
             //prgbarProgress.Value = value;
             //toolSTProgress.Text = value + "%";
             try
             {
-                this.Invoke(new MethodInvoker(delegate()
+                Object locker = new Object();
+                lock (locker)
                 {
-                    //toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
-                }));
-
+                    this.Invoke(new MethodInvoker(delegate()
+                    {
+                        //toolSTLProgress.Text = "Процент вполнения: " + value.ToString() + "%";
+                        for (int i = 0; i < liLinkedPrLabel.Count; i++)
+                        {
+                            if (liLinkedPrLabel[i].Process == sender)
+                                liLinkedPrLabel[i].Label.Text = value.ToString() + "%";
+                        }
+                    }));
+                }
+                /*
                 if (statusStrip1.InvokeRequired)
                 {
                     var d = new IncrementCallback(AntAlgProgressChange);
@@ -378,7 +393,7 @@ namespace matsps
                 else
                 {
                     ToolStripProgress.Value = value;
-                }
+                }*/
             }
             catch (ObjectDisposedException ex)
             {
@@ -426,13 +441,19 @@ namespace matsps
                                 ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
  
                                 toolSTLInfo.Text = "Время расчета: " + _prAntList[i].ProcessTime.ToString();
+                                // Удаляем label-процента исполнения
+                                for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                    if (liLinkedPrLabel[j].Process == _prAntList[i])
+                                    {
+                                        toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                        liLinkedPrLabel.RemoveAt(j);
+                                        break;
+                                    }
 
-                                // Готовность интерфейса
-                                _prAntList[i] = null;
+                                    // Готовность интерфейса
+                                    _prAntList[i] = null;
                                 tlStrpTxbCitiesCount.Enabled = true;
                                 tlStrpBtnCreateRandomCities.Enabled = true;
-                                ToolStripProgress.Visible = false;
-                                toolSTLProgress.Visible = false;
 
                                 //удаление экземпляра алгортима из списка экземпляров
                                 _prAntList.RemoveAt(i);
@@ -548,8 +569,9 @@ namespace matsps
                             }
 
                             // Путь городов. Заносим лист.
-                            _prBnBList[i].ResultPath.Drawing.Color = Color.Purple; // цвет маршрута
-                            liRoute.Add(_prBnBList[i].ResultPath);
+                            _prBnBList[i].ResultPath.Drawing.Color = Color.Orange; // цвет маршрута
+                            //liRoute.Add(_prBnBList[i].ResultPath);
+                            liRoute.AddRange(_prBnBList[i].ResultPathList);
                             ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
                             ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
 
@@ -559,8 +581,6 @@ namespace matsps
                             _prBnBList[i] = null;
                             tlStrpTxbCitiesCount.Enabled = true;
                             tlStrpBtnCreateRandomCities.Enabled = true;
-                            ToolStripProgress.Visible = false;
-                            toolSTLProgress.Visible = false;
 
                             //удаление экземпляра алгортима из списка экземпляров
                             _prBnBList.RemoveAt(i);
@@ -574,7 +594,7 @@ namespace matsps
             }            
         }
 
-        private void tlStrpBtnSaveCities_Click(object sender, EventArgs e)
+        private void tlStrpBtnSaveCities_Click(object sender, EventArgs e)  
         {
             // Создаем новый файловый диалог
             SaveFileDialog DialogSave = new SaveFileDialog();
@@ -622,8 +642,8 @@ namespace matsps
                     sw.Close();  //закрываем файл
             }//IF
 
-        }//
-        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)
+        }
+        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)  
         {           
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
@@ -673,9 +693,9 @@ namespace matsps
     /// <summary>
     /// Содержит имя и параметры запуска алгоритма
     /// </summary>
-    public class algStartParam
+    public class AlgStartParam                                  
     {
-        public algStartParam(string name, int instCount)
+        public AlgStartParam(string name, int instCount)
         {
             this.name = name;
             this.InstCount = instCount;
@@ -708,6 +728,48 @@ namespace matsps
         }
 
 
+        #endregion
+    }
+
+    /// <summary>
+    /// Содержит связь между Process и label процента исполнения
+    /// </summary>
+    public class ProcessLinkedLabelPercent                      
+    {
+        #region Конструкторы
+        public ProcessLinkedLabelPercent(Object process, ToolStripLabel label)
+        {
+            _process = process;
+            _label = label;
+        }
+        #endregion
+
+        #region Поля
+        private Object _process;
+        private ToolStripLabel _label;
+        #endregion
+
+        #region Свойства
+        /// <summary>
+        /// Процесс алгоиртма (только для чтения)
+        /// </summary>
+        public Object Process               
+        {
+            get
+            {
+                return _process;
+            }
+        }
+        /// <summary>
+        /// Метка с процентом выполнения (только для чтения)
+        /// </summary>
+        public ToolStripLabel Label         
+        {
+            get
+            {
+                return _label;
+            }
+        }
         #endregion
     }
 }
