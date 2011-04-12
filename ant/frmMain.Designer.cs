@@ -74,7 +74,7 @@
             this.rtxbOut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtxbOut.Location = new System.Drawing.Point(3, 3);
             this.rtxbOut.Name = "rtxbOut";
-            this.rtxbOut.Size = new System.Drawing.Size(158, 334);
+            this.rtxbOut.Size = new System.Drawing.Size(160, 334);
             this.rtxbOut.TabIndex = 0;
             this.rtxbOut.Text = "";
             // 
@@ -170,7 +170,7 @@
             // 
             this.splContMain.Panel2.Controls.Add(this.ucCP);
             this.splContMain.Size = new System.Drawing.Size(709, 366);
-            this.splContMain.SplitterDistance = 172;
+            this.splContMain.SplitterDistance = 174;
             this.splContMain.TabIndex = 4;
             // 
             // tbCtrlInfo
@@ -181,7 +181,7 @@
             this.tbCtrlInfo.Location = new System.Drawing.Point(0, 0);
             this.tbCtrlInfo.Name = "tbCtrlInfo";
             this.tbCtrlInfo.SelectedIndex = 0;
-            this.tbCtrlInfo.Size = new System.Drawing.Size(172, 366);
+            this.tbCtrlInfo.Size = new System.Drawing.Size(174, 366);
             this.tbCtrlInfo.TabIndex = 0;
             // 
             // tbPgTimePath
@@ -190,9 +190,9 @@
             this.tbPgTimePath.Location = new System.Drawing.Point(4, 22);
             this.tbPgTimePath.Name = "tbPgTimePath";
             this.tbPgTimePath.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPgTimePath.Size = new System.Drawing.Size(164, 340);
+            this.tbPgTimePath.Size = new System.Drawing.Size(166, 340);
             this.tbPgTimePath.TabIndex = 0;
-            this.tbPgTimePath.Text = "Время-путь";
+            this.tbPgTimePath.Text = "Данные расчета";
             this.tbPgTimePath.UseVisualStyleBackColor = true;
             // 
             // tbPgCitiesRoute
@@ -201,9 +201,9 @@
             this.tbPgCitiesRoute.Location = new System.Drawing.Point(4, 22);
             this.tbPgCitiesRoute.Name = "tbPgCitiesRoute";
             this.tbPgCitiesRoute.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPgCitiesRoute.Size = new System.Drawing.Size(164, 340);
+            this.tbPgCitiesRoute.Size = new System.Drawing.Size(151, 340);
             this.tbPgCitiesRoute.TabIndex = 1;
-            this.tbPgCitiesRoute.Text = "Лучший маршрут";
+            this.tbPgCitiesRoute.Text = "Путь";
             this.tbPgCitiesRoute.UseVisualStyleBackColor = true;
             // 
             // rtxbCities
@@ -211,7 +211,7 @@
             this.rtxbCities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtxbCities.Location = new System.Drawing.Point(3, 3);
             this.rtxbCities.Name = "rtxbCities";
-            this.rtxbCities.Size = new System.Drawing.Size(158, 334);
+            this.rtxbCities.Size = new System.Drawing.Size(145, 334);
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
@@ -220,7 +220,7 @@
             this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucCP.Location = new System.Drawing.Point(0, 0);
             this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(533, 366);
+            this.ucCP.Size = new System.Drawing.Size(531, 366);
             this.ucCP.TabIndex = 0;
             // 
             // tlStrpMainContainer

@@ -186,6 +186,7 @@ namespace matsps.CommonData
         {
             //int i = 0;
             _dlength = 0;
+            _cities.DistanceCalculate();
             for (int j = 1; j < _cities.Count; j++)
             {
                 //_dlength += _cities.Distance[i, j];

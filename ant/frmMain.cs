@@ -430,7 +430,8 @@ namespace matsps
                             #region if
                             if (_prAntList[i].ResultInfo != null)
                             {
-                                // Лист результатов по времени
+                                // Лист результатов расчета
+                                rtxbOut.AppendText("        алгоритм муравья (" + i + ")       \n" );
                                 List<string> listr = _prAntList[i].ResultInfo;
                                 foreach (string str in listr)
                                 {
@@ -497,7 +498,8 @@ namespace matsps
                                 try
                                 {
                                     // РЕЗУЛЬТАТЫ
-                                    // Лист результатов по времени
+                                    // Лист результатов расчета
+                                    rtxbOut.AppendText("        ближайший сосед (" + i + ")       \n");
                                     List<string> listr = _prNNList[i].ResultList;
                                     foreach (string str in listr)
                                     {
@@ -570,15 +572,16 @@ namespace matsps
                         #region if
                         if (_prBnBList[i].ResultInfo != null)
                         {
-                            /*
-                            // Лист результатов по времени
+                            // Лист результатов расчета
+                            rtxbOut.AppendText("        ветви и границы (" + i + ")       \n");
                             List<string> listr = _prBnBList[i].ResultInfo;
                             foreach (string str in listr)
                             {
                                 rtxbOut.AppendText(str);
+                                rtxbOut.AppendText("\n");
                             }
                             rtxbOut.AppendText("--------------------------------------------\n");
-                             * */
+
                             // Лист последовательности городов
                             CitiesCollection CitiesInPath = _prBnBList[i].ResultPath.Cities;
                             rtxbCities.Clear();
@@ -602,6 +605,7 @@ namespace matsps
                                 {
                                     toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
                                     liLinkedPrLabel.RemoveAt(j);
+                                    //System.Threading.Thread.Sleep(500);
                                     break;
                                 }
 

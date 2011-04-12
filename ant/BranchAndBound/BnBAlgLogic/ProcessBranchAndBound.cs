@@ -181,8 +181,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
                 _liBestPath.Add( r );
             }
 
-            _liStrInfo = new List<string>();
-            _liStrInfo.Add(" ");
+            _liStrInfo = _travelSalesmanBnB.ResultInfo;
             //_bestPath.Drawing = this.Drawing;
 
             //Копирование параметров прорисовки

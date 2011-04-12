@@ -49,6 +49,11 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         private BnBNode _greatParentNode;
 
         /// <summary>
+        /// Лист с отладочными данными
+        /// </summary>
+        private List<string> _liInfo;
+
+        /// <summary>
         /// Критерий веса для дерева (минимальный суммарный вес)
         /// </summary>
         private double _dCriterialWeight = double.PositiveInfinity;
@@ -82,6 +87,16 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         {
             set;
             get;
+        }
+
+        /// <summary>
+        /// Лист в отладочной информацией (только для чтения)
+        /// </summary>
+        public List<string> ResultInfo                  
+        {
+            get {
+                return _liInfo;
+            }
         }
         #endregion
 
@@ -220,7 +235,19 @@ namespace matsps.BranchAndBound.BnBAlgLogic
 
                                 currentNode.Nodes.Add(childNodeFirst);
                                 currentNode.Nodes.Add(childNodeSecond);
+
+                                // служебные данные
                                 _lNodeCount += 2;       // количество узлов в дереве
+                                _liInfo.Add(" ");
+                                _liInfo.Add(String.Format( "№: {0:00000}\tParent:{1:00000}", childNodeFirst.Index, childNodeFirst.ParentNode.Index));
+                                _liInfo.Add(String.Format("Размерность: {0:#}x{1:#}", childNodeFirst.Data.Length, childNodeFirst.Data.Length));
+                                _liInfo.Add(String.Format("Длина пути: {0:000.00}", childNodeFirst.Data.SummWeight));
+                                //_liInfo.AddRange( childNodeFirst.Data.ListInfo() );
+                                _liInfo.Add(" ");
+                                _liInfo.Add(String.Format("№: {0:00000}\tParent:{1:00000}", childNodeSecond.Index, childNodeSecond.ParentNode.Index));
+                                _liInfo.Add(String.Format("Размерность: {0:#}x{1:#}", childNodeSecond.Data.Length, childNodeSecond.Data.Length));
+                                _liInfo.Add(String.Format("Длина пути: {0:000.00}", childNodeSecond.Data.SummWeight));
+                                //_liInfo.AddRange( childNodeSecond.Data.ListInfo() );
 
                                 break;
                             }
@@ -325,6 +352,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             BnBNodeData nData = new BnBNodeData(Cities);    // заносим начальные данные из коллекции городов
 
             tmrTimer.Start(); //запуск таймера
+            _liInfo = new List<string>();
 
             nData.ReductedMatrix();                         // приводим матрице по столбцам и строкам
             nData.PowCalc();                                // подсчет степеней у нулевых элементов            
@@ -355,14 +383,14 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         public event EventHandler<EventArgs> eventFinally;
 
         // Уведомляет подписанные на событие объекты
-        protected virtual void OnProgressChanged(BnBAlgChangesEventArgs e)
+        protected virtual void OnProgressChanged(BnBAlgChangesEventArgs e)  
         {
             EventHandler<BnBAlgChangesEventArgs> tmp = eventProgressChanged;
 
             if (tmp != null)
                 tmp(this, e);
         }
-        protected virtual void OnFinally(EventArgs e)
+        protected virtual void OnFinally(EventArgs e)                       
         {
             EventHandler<EventArgs> tmp = eventFinally;
 
@@ -375,7 +403,7 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         }
 
         // Метод, вызывающий событие
-        protected virtual void tmrTimer_Elapsed(object sender, EventArgs e)
+        protected virtual void tmrTimer_Elapsed(object sender, EventArgs e) 
         {
             //Подсчитываем процент прогресса
             BnBAlgChangesEventArgs eee = new BnBAlgChangesEventArgs( _lNodeCount , "Расчет", " узлов");
