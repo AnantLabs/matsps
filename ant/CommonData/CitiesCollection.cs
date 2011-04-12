@@ -104,7 +104,7 @@ namespace matsps.CommonData
                 _liCities[i].Index = i;
             }
 
-            InitDistance();
+            DistanceCalculate();
         }
         public void InitCitiesRandom()              
         {
@@ -114,27 +114,26 @@ namespace matsps.CommonData
         /// <summary>
         /// Добавить город в коллекцию городов
         /// </summary>
-        public void Add(City city)        
+        public void Add(City city)          
         {
             _liCities.Add(city);
             _iCount++;
-            InitDistance();
+            //DistanceCalculate();
         }
-        public void RemoveAll()
+        public void RemoveAll()             
         {
             _liCities.Clear();
             _iCount = 0;
-            InitDistance();
+            DistanceCalculate();
         }
         #endregion
 
         #region Внутренний функционал
         /// <summary>
-        /// Заполняем массивы расстояний и феромонов
+        /// Заполняем массивы расстояний
         /// </summary>
-        private void InitDistance()                 
+        public void DistanceCalculate()                 
         {
-            //InitPheromone = (1.0 / _iCount);
             Distance = new double[_iCount, _iCount];
             Distance.Initialize();
 

@@ -78,7 +78,7 @@ namespace matsps.AntAlgLogic
         /// <summary>
         /// Возвращает или задает Коллекцию городов
         /// </summary>
-        public CitiesCollection Cities                        
+        public CitiesCollection Cities                                  
         {
             set;
             get;

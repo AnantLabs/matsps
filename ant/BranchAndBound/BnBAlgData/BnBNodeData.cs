@@ -447,6 +447,42 @@ namespace matsps.BranchAndBound.BnBAlgData
             log.DebugFormat("Общий вес {0:0000.00}",_dSumWeight);
             log.Debug(" ");
         }
+
+        /// <summary>
+        /// Лист с отладочной информацией
+        /// </summary>
+        /// <returns></returns>
+        public List<string> ListInfo()                                      
+        {
+            List<string> liStr = new List<string>();
+
+            // Печать индексов столбцов
+            liStr.Add("------------------value------------");
+            string strColIndexes = "   ";
+            for (int i = 0; i < Length; i++)
+                strColIndexes += String.Format("  {0:00}  ", _iArrHorIndexes[i]);
+            liStr.Add(strColIndexes);
+
+            for (int i = 0; i < Length; i++)
+            {
+                string strRow = string.Format("{0:00} ", _iArrVerIndexes[i]);
+                for (int j = 0; j < Length; j++)
+                    strRow += (double.IsInfinity(_arrDistance[i, j].Value)) ? "----- " : String.Format("{0:00.00} ", _arrDistance[i, j].Value);
+                liStr.Add(strRow);
+            }
+
+            liStr.Add("\tДуги:");
+            for (int i = 0; i > _path.Arc.Count; i++)
+                liStr.Add("\t" + (i + 1).ToString() + _path.Arc[i]);
+            liStr.Add("\tКуски пути:");
+            for (int i = 0; i > _path.PiePath.Count; i++)
+                liStr.Add("\t" + (i + 1).ToString() + _path.PiePath[i]);
+
+            liStr.Add(String.Format( "Общий вес {0:0000.00}", _dSumWeight));
+            liStr.Add(" ");
+
+            return liStr;
+        }
         #endregion
     }
 }
