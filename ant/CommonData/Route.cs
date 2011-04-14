@@ -183,19 +183,22 @@ namespace matsps.CommonData
         /// Вычисляет длину маршрута
         /// </summary>
         private void LengthCalculation()
-        {
-            //int i = 0;
-            _dlength = 0;
+        {            
+            _dlength = 0.0;
             _cities.DistanceCalculate();
-            for (int j = 1; j < _cities.Count; j++)
-            {
-                //_dlength += _cities.Distance[i, j];
-                _dlength += _cities.Distance[_cities[j - 1].Index, _cities[j].Index];
-                //i++;
-            }
-            //из первого в последний
-            //_dlength += _cities.Distance[0, _cities.Count-1];
-            _dlength += _cities.Distance[_cities[_cities.Count - 1].Index, _cities[0].Index];
+            
+                for (int j = 1; j < _cities.Count; j++)
+                {
+                    _dlength += 
+                        Math.Sqrt( (double)Math.Pow( (_cities[j-1].X - _cities[j].X),2) +
+                            (double)Math.Pow((_cities[j - 1].Y - _cities[j].Y), 2)
+                        );                    
+                }
+            //из первого в последний            
+                _dlength +=
+                    Math.Sqrt((double)Math.Pow((_cities[ _cities.Count - 1].X - _cities[0].X), 2) +
+                                (double)Math.Pow((_cities[_cities.Count - 1].Y - _cities[0].Y), 2)
+                            );
         }
 
         #endregion

@@ -43,7 +43,6 @@
             this.tbPgTimePath = new System.Windows.Forms.TabPage();
             this.tbPgCitiesRoute = new System.Windows.Forms.TabPage();
             this.rtxbCities = new System.Windows.Forms.RichTextBox();
-            this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tlStrpBtnLoadCities = new System.Windows.Forms.ToolStripButton();
@@ -57,6 +56,7 @@
             this.tlStrpBtnSettings = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpBtnStart = new System.Windows.Forms.ToolStripButton();
+            this.ucCP = new matsps.UserControls.ucCitiesPainter();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
@@ -217,14 +217,6 @@
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
-            // ucCP
-            // 
-            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCP.Location = new System.Drawing.Point(0, 0);
-            this.ucCP.Name = "ucCP";
-            this.ucCP.Size = new System.Drawing.Size(531, 366);
-            this.ucCP.TabIndex = 0;
-            // 
             // tlStrpMainContainer
             // 
             // 
@@ -304,14 +296,14 @@
             this.tlStrpBtnSaveModeCoords.Checked = true;
             this.tlStrpBtnSaveModeCoords.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tlStrpBtnSaveModeCoords.Name = "tlStrpBtnSaveModeCoords";
-            this.tlStrpBtnSaveModeCoords.Size = new System.Drawing.Size(152, 22);
+            this.tlStrpBtnSaveModeCoords.Size = new System.Drawing.Size(138, 22);
             this.tlStrpBtnSaveModeCoords.Text = "Координаты";
             this.tlStrpBtnSaveModeCoords.Click += new System.EventHandler(this.tlStrpBtnSaveModeCoords_Click);
             // 
             // tlStrpBtnSaveModeDistance
             // 
             this.tlStrpBtnSaveModeDistance.Name = "tlStrpBtnSaveModeDistance";
-            this.tlStrpBtnSaveModeDistance.Size = new System.Drawing.Size(152, 22);
+            this.tlStrpBtnSaveModeDistance.Size = new System.Drawing.Size(138, 22);
             this.tlStrpBtnSaveModeDistance.Text = "Расстояния";
             this.tlStrpBtnSaveModeDistance.Click += new System.EventHandler(this.tlStrpBtnSaveModeDistance_Click);
             // 
@@ -347,7 +339,7 @@
             this.tlStrpBtnSettings,
             this.toolStripSeparator2,
             this.tlStrpBtnStart});
-            this.toolStrip2.Location = new System.Drawing.Point(181, 21);
+            this.toolStrip2.Location = new System.Drawing.Point(190, 21);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(85, 25);
             this.toolStrip2.TabIndex = 4;
@@ -377,6 +369,14 @@
             this.tlStrpBtnStart.Text = "Расчет";
             this.tlStrpBtnStart.ToolTipText = "Выбор алгоритмов для расчета";
             this.tlStrpBtnStart.Click += new System.EventHandler(this.tlStrpBtnStart_Click);
+            // 
+            // ucCP
+            // 
+            this.ucCP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCP.Location = new System.Drawing.Point(0, 0);
+            this.ucCP.Name = "ucCP";
+            this.ucCP.Size = new System.Drawing.Size(531, 366);
+            this.ucCP.TabIndex = 0;
             // 
             // frmMain
             // 
