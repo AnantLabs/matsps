@@ -63,7 +63,7 @@ namespace matsps.Forms.SelectAlgs
             //Задаем значения ячейкам
             antAlgSelect.Value = false;
             antAlgName.Value = "Муравьиной колонии";
-            antAlgCalcCount.Value = "0";
+            antAlgCalcCount.Value = "1";
             //Добавляем ячейки в строку
             antAlgRow.Cells.Add(antAlgSelect);
             antAlgRow.Cells.Add(antAlgName);
@@ -78,7 +78,7 @@ namespace matsps.Forms.SelectAlgs
             //Задаем значения ячейкам
             nnAlgSelect.Value = false;
             nnAlgName.Value = "Ближайшего соседа";
-            nnAlgCalcCount.Value = "0";
+            nnAlgCalcCount.Value = "1";
             //Добавляем ячейки в строку
             nnAlgRow.Cells.Add(nnAlgSelect);
             nnAlgRow.Cells.Add(nnAlgName);
@@ -93,7 +93,7 @@ namespace matsps.Forms.SelectAlgs
             //Задаем значения ячейкам
             bnbAlgSelect.Value = false;
             bnbAlgName.Value = "Ветвей и границ";
-            bnbAlgCalcCount.Value = "0";
+            bnbAlgCalcCount.Value = "1";
             //Добавляем ячейки в строку
             bnbAlgRow.Cells.Add(bnbAlgSelect);
             bnbAlgRow.Cells.Add(bnbAlgName);
