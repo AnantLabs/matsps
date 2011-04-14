@@ -15,6 +15,10 @@ namespace matsps.Forms.SelectAlgs
         /// Список выбранных алгоритмов
         /// </summary>
         private List<AlgStartParam> _selectList = null;
+        /// <summary>
+        /// Список выбранных алгоритмов по умолчанию
+        /// </summary>
+        private static List<AlgStartParam> _defaultParams = null;
 
         #endregion
 
@@ -34,6 +38,12 @@ namespace matsps.Forms.SelectAlgs
         /// </summary>
         private void frmSelectAlgs_Load(object sender, EventArgs e)
         {
+            //инициализация списка алгоритмов по умолчанию
+            if (_defaultParams == null )//если не инициализирован
+            {
+                _defaultParams = new List<AlgStartParam>();
+            }
+
             //инициализируем список алгоритмов для запуска
             _selectList = new List<AlgStartParam>();
             //Убираем заголовок
@@ -48,11 +58,12 @@ namespace matsps.Forms.SelectAlgs
             //Создаем Ячейки
             DataGridViewCheckBoxCell antAlgSelect = new DataGridViewCheckBoxCell();
             DataGridViewTextBoxCell antAlgName = new DataGridViewTextBoxCell();
-            DataGridViewTextBoxCell antAlgCalcCount = new DataGridViewTextBoxCell();           
+            DataGridViewTextBoxCell antAlgCalcCount = new DataGridViewTextBoxCell();
+
             //Задаем значения ячейкам
-            antAlgSelect.Value = true;
+            antAlgSelect.Value = false;
             antAlgName.Value = "Муравьиной колонии";
-            antAlgCalcCount.Value = "1";
+            antAlgCalcCount.Value = "0";
             //Добавляем ячейки в строку
             antAlgRow.Cells.Add(antAlgSelect);
             antAlgRow.Cells.Add(antAlgName);
@@ -65,9 +76,9 @@ namespace matsps.Forms.SelectAlgs
             DataGridViewTextBoxCell nnAlgName = new DataGridViewTextBoxCell();
             DataGridViewTextBoxCell nnAlgCalcCount = new DataGridViewTextBoxCell();           
             //Задаем значения ячейкам
-            nnAlgSelect.Value = true;
+            nnAlgSelect.Value = false;
             nnAlgName.Value = "Ближайшего соседа";
-            nnAlgCalcCount.Value = "1";
+            nnAlgCalcCount.Value = "0";
             //Добавляем ячейки в строку
             nnAlgRow.Cells.Add(nnAlgSelect);
             nnAlgRow.Cells.Add(nnAlgName);
@@ -80,9 +91,9 @@ namespace matsps.Forms.SelectAlgs
             DataGridViewTextBoxCell bnbAlgName = new DataGridViewTextBoxCell();
             DataGridViewTextBoxCell bnbAlgCalcCount = new DataGridViewTextBoxCell();
             //Задаем значения ячейкам
-            bnbAlgSelect.Value = true;
+            bnbAlgSelect.Value = false;
             bnbAlgName.Value = "Ветвей и границ";
-            bnbAlgCalcCount.Value = "1";
+            bnbAlgCalcCount.Value = "0";
             //Добавляем ячейки в строку
             bnbAlgRow.Cells.Add(bnbAlgSelect);
             bnbAlgRow.Cells.Add(bnbAlgName);
@@ -90,24 +101,29 @@ namespace matsps.Forms.SelectAlgs
             //Добавляем строку в DataGridView
             dataGridView.Rows.Add(bnbAlgRow);
             //
-            //Создаем Ячейки
-            DataGridViewCheckBoxCell genAlgSelect = new DataGridViewCheckBoxCell();
-            DataGridViewTextBoxCell genAlgName = new DataGridViewTextBoxCell();
-            DataGridViewTextBoxCell genAlgCalcCount = new DataGridViewTextBoxCell();
-            //Задаем значения ячейкам
-            genAlgSelect.Value = true;
-            genAlgName.Value = "Генетический";
-            genAlgCalcCount.Value = "1";
-            //Добавляем ячейки в строку
-            genAlgRow.Cells.Add(genAlgSelect);
-            genAlgRow.Cells.Add(genAlgName);
-            genAlgRow.Cells.Add(genAlgCalcCount);
-            //Добавляем строку в DataGridView
-            dataGridView.Rows.Add(genAlgRow);
+
+            //Загрузка значений по умолчанию
+            for (int i = 0; i < _defaultParams.Count; i++)
+            {
+                if (_defaultParams[i].name == "Муравьиной колонии")
+                {
+                    antAlgSelect.Value = true;
+                    antAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
+                }
+                if (_defaultParams[i].name == "Ближайшего соседа")
+                {
+                    nnAlgSelect.Value = true;
+                    nnAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
+                }
+                if (_defaultParams[i].name == "Ветвей и границ")
+                {
+                    bnbAlgSelect.Value = true;
+                    bnbAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
+                }
+            }
 
             //Настройка
             dataGridView.AllowUserToResizeRows = false;  //запрещаем растягивать строки
-            dataGridView.Rows[3].Cells[0].Value = false; //генетический еще не доступен
         }
 
         /// <summary>
@@ -122,10 +138,11 @@ namespace matsps.Forms.SelectAlgs
                 if (algChecked == true)
                 { 
                     _selectList.Add(new AlgStartParam(
-                        (string)dataGridView.Rows[i].Cells[1].Value, //имя алгоритма
+                        (string)(dataGridView.Rows[i].Cells[1].Value), //имя алгоритма
                         Convert.ToInt32((string)dataGridView.Rows[i].Cells[2].Value))); //кол-во запусков
                 }                
             }
+            _defaultParams = _selectList;
         }
         
         #endregion
