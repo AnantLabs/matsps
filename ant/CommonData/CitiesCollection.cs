@@ -142,8 +142,8 @@ namespace matsps.CommonData
                 {
                     if (to != from && Distance[from, to] == 0.0)
                     {
-                        int xd = Math.Abs(_liCities[from].X - _liCities[to].X);
-                        int yd = Math.Abs(_liCities[from].Y - _liCities[to].Y);
+                        double xd = Math.Abs(_liCities[from].X - _liCities[to].X);
+                        double yd = Math.Abs(_liCities[from].Y - _liCities[to].Y);
                         Distance[from, to] = Math.Sqrt(xd * xd + yd * yd);
                         Distance[to, from] = Distance[from, to];
 
