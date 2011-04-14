@@ -363,6 +363,10 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             GoDown(_greatParentNode, null);
 
             liPath = FindBest(_greatParentNode, new List<string>());    // получаем лучшие пути
+            // Записываем лучшие пути в отладочные данные
+            _liInfo.Add("------результат------");
+            foreach (string lp in liPath)
+                _liInfo.Add(lp);
 
             tmrTimer.Stop();           //остановка таймера
 

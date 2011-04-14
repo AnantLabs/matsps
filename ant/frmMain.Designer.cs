@@ -47,7 +47,9 @@
             this.tlStrpMainContainer = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tlStrpBtnLoadCities = new System.Windows.Forms.ToolStripButton();
-            this.tlStrpBtnSaveCities = new System.Windows.Forms.ToolStripButton();
+            this.tlStrpBtnSaveCitiesCities = new System.Windows.Forms.ToolStripSplitButton();
+            this.tlStrpBtnSaveModeCoords = new System.Windows.Forms.ToolStripMenuItem();
+            this.tlStrpBtnSaveModeDistance = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpTxbCitiesCount = new System.Windows.Forms.ToolStripTextBox();
             this.tlStrpBtnCreateRandomCities = new System.Windows.Forms.ToolStripButton();
@@ -201,7 +203,7 @@
             this.tbPgCitiesRoute.Location = new System.Drawing.Point(4, 22);
             this.tbPgCitiesRoute.Name = "tbPgCitiesRoute";
             this.tbPgCitiesRoute.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPgCitiesRoute.Size = new System.Drawing.Size(151, 340);
+            this.tbPgCitiesRoute.Size = new System.Drawing.Size(166, 340);
             this.tbPgCitiesRoute.TabIndex = 1;
             this.tbPgCitiesRoute.Text = "Путь";
             this.tbPgCitiesRoute.UseVisualStyleBackColor = true;
@@ -211,7 +213,7 @@
             this.rtxbCities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtxbCities.Location = new System.Drawing.Point(3, 3);
             this.rtxbCities.Name = "rtxbCities";
-            this.rtxbCities.Size = new System.Drawing.Size(145, 334);
+            this.rtxbCities.Size = new System.Drawing.Size(160, 334);
             this.rtxbCities.TabIndex = 1;
             this.rtxbCities.Text = "";
             // 
@@ -262,14 +264,14 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tlStrpBtnLoadCities,
-            this.tlStrpBtnSaveCities,
+            this.tlStrpBtnSaveCitiesCities,
             this.toolStripSeparator1,
             this.tlStrpTxbCitiesCount,
             this.tlStrpBtnCreateRandomCities});
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(181, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(190, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -284,16 +286,34 @@
             this.tlStrpBtnLoadCities.ToolTipText = "Загрузить города из файла";
             this.tlStrpBtnLoadCities.Click += new System.EventHandler(this.tlStrpBtnLoadCities_Click);
             // 
-            // tlStrpBtnSaveCities
+            // tlStrpBtnSaveCitiesCities
             // 
-            this.tlStrpBtnSaveCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tlStrpBtnSaveCities.Image = global::matsps.Properties.Resources.floppy_disk_48;
-            this.tlStrpBtnSaveCities.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tlStrpBtnSaveCities.Name = "tlStrpBtnSaveCities";
-            this.tlStrpBtnSaveCities.Size = new System.Drawing.Size(23, 22);
-            this.tlStrpBtnSaveCities.Text = "toolStripButton2";
-            this.tlStrpBtnSaveCities.ToolTipText = "Сохранить  города в файл";
-            this.tlStrpBtnSaveCities.Click += new System.EventHandler(this.tlStrpBtnSaveCities_Click);
+            this.tlStrpBtnSaveCitiesCities.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tlStrpBtnSaveCitiesCities.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tlStrpBtnSaveModeCoords,
+            this.tlStrpBtnSaveModeDistance});
+            this.tlStrpBtnSaveCitiesCities.Image = global::matsps.Properties.Resources.floppy_disk_48;
+            this.tlStrpBtnSaveCitiesCities.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStrpBtnSaveCitiesCities.Name = "tlStrpBtnSaveCitiesCities";
+            this.tlStrpBtnSaveCitiesCities.Size = new System.Drawing.Size(32, 22);
+            this.tlStrpBtnSaveCitiesCities.Text = "Сохранить коллекцию городов в файл";
+            this.tlStrpBtnSaveCitiesCities.ButtonClick += new System.EventHandler(this.tlStrpBtnSaveCitiesCities_ButtonClick);
+            // 
+            // tlStrpBtnSaveModeCoords
+            // 
+            this.tlStrpBtnSaveModeCoords.Checked = true;
+            this.tlStrpBtnSaveModeCoords.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tlStrpBtnSaveModeCoords.Name = "tlStrpBtnSaveModeCoords";
+            this.tlStrpBtnSaveModeCoords.Size = new System.Drawing.Size(152, 22);
+            this.tlStrpBtnSaveModeCoords.Text = "Координаты";
+            this.tlStrpBtnSaveModeCoords.Click += new System.EventHandler(this.tlStrpBtnSaveModeCoords_Click);
+            // 
+            // tlStrpBtnSaveModeDistance
+            // 
+            this.tlStrpBtnSaveModeDistance.Name = "tlStrpBtnSaveModeDistance";
+            this.tlStrpBtnSaveModeDistance.Size = new System.Drawing.Size(152, 22);
+            this.tlStrpBtnSaveModeDistance.Text = "Расстояния";
+            this.tlStrpBtnSaveModeDistance.Click += new System.EventHandler(this.tlStrpBtnSaveModeDistance_Click);
             // 
             // toolStripSeparator1
             // 
@@ -302,7 +322,7 @@
             // 
             // tlStrpTxbCitiesCount
             // 
-            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.tlStrpTxbCitiesCount.BackColor = System.Drawing.Color.Gainsboro;
             this.tlStrpTxbCitiesCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tlStrpTxbCitiesCount.ForeColor = System.Drawing.SystemColors.WindowText;
             this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
@@ -420,12 +440,14 @@
         private System.Windows.Forms.ToolStripTextBox tlStrpTxbCitiesCount;
         private System.Windows.Forms.ToolStripButton tlStrpBtnCreateRandomCities;
         private System.Windows.Forms.ToolStripButton tlStrpBtnLoadCities;
-        private System.Windows.Forms.ToolStripButton tlStrpBtnSaveCities;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton tlStrpBtnStart;
         private System.Windows.Forms.ToolStripButton tlStrpBtnSettings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSplitButton tlStrpBtnSaveCitiesCities;
+        private System.Windows.Forms.ToolStripMenuItem tlStrpBtnSaveModeCoords;
+        private System.Windows.Forms.ToolStripMenuItem tlStrpBtnSaveModeDistance;
     }
 }
 
