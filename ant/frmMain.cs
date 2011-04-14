@@ -771,6 +771,15 @@ namespace matsps
 
         }
         #endregion
+
+        private void tlStripBtnReset_Click(object sender, EventArgs e)
+        {
+            liRoute.Clear();
+            ucCP.Cities = _cities;
+            ucCP.RefreshRoutePaint();
+            rtxbOut.Clear();
+            rtxbCities.Clear();
+        }
     }
 
 
