@@ -174,10 +174,17 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             _liBestPath = new List<Route>();            
             _bestPath = path;
             List<CitiesCollection> ct = _travelSalesmanBnB.BestPathList;
+            _tsProcessTime = DateTime.Now - timeStart;
+            _bestPath.СalcTime = _tsProcessTime;
+
             foreach (CitiesCollection singleCollection in ct)
             {
                 Route r = new Route(singleCollection, "ветвей и границ");
                 r.Drawing.Color = this.Drawing.Color;
+                r.Drawing.Opacity = this.Drawing.Opacity;
+                r.Drawing.Visible = this.Drawing.Visible;
+                r.СalcTime = _tsProcessTime;
+                
                 _liBestPath.Add( r );
             }
 
@@ -189,9 +196,6 @@ namespace matsps.BranchAndBound.BnBAlgLogic
             _bestPath.Drawing.Opacity = this.Drawing.Opacity;
             _bestPath.Drawing.Visible = this.Drawing.Visible;
             //
-
-            _tsProcessTime = DateTime.Now - timeStart;
-            _bestPath.СalcTime = _tsProcessTime;
 
             OnFinallyCalculate(new EventArgs());
         }
