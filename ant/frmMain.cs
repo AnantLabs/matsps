@@ -626,56 +626,24 @@ namespace matsps
             }            
         }
 
-        private void tlStrpBtnSaveCities_Click(object sender, EventArgs e)  
+        private void tlStrpBtnSaveCitiesCities_ButtonClick(object sender, EventArgs e)  
         {
-            // Создаем новый файловый диалог
-            SaveFileDialog DialogSave = new SaveFileDialog();
-            // Задаем расширение файла по умолчангию
-            DialogSave.DefaultExt = "txt";
-            //Формируем название файла
-            DialogSave.FileName = "matsps_" + String.Format("{0:0000}", _cities.Count) + "_" + String.Format("{0:yyyy.MM.dd-HH.mm.ss}", DateTime.Now);
-            // Задаема доступные расширения файлов
-            DialogSave.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
-            // Разрешаем автоматическое добавление расширения файла
-            DialogSave.AddExtension = true;
-            // Разрешаем восстановление текущей папки перед закрытием
-            DialogSave.RestoreDirectory = true;
-            // Заголовог диалога
-            DialogSave.Title = "Вы хотите сохранить файл?";
-            // Дириктория по умолчанию
-            DialogSave.InitialDirectory = @"C:/";
-
-            // Показать диалоговое окно
-            if (DialogSave.ShowDialog() == DialogResult.OK)
-            {
-                int Count = _cities.Count;  //количество городов
-                string text="";             //обнуляем строку
-                for (int i = 0; i < Count; i++)
-                {
-                    string posX = _cities.Cities[i].X.ToString(); //координата X
-                    string posY = _cities.Cities[i].Y.ToString(); //координата Y
-                    text += posX + "\t" + posY + "\r\n";
-                }
-
-                string sFileName = DialogSave.FileName; //Получаем имя файла
-                StreamWriter sw = null;
-                try
-                {
-                    FileStream fs = File.Create(sFileName); //Создаем файл с заданным именем                               
-                    sw = new StreamWriter(fs);
-                    sw.WriteLine(text);   //записываем текст в файл
-                }
-                catch (IOException fe)
-                {
-                    string sDir = Directory.GetCurrentDirectory();
-                    string s = Path.Combine(sDir, sFileName);
-                    MessageBox.Show("Ошибка в " + s + ".  " + fe.Message);
-                }
-                    sw.Close();  //закрываем файл
-            }//IF
-
+            if (tlStrpBtnSaveModeCoords.Checked)
+                SaveCitiesToFile(0);
+            if (tlStrpBtnSaveModeDistance.Checked)
+                SaveCitiesToFile(1);
         }
-        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)  
+        private void tlStrpBtnSaveModeCoords_Click(object sender, EventArgs e)          
+        {
+            tlStrpBtnSaveModeCoords.Checked = true;
+            tlStrpBtnSaveModeDistance.Checked = false;            
+        }
+        private void tlStrpBtnSaveModeDistance_Click(object sender, EventArgs e)        
+        {
+            tlStrpBtnSaveModeCoords.Checked = false;
+            tlStrpBtnSaveModeDistance.Checked = true;            
+        }
+        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)              
         {           
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
@@ -703,6 +671,7 @@ namespace matsps
                         _cities[i].Index = i;
                         i++;
                     }
+                    _cities.DistanceCalculate();
                 }
                 catch (IOException fe)
                 {
@@ -717,6 +686,89 @@ namespace matsps
                 tlStrpTxbCitiesCount.Text = _cities.Count.ToString();
                 tlStrpTxbCitiesCount.SelectAll();
             }
+        }
+
+        /// <summary>
+        /// Формирует строку для сохранения в файл
+        /// </summary>
+        /// <param name="filename">имя файла</param>
+        /// <param name="mode">Метод формирования строки: 
+        ///     0 - координаты, 
+        ///     1 - матрица расстояний</param>
+        private string GetFileStringToSave(string filename, int mode)                   
+        {
+            int Count = _cities.Count;  //количество городов
+            string text = "";             //обнуляем строку
+
+            if (mode == 0) // формирование координат
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    string posX = _cities.Cities[i].X.ToString(); //координата X
+                    string posY = _cities.Cities[i].Y.ToString(); //координата Y
+                    text += posX + "\t" + posY + "\r\n";
+                }
+            }
+
+            if (mode == 1) // матрицы расстояний
+            {
+                for (int i = 0; i < Count; i++)
+                    for(int j= 0; j < Count; j++)
+                    {
+                        text += String.Format(" {0,3} {1,3} {2,5:0.0}\r\n", i + 1, j + 1, _cities.Distance[i, j]);
+                    }
+            }
+
+            return text;
+        }
+
+        /// <summary>
+        /// Сохраняет коллекцию городов в файл 
+        /// </summary>
+        /// <param name="mode">Метод сохранения: 
+        ///     0 - координаты, 
+        ///     1 - матрица расстояний</param>
+        private void SaveCitiesToFile(int mode)                                         
+        {
+            // Создаем новый файловый диалог
+            SaveFileDialog DialogSave = new SaveFileDialog();
+            // Задаем расширение файла по умолчангию
+            DialogSave.DefaultExt = "txt";
+            //Формируем название файла
+            DialogSave.FileName = "matsps_" + String.Format("{0:0000}", _cities.Count) + "_" + String.Format("{0:yyyy.MM.dd-HH.mm.ss}", DateTime.Now);
+            // Задаема доступные расширения файлов
+            DialogSave.Filter = "Text file (*.txt)|*.txt|All files (*.*)|*.*";
+            // Разрешаем автоматическое добавление расширения файла
+            DialogSave.AddExtension = true;
+            // Разрешаем восстановление текущей папки перед закрытием
+            DialogSave.RestoreDirectory = true;
+            // Заголовог диалога
+            DialogSave.Title = "Вы хотите сохранить файл?";
+            // Дириктория по умолчанию
+            DialogSave.InitialDirectory = @"C:/";
+
+            // Показать диалоговое окно
+            if (DialogSave.ShowDialog() == DialogResult.OK)
+            {
+                string sFileName = DialogSave.FileName; //Получаем имя файла                
+                string text = GetFileStringToSave(sFileName, mode);
+
+                StreamWriter sw = null;
+                try
+                {
+                    FileStream fs = File.Create(sFileName); //Создаем файл с заданным именем                               
+                    sw = new StreamWriter(fs);
+                    sw.WriteLine(text);   //записываем текст в файл
+                }
+                catch (IOException fe)
+                {
+                    string sDir = Directory.GetCurrentDirectory();
+                    string s = Path.Combine(sDir, sFileName);
+                    MessageBox.Show("Ошибка в " + s + ".  " + fe.Message);
+                }
+                sw.Close();  //закрываем файл
+            }//IF
+
         }
         #endregion
     }
