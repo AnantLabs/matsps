@@ -59,14 +59,6 @@ namespace matsps.Forms.Parameters
         }
 
         /// <summary>
-        /// Нажатие на чек бокс "Количесво муравьев равно количеству городов"
-        /// </summary>
-        private void chbAntEqualCities_CheckedChanged(object sender, EventArgs e)       
-        {
-            txbMaxAnts.Enabled = !chbAntEqualCities.Checked;
-        }
-
-        /// <summary>
         /// Изменение Типа конца алгоиртма
         /// </summary>
         private void rbtnAntEndIter_CheckedChanged(object sender, EventArgs e)          
