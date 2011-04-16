@@ -104,6 +104,8 @@ namespace matsps
             tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
 
             listr = new List<string>();
+
+ 
         }
         #endregion
 
