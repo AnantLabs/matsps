@@ -18,6 +18,12 @@ namespace matsps.CommonData
         {
             _iCount = countCities;
         }
+        public CitiesCollection(List<City> cities)            
+        {
+            _iCount = cities.Count;
+            _liCities = cities;
+            DistanceCalculate();
+        }
 
         /// <summary>
         /// Заданное количество городов

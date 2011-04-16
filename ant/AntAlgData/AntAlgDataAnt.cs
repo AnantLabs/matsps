@@ -69,6 +69,17 @@ namespace matsps.AntAlgData
             set { _dTourLength = value; }
             get { return _dTourLength; }
         }
+
+        /// <summary>
+        /// Список городов в пути (только для чтения)
+        /// </summary>
+        public List<City> CitiesList                
+        {
+            get
+            {
+                return _liCitiesPath;
+            }
+        }
         #endregion
 
         #region Функции для списка Табу
