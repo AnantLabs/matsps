@@ -33,8 +33,11 @@
             this.txbMaxDistance = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txbAlgStopCount = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txbAlgStopConvergenceCount = new System.Windows.Forms.TextBox();
+            this.rbtnAntEndConvergence = new System.Windows.Forms.RadioButton();
+            this.txbAlgStopIterCount = new System.Windows.Forms.TextBox();
+            this.rbtnAntEndIter = new System.Windows.Forms.RadioButton();
             this.txbQVal = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txbRho = new System.Windows.Forms.TextBox();
@@ -53,6 +56,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,7 +69,7 @@
             this.tabControl1.Location = new System.Drawing.Point(1, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(329, 215);
+            this.tabControl1.Size = new System.Drawing.Size(407, 279);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -75,7 +79,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(321, 189);
+            this.tabPage1.Size = new System.Drawing.Size(399, 253);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Программа";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -98,8 +102,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.txbAlgStopCount);
-            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.txbQVal);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.txbRho);
@@ -114,30 +117,65 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(321, 189);
+            this.tabPage2.Size = new System.Drawing.Size(399, 253);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Алгоритм муравья";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // txbAlgStopCount
+            // groupBox1
             // 
-            this.txbAlgStopCount.Location = new System.Drawing.Point(187, 58);
-            this.txbAlgStopCount.Name = "txbAlgStopCount";
-            this.txbAlgStopCount.Size = new System.Drawing.Size(50, 20);
-            this.txbAlgStopCount.TabIndex = 3;
+            this.groupBox1.Controls.Add(this.txbAlgStopConvergenceCount);
+            this.groupBox1.Controls.Add(this.rbtnAntEndConvergence);
+            this.groupBox1.Controls.Add(this.txbAlgStopIterCount);
+            this.groupBox1.Controls.Add(this.rbtnAntEndIter);
+            this.groupBox1.Location = new System.Drawing.Point(9, 61);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(380, 70);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Завершение алгоритма";
             // 
-            // label8
+            // txbAlgStopConvergenceCount
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(5, 61);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(176, 13);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "Количество проходов алгоритма:";
+            this.txbAlgStopConvergenceCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbAlgStopConvergenceCount.Location = new System.Drawing.Point(324, 43);
+            this.txbAlgStopConvergenceCount.Name = "txbAlgStopConvergenceCount";
+            this.txbAlgStopConvergenceCount.Size = new System.Drawing.Size(50, 20);
+            this.txbAlgStopConvergenceCount.TabIndex = 17;
+            // 
+            // rbtnAntEndConvergence
+            // 
+            this.rbtnAntEndConvergence.AutoSize = true;
+            this.rbtnAntEndConvergence.Location = new System.Drawing.Point(7, 44);
+            this.rbtnAntEndConvergence.Name = "rbtnAntEndConvergence";
+            this.rbtnAntEndConvergence.Size = new System.Drawing.Size(300, 17);
+            this.rbtnAntEndConvergence.TabIndex = 1;
+            this.rbtnAntEndConvergence.Text = "По сходимости (количество повторений лучшего пути)";
+            this.rbtnAntEndConvergence.UseVisualStyleBackColor = true;
+            this.rbtnAntEndConvergence.CheckedChanged += new System.EventHandler(this.rbtnAntEndIter_CheckedChanged);
+            // 
+            // txbAlgStopIterCount
+            // 
+            this.txbAlgStopIterCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbAlgStopIterCount.Location = new System.Drawing.Point(324, 17);
+            this.txbAlgStopIterCount.Name = "txbAlgStopIterCount";
+            this.txbAlgStopIterCount.Size = new System.Drawing.Size(50, 20);
+            this.txbAlgStopIterCount.TabIndex = 3;
+            // 
+            // rbtnAntEndIter
+            // 
+            this.rbtnAntEndIter.AutoSize = true;
+            this.rbtnAntEndIter.Location = new System.Drawing.Point(7, 20);
+            this.rbtnAntEndIter.Name = "rbtnAntEndIter";
+            this.rbtnAntEndIter.Size = new System.Drawing.Size(228, 17);
+            this.rbtnAntEndIter.TabIndex = 0;
+            this.rbtnAntEndIter.Text = "По итерациям (по количеству проходов)";
+            this.rbtnAntEndIter.UseVisualStyleBackColor = true;
+            this.rbtnAntEndIter.CheckedChanged += new System.EventHandler(this.rbtnAntEndIter_CheckedChanged);
             // 
             // txbQVal
             // 
-            this.txbQVal.Location = new System.Drawing.Point(254, 158);
+            this.txbQVal.Location = new System.Drawing.Point(253, 213);
             this.txbQVal.Name = "txbQVal";
             this.txbQVal.Size = new System.Drawing.Size(50, 20);
             this.txbQVal.TabIndex = 14;
@@ -145,7 +183,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 161);
+            this.label7.Location = new System.Drawing.Point(7, 216);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(241, 13);
             this.label7.TabIndex = 13;
@@ -153,7 +191,7 @@
             // 
             // txbRho
             // 
-            this.txbRho.Location = new System.Drawing.Point(68, 130);
+            this.txbRho.Location = new System.Drawing.Point(67, 185);
             this.txbRho.Name = "txbRho";
             this.txbRho.Size = new System.Drawing.Size(50, 20);
             this.txbRho.TabIndex = 12;
@@ -161,7 +199,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 133);
+            this.label6.Location = new System.Drawing.Point(18, 188);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(30, 13);
             this.label6.TabIndex = 11;
@@ -169,14 +207,14 @@
             // 
             // txbBetta
             // 
-            this.txbBetta.Location = new System.Drawing.Point(68, 105);
+            this.txbBetta.Location = new System.Drawing.Point(67, 160);
             this.txbBetta.Name = "txbBetta";
             this.txbBetta.Size = new System.Drawing.Size(50, 20);
             this.txbBetta.TabIndex = 10;
             // 
             // txbAlpha
             // 
-            this.txbAlpha.Location = new System.Drawing.Point(68, 82);
+            this.txbAlpha.Location = new System.Drawing.Point(67, 137);
             this.txbAlpha.Name = "txbAlpha";
             this.txbAlpha.Size = new System.Drawing.Size(50, 20);
             this.txbAlpha.TabIndex = 9;
@@ -184,7 +222,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 108);
+            this.label5.Location = new System.Drawing.Point(18, 163);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 8;
@@ -193,7 +231,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 85);
+            this.label4.Location = new System.Drawing.Point(18, 140);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 7;
@@ -252,7 +290,7 @@
             this.btnCancel.BackgroundImage = global::matsps.Properties.Resources.cancel_48;
             this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(38, 253);
+            this.btnCancel.Location = new System.Drawing.Point(38, 317);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(32, 32);
             this.btnCancel.TabIndex = 7;
@@ -264,7 +302,7 @@
             this.btnStart.BackgroundImage = global::matsps.Properties.Resources.accepted_48;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStart.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnStart.Location = new System.Drawing.Point(1, 253);
+            this.btnStart.Location = new System.Drawing.Point(1, 317);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(32, 32);
             this.btnStart.TabIndex = 6;
@@ -275,7 +313,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 288);
+            this.ClientSize = new System.Drawing.Size(412, 352);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.tabControl1);
@@ -283,16 +321,17 @@
             this.Controls.Add(this.txbCitiesCount);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(342, 315);
+            this.MinimumSize = new System.Drawing.Size(420, 379);
             this.Name = "frmSelectAlgs";
             this.ShowIcon = false;
             this.Text = "Настройки";
-            this.Load += new System.EventHandler(this.frmSelectAlgs_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,7 +349,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txbCitiesCount;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txbAlgStopCount;
+        private System.Windows.Forms.TextBox txbAlgStopIterCount;
         private System.Windows.Forms.TextBox txbBetta;
         private System.Windows.Forms.TextBox txbAlpha;
         private System.Windows.Forms.Label label5;
@@ -319,8 +358,11 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txbQVal;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rbtnAntEndConvergence;
+        private System.Windows.Forms.RadioButton rbtnAntEndIter;
+        private System.Windows.Forms.TextBox txbAlgStopConvergenceCount;
     }
 }

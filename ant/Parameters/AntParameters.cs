@@ -12,13 +12,16 @@ namespace matsps.Parameters
     class AntParameters : IParameters
     {
         #region Конструторы и Данные
-        public AntParameters()
+        public AntParameters()                  
         {
             MaxCities = 50;
             MaxDistance = 100;
 
             _iMaxTour = MaxCities * MaxDistance;
+
+            EndType = AntAlgorithmEndType.Iteration;
             CountRepeatCуcles = 20;
+            CountConvergence = 4;
             _iMaxTime = CountRepeatCуcles * MaxCities;
 
             MaxAnts = 50;
@@ -73,6 +76,16 @@ namespace matsps.Parameters
                     _iMaxTime;
             }
         }
+
+        /// <summary>=======================================================================
+        ///                             Завершение алгоритма
+        /// </summary>======================================================================
+                
+        public AntAlgorithmEndType EndType      
+        {
+            set;
+            get;
+        }   
         /// <summary>
         /// Количество проходов алгоритма
         /// </summary>
@@ -81,6 +94,15 @@ namespace matsps.Parameters
             set;
             get;
         }
+        /// <summary>
+        /// Количество повторений лучшего пути для обеспечения сходимости
+        /// </summary>
+        public int CountConvergence             
+        {
+            set;
+            get;
+        }
+        ///=================================================================================
 
         /// <summary>
         /// Начальное количество феромонов на каждом городе (1/количество городов)
@@ -129,4 +151,19 @@ namespace matsps.Parameters
         }
         #endregion
     }
+
+    /// <summary>
+    /// Тип завершения Алгоритма муравья
+    /// </summary>
+    enum AntAlgorithmEndType                    
+    {
+        /// <summary>
+        /// По количеству проходов цикла
+        /// </summary>
+        Iteration,
+        /// <summary>
+        /// По количеству элементов для схождения
+        /// </summary>
+        Convergence
+    };
 }

@@ -22,7 +22,7 @@ namespace matsps.Forms.Parameters
         }
 
         internal frmSelectAlgs(AntParameters param)
-            : this()
+            : this()                                                                    
         {
             _parameters = param;
 
@@ -30,7 +30,7 @@ namespace matsps.Forms.Parameters
             SetDataToControls();
         }
 
-        internal frmSelectAlgs(AntParameters param, int citiesCount):this(param)
+        internal frmSelectAlgs(AntParameters param, int citiesCount):this(param)        
         {
             _iCitiesCount = citiesCount;
 
@@ -65,6 +65,24 @@ namespace matsps.Forms.Parameters
         {
             txbMaxAnts.Enabled = !chbAntEqualCities.Checked;
         }
+
+        /// <summary>
+        /// Изменение Типа конца алгоиртма
+        /// </summary>
+        private void rbtnAntEndIter_CheckedChanged(object sender, EventArgs e)          
+        {
+            if (rbtnAntEndIter.Checked)
+            {
+                txbAlgStopIterCount.Enabled = true;
+                txbAlgStopConvergenceCount.Enabled = false;
+            }
+
+            if (rbtnAntEndConvergence.Checked)
+            {
+                txbAlgStopIterCount.Enabled = false;
+                txbAlgStopConvergenceCount.Enabled = true;
+            }
+        }
         #endregion
 
         #region Внутренние методы
@@ -79,7 +97,24 @@ namespace matsps.Forms.Parameters
 
             txbMaxDistance.Text = _parameters.MaxDistance.ToString();
             txbMaxAnts.Text = _parameters.MaxAnts.ToString();
-            txbAlgStopCount.Text = _parameters.CountRepeatCуcles.ToString();
+
+            switch (_parameters.EndType)
+            {
+                case AntAlgorithmEndType.Iteration:
+                    {
+                        rbtnAntEndIter.Checked = true;
+                        rbtnAntEndConvergence.Checked = false;
+                    };
+                    break;
+                case AntAlgorithmEndType.Convergence:
+                    {
+                        rbtnAntEndIter.Checked = false;
+                        rbtnAntEndConvergence.Checked = true;
+                    };break;
+            }
+            txbAlgStopConvergenceCount.Text = _parameters.CountConvergence.ToString();
+            txbAlgStopIterCount.Text = _parameters.CountRepeatCуcles.ToString();
+
             txbAlpha.Text = _parameters.ALPHA.ToString();
             txbBetta.Text = _parameters.BETA.ToString();
             txbRho.Text = _parameters.RHO.ToString();
@@ -105,10 +140,22 @@ namespace matsps.Forms.Parameters
                 MessageBox.Show(strErrorStart + "Количество муравьев");
             }
 
+            if (rbtnAntEndConvergence.Checked)
+                _parameters.EndType = AntAlgorithmEndType.Convergence;
+            if (rbtnAntEndIter.Checked)
+                _parameters.EndType = AntAlgorithmEndType.Iteration;
             try{
-                _parameters.CountRepeatCуcles = Convert.ToInt32(txbAlgStopCount.Text);
+                _parameters.CountRepeatCуcles = Convert.ToInt32(txbAlgStopIterCount.Text);
             }catch (Exception ex){
                 MessageBox.Show(strErrorStart + "Количество проходов алгоритма");
+            }
+            try
+            {
+                _parameters.CountConvergence = Convert.ToInt32(txbAlgStopConvergenceCount.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(strErrorStart + "Количество для сходимости");
             }
 
             try{
@@ -149,10 +196,5 @@ namespace matsps.Forms.Parameters
             return _parameters;
         }
         #endregion
-
-        private void frmSelectAlgs_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

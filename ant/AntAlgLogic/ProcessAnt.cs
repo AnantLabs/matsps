@@ -214,7 +214,7 @@ namespace matsps
         {
                 //пересылка сообщения
                 if (eventProgressChanged != null) //проверяем наличие подписчиков
-                    eventProgressChanged(this, (int)e.Percent, "%");
+                    eventProgressChanged(this, (int)e.Percent, e.Label);
         }
 
         private void Finally(object sender, EventArgs e)                                         

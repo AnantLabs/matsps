@@ -37,9 +37,11 @@ namespace matsps.AntAlgLogic
 
         private double best;
         private int bestIndex;
+        private int iteration;
 
-        private int maxTime;            //максимум проходов
-        private int curTime;            //счетчик проходов
+        private int maxTime;            // максимум проходов
+        private int curTime;            // счетчик проходов
+        private int countRepeatBest;    // счетчик повторений лучших маршрутов
         private System.Timers.Timer tmrTimer;         //таймер
 
         Random rnd = new Random();
@@ -377,23 +379,50 @@ namespace matsps.AntAlgLogic
         {
             try
             {
-                int i = 1;
-                curTime = 0; //обнуление счетчика проходов
-                tmrTimer.Start(); //запуск таймера
-                while (curTime++ < _parameters.MaxTime)
+                iteration = 1;
+                double lastBest = -1;
+                bool continueFlag = true;               // флаг завершения алгоритма
+                curTime = 0;                            // обнуление счетчика проходов
+                countRepeatBest = 0;                    // обнуление счетчика повторения лучших путей (для сходимости)
+                tmrTimer.Start();                       // запуск таймера
+                while (continueFlag)
                 {
+                    curTime++;
                     try
                     {
                         if (SimulateAnts() == 0)
                         {
                             UpdateTrails();
 
-                            if (curTime != Cities.Count)
-                                RestartAnts();
+//                            if (curTime != Cities.Count)
+//                                RestartAnts();
 
-                            string strOut = String.Format("{0:00000} ", i) + String.Format(" Time is {0:000}", curTime) + String.Format(" {0:000.00}\n", best);
-                            i++;
+                            string strOut = String.Format("Iter:{0,4:#} ", iteration) + String.Format(" Path:{0:000.00}\n", best);
+                            iteration++;
                             listrTime.Add(strOut);
+                            
+                            // Завершение алгоритма. По итерациям
+                            if (_parameters.EndType == AntAlgorithmEndType.Iteration)
+                                if (curTime >= _parameters.MaxTime)
+                                    continueFlag = false;
+                                else
+                                    RestartAnts(); // обнуляем муравьев, если вычисление не завершено
+                            // Завершение алгоритма. По сходимости
+                            if (_parameters.EndType == AntAlgorithmEndType.Convergence)
+                            {
+                                if (lastBest != best)
+                                {
+                                    countRepeatBest = 0;
+                                    lastBest = best;
+                                }
+                                else
+                                    countRepeatBest++;
+
+                                if (countRepeatBest == _parameters.CountConvergence)
+                                    continueFlag = false;
+                                else
+                                    RestartAnts();
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -405,7 +434,7 @@ namespace matsps.AntAlgLogic
 
                 //AntAlgChangesEventArgs e = new AntAlgChangesEventArgs(101, false); //посылаем значение 101%(алгоритм завершен)
                 //OnProgressChanged(e);
-                listrTime.Add(string.Format("best tour {0:000.00\n}", best));
+                listrTime.Add(string.Format("Best tour {0:000.00\n}", best));
 
 
                 // Вычисление завершено
@@ -452,9 +481,23 @@ namespace matsps.AntAlgLogic
         {
             //wh.WaitOne();
 
-            //Подсчитываем процент прогресса
-            int iPersent = curTime * 100 / maxTime; //только целые значения
-            AntAlgChangesEventArgs eee = new AntAlgChangesEventArgs(iPersent, false);
+            double number = 0.0;
+            string label = "";
+            // Формируем данные для события
+            if (_parameters.EndType == AntAlgorithmEndType.Iteration)
+            {
+                //Подсчитываем процент прогресса
+                number = curTime * 100 / maxTime; //только целые значения
+                label = "%";
+            }
+            if (_parameters.EndType == AntAlgorithmEndType.Convergence)
+            {
+                // Количество итераций
+                number = iteration;
+                label = " итераций";
+            }
+            
+            AntAlgChangesEventArgs eee = new AntAlgChangesEventArgs(number, false, label);
 
             OnProgressChanged(eee); // да, еее - это по-мудацки!
 
@@ -472,11 +515,13 @@ namespace matsps.AntAlgLogic
     {
         private readonly double dPercent;
         private bool bCanContinue;
+        private string _strLabel;
 
-        public AntAlgChangesEventArgs(double percent, bool canContinue)         
+        public AntAlgChangesEventArgs(double percent, bool canContinue, string label)         
         {
             dPercent = percent;
             bCanContinue = canContinue;
+            _strLabel = label;
         }
 
         /// <summary>
@@ -484,6 +529,14 @@ namespace matsps.AntAlgLogic
         /// </summary>
         public double Percent                                                   
         { get { return dPercent; } }
+
+        /// <summary>
+        /// Подпись к состоянию ("%" или "итерция")
+        /// </summary>
+        public string Label                                                     
+        {
+            get { return _strLabel; }
+        }
 
         /// <summary>
         /// Позволяет прододжить выполнение
