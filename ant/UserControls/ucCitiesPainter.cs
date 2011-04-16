@@ -403,7 +403,7 @@ namespace matsps.UserControls
         /// <summary>
         /// Событие клика мышкой по ячейке таблицы
         /// </summary>
-        private void dgvRouteList_MouseUp(object sender, MouseEventArgs e)          
+        private void dgvRouteList_MouseUp(object sender, MouseEventArgs e)                                  
         {
             dgvRouteList.EndEdit();
             DataGridView.HitTestInfo hitInfo = dgvRouteList.HitTest(e.X, e.Y);
@@ -426,37 +426,43 @@ namespace matsps.UserControls
         /// <summary>
         /// Событие клика по ячейке DataGridView
         /// </summary>
-        private void dgvRouteList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvRouteList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)            
         {
             if (e.Button == MouseButtons.Right) //если нажата правая кнопка мыши
             {
-                //Создаем ContextMenuStrip
-                System.Windows.Forms.ContextMenuStrip cmsDgvRouteListContext = new ContextMenuStrip();
-                cmsDgvRouteListContext.Items.Add("Копировать ячейку");
-                cmsDgvRouteListContext.Items[0].Name = "CopyCurrentCell";
-                cmsDgvRouteListContext.Items.Add("Копировать выделенные строки");
-                cmsDgvRouteListContext.Items[1].Name = "CopySelectedRows";
-                
-                _cellRow = e.RowIndex;
-                _cellCol = e.ColumnIndex;
-                
-                cmsDgvRouteListContext.ItemClicked+=new ToolStripItemClickedEventHandler(cmsDgvRouteListContext_ItemClicked);
-                cmsDgvRouteListContext.Show(new Point(MousePosition.X, MousePosition.Y));
+                if (e.RowIndex != -1)
+                {
+                    //Создаем ContextMenuStrip
+                    System.Windows.Forms.ContextMenuStrip cmsDgvRouteListContext = new ContextMenuStrip();
+                    cmsDgvRouteListContext.Items.Add("Копировать ячейку");
+                    cmsDgvRouteListContext.Items[0].Name = "CopyCurrentCell";
+                    cmsDgvRouteListContext.Items.Add("Копировать выделенные строки");
+                    cmsDgvRouteListContext.Items[1].Name = "CopySelectedRows";
+
+                    _cellRow = e.RowIndex;
+                    _cellCol = e.ColumnIndex;
+
+                    cmsDgvRouteListContext.ItemClicked += new ToolStripItemClickedEventHandler(cmsDgvRouteListContext_ItemClicked);
+                    cmsDgvRouteListContext.Show(new Point(MousePosition.X, MousePosition.Y));
+                }
             }  
         }
         /// <summary>
-        /// Собыnие клика по ToolStripItem
+        /// Событие клика по ToolStripItem
         /// </summary>
-        private void cmsDgvRouteListContext_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void cmsDgvRouteListContext_ItemClicked(object sender, ToolStripItemClickedEventArgs e)     
         { 
              ToolStripItem selItem = e.ClickedItem;
              //выбираем ячейку
              if (selItem.Name == "CopyCurrentCell")
              {
-                 DataGridViewRow selRow = dgvRouteList.Rows[_cellRow]; //выбранная строка
-                 DataGridViewCell selCell = selRow.Cells[_cellCol];//выбранная ячейка
-                 string Text = Convert.ToString(selCell.Value);
-                 Clipboard.SetText(Text);
+                 if(_cellRow != -1)
+                 {
+                    DataGridViewRow selRow = dgvRouteList.Rows[_cellRow]; //выбранная строка
+                    DataGridViewCell selCell = selRow.Cells[_cellCol];//выбранная ячейка
+                    string Text = Convert.ToString(selCell.Value);
+                    Clipboard.SetText(Text);
+                 }
              }
              //выбираем выделенные строки
              if (selItem.Name == "CopySelectedRows")
@@ -469,9 +475,9 @@ namespace matsps.UserControls
                      DataGridViewRow selRow = Collection[row]; //текущая строка
                      for (int i = 1; i < dgvRouteList.ColumnCount; i++)
                      {
-                         buf += Convert.ToString(selRow.Cells[i].Value) + " / "; //содержимое ячейки
+                         buf += Convert.ToString(selRow.Cells[i].Value) + " | "; //содержимое ячейки
                      }
-                     buf += '\n';
+                     buf += "\n\r";
                  }
                  Clipboard.SetText(buf);
              }
