@@ -125,7 +125,9 @@
             this.dgvRouteList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRouteList.Size = new System.Drawing.Size(757, 57);
             this.dgvRouteList.TabIndex = 0;
+            //this.dgvRouteList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseClick);
             this.dgvRouteList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvRouteList_MouseUp);
+            this.dgvRouteList.CellMouseDown +=new System.Windows.Forms.DataGridViewCellMouseEventHandler(dgvRouteList_CellMouseDown);
             // 
             // dgvRLcolVisible
             // 
