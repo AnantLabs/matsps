@@ -43,6 +43,7 @@ namespace matsps
             _prAntList = new List<ProcessAnt>();
             _prNNList = new List<ProcessNearestNeighbour>();
             _prBnBList = new List<ProcessBranchAndBound>();
+            _prGAList = new List<ProcessGeneticAlgorithm>();
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace matsps
         private List<ProcessAnt>                _prAntList;
         private List<ProcessNearestNeighbour>   _prNNList;
         private List<ProcessBranchAndBound>     _prBnBList;
+        private List<ProcessGeneticAlgorithm>   _prGAList;
         ///// <summary>
         ///// Обрабочик алгоритма расчета по методу Муравьиной колонии
         ///// </summary>
@@ -80,7 +82,7 @@ namespace matsps
         /// <summary>       
         /// Обрабочик алгоритма расчета Генетического алгоритма
         /// </summary>
-        private ProcessGeneticAlgorithm         _pGA;
+        //private ProcessGeneticAlgorithm         _pGA;
 
         /// <summary>
         /// Лист расчитанных маршрутов. Все расчитанные маршруты за текущую сессию, помещаются сюда.
@@ -225,7 +227,7 @@ namespace matsps
                                             for (int j = 0; j < selectList[k].InstCount; j++)
                                                 NearestNeighbourStart();  
                                         } break;
-                                    case "Ветвей и границ":
+                                    case "Ветвей и границ (не более 20 городов)":
                                         {
                                             for (int j = 0; j < selectList[k].InstCount; j++)
                                                 BranchAndBoundStart();
@@ -233,8 +235,8 @@ namespace matsps
                                     case "Генетический":
                                         {
                                             for (int j = 0; j < selectList[k].InstCount; j++)
-                                                { //GeneticAlgorithmStart(); 
-                                                }
+                                                 GeneticAlgorithmStart(); 
+                                                
                                         } break;
                                 }; //switch(alg)                            
                          }//for
@@ -505,22 +507,32 @@ namespace matsps
         private void GeneticAlgorithmStart()                    
         {
             // АЛГОРИТМ
-            if (_pGA == null)
-            {
-                // Интерфейс
+            //if (_pGA == null)
+           // {
+            ProcessGeneticAlgorithm pga = new ProcessGeneticAlgorithm();
+            //_prGAList.Add(new ProcessGeneticAlgorithm());
+            _prGAList.Add(pga);
+            // Интерфейс
                 //ucCP.RouteLengthTextOut("");
                 toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
                 tlStrpTxbCitiesCount.Enabled = false;
                 //tsbNearestNeighbour.Enabled = false;
                 tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _pGA = new ProcessGeneticAlgorithm();
-                _pGA.eventProgressChanged += new ProcessGeneticAlgorithm.ProgressChanged(AntAlgProgressChange);
-                _pGA.eventFinally += new EventHandler<EventArgs>(PNNFinally);
-                _pGA.Parameters = _paramGA;
-                _pGA.Cities = _cities;
-                _pGA.Start();
-            }
+                ToolStripLabel labelPercent = new ToolStripLabel();
+                labelPercent.BackColor = _prGAList[_prGAList.Count - 1].Drawing.Color;
+                labelPercent.ForeColor = Color.White;
+                labelPercent.Margin = new Padding(0, 0, 5, 0);
+                statusStrip1.Items.Add(labelPercent);
+                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prGAList[_prGAList.Count - 1], labelPercent));
+
+                //_pGA = new ProcessGeneticAlgorithm();
+                _prGAList[_prGAList.Count - 1].eventProgressChanged += new ProcessGeneticAlgorithm.ProgressChanged(AntAlgProgressChange);
+                _prGAList[_prGAList.Count - 1].eventFinally += new EventHandler<EventArgs>(GAFinally);
+                _prGAList[_prGAList.Count - 1].Parameters = _paramGA;
+                _prGAList[_prGAList.Count - 1].Cities = _cities;
+                _prGAList[_prGAList.Count - 1].Start();
+            //}
         }
         #endregion
 
@@ -790,6 +802,79 @@ namespace matsps
 
             }            
         }
+        private void GAFinally(object sender, EventArgs e)
+        {
+            Object thisLock = new Object();
+            lock (thisLock)
+            {
+                // Critical code section
+                this.Invoke(new MethodInvoker(delegate()
+                {
+                    // РЕЗУЛЬТАТЫ
+                    //Начинаем перебор списка экземпляров алгоритма муравья
+                    #region while
+                    for (int i = 0; i < _prGAList.Count; i++)
+                    {
+                        #region if
+                        if (_prGAList[i].ResultInfo != null)
+                        {
+                            // Лист результатов расчета
+                            rtxbOut.AppendText("        генетический (" + i + ")       \n");
+                            List<string> listr = _prGAList[i].ResultInfo;
+                            foreach (string str in listr)
+                            {
+                                rtxbOut.AppendText(str);
+                                rtxbOut.AppendText("\n");
+                            }
+                            rtxbOut.AppendText("--------------------------------------------\n");
+
+                            // Лист последовательности городов
+                            CitiesCollection CitiesInPath = _prGAList[i].ResultPath.Cities;
+                            rtxbCities.Clear();
+                            for (int k = 0; k < CitiesInPath.Count; k++)
+                            {
+                                rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[k].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                            }
+
+                            // Путь городов. Заносим лист.
+                            //_prBnBList[i].ResultPath.Drawing.Color = Color.Orange; // цвет маршрута
+                            //liRoute.Add(_prBnBList[i].ResultPath);
+                            _prGAList[i].ResultPath.Drawing.Color = _prGAList[i].Drawing.Color;
+                            liRoute.Add(_prGAList[i].ResultPath);
+                            ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                            ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
+
+                            toolSTLInfo.Text = "Время расчета: " + _prGAList[i].ProcessTime.ToString();
+                            // Удаляем label-процента исполнения
+                            for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                if (liLinkedPrLabel[j].Process == _prGAList[i])
+                                {
+                                    toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                    liLinkedPrLabel.RemoveAt(j);
+
+                                    if (liLinkedPrLabel.Count == 0)
+                                        statusStrip1.Items.Clear();
+                                    break;
+                                }
+
+                            // Готовность интерфейса
+                            _prGAList[i] = null;
+                            tlStrpTxbCitiesCount.Enabled = true;
+                            tlStrpBtnCreateRandomCities.Enabled = true;
+
+                            //удаление экземпляра алгортима из списка экземпляров
+                            _prGAList.RemoveAt(i);
+                            break;
+                        }
+                        #endregion
+                    }
+                    #endregion
+                }));
+
+            }
+        }
+
+
         #endregion
 
         

@@ -51,7 +51,7 @@ namespace matsps.Forms.SelectAlgs
             
             //Новые стоки
             DataGridViewRow antAlgRow = new DataGridViewRow();
-            DataGridViewRow nnAlgRow = new DataGridViewRow();
+            DataGridViewRow nnAlgRow =  new DataGridViewRow();
             DataGridViewRow bnbAlgRow = new DataGridViewRow();
             DataGridViewRow genAlgRow = new DataGridViewRow();
 
@@ -92,7 +92,7 @@ namespace matsps.Forms.SelectAlgs
             DataGridViewTextBoxCell bnbAlgCalcCount = new DataGridViewTextBoxCell();
             //Задаем значения ячейкам
             bnbAlgSelect.Value = false;
-            bnbAlgName.Value = "Ветвей и границ";
+            bnbAlgName.Value = "Ветвей и границ (не более 20 городов)";
             bnbAlgCalcCount.Value = "1";
             //Добавляем ячейки в строку
             bnbAlgRow.Cells.Add(bnbAlgSelect);
@@ -100,7 +100,26 @@ namespace matsps.Forms.SelectAlgs
             bnbAlgRow.Cells.Add(bnbAlgCalcCount);
             //Добавляем строку в DataGridView
             dataGridView.Rows.Add(bnbAlgRow);
-            //
+
+            /* Генетический алгоритм */
+
+            //Создаём ячейки
+            DataGridViewCheckBoxCell genAlgSelect = new DataGridViewCheckBoxCell();
+            DataGridViewTextBoxCell genAlgName = new DataGridViewTextBoxCell();
+            DataGridViewTextBoxCell genAlgCalcCount = new DataGridViewTextBoxCell();
+
+            //Задаём значения ячейкам
+            genAlgSelect.Value = false;
+            genAlgName.Value = "Генетический";
+            genAlgCalcCount.Value = "1";
+
+            //Долбавляем ячейки в строку
+            genAlgRow.Cells.Add(genAlgSelect);
+            genAlgRow.Cells.Add(genAlgName);
+            genAlgRow.Cells.Add(genAlgCalcCount);
+
+            //Добавляем строку в DGV
+            dataGridView.Rows.Add(genAlgRow);
 
             //Загрузка значений по умолчанию
             for (int i = 0; i < _defaultParams.Count; i++)
@@ -115,10 +134,15 @@ namespace matsps.Forms.SelectAlgs
                     nnAlgSelect.Value = true;
                     nnAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
                 }
-                if (_defaultParams[i].name == "Ветвей и границ")
+                if (_defaultParams[i].name == "Ветвей и границ (не более 20 городов)")
                 {
                     bnbAlgSelect.Value = true;
                     bnbAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
+                }
+                if (_defaultParams[i].name == "Генетический")
+                {
+                    genAlgSelect.Value = true;
+                    genAlgCalcCount.Value = Convert.ToString(_defaultParams[i].InstCount);
                 }
             }
 

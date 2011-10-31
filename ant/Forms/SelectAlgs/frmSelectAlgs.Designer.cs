@@ -45,7 +45,7 @@
             this.btnStart.BackgroundImage = global::matsps.Properties.Resources.accepted_48;
             this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStart.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnStart.Location = new System.Drawing.Point(12, 211);
+            this.btnStart.Location = new System.Drawing.Point(12, 218);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(32, 32);
             this.btnStart.TabIndex = 1;
@@ -58,7 +58,7 @@
             this.btnCancel.BackgroundImage = global::matsps.Properties.Resources.cancel_48;
             this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(50, 211);
+            this.btnCancel.Location = new System.Drawing.Point(50, 218);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(32, 32);
             this.btnCancel.TabIndex = 2;
@@ -72,7 +72,7 @@
             this.groupBox1.Controls.Add(this.dataGridView);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(297, 193);
+            this.groupBox1.Size = new System.Drawing.Size(365, 200);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Выберите алгоритмы для расчета  :";
@@ -96,7 +96,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(285, 159);
+            this.dataGridView.Size = new System.Drawing.Size(353, 166);
             this.dataGridView.TabIndex = 0;
             // 
             // CalcStatus
@@ -113,18 +113,16 @@
             // 
             // AlgName
             // 
-            this.AlgName.FillWeight = 120F;
-            this.AlgName.Frozen = true;
+            this.AlgName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.AlgName.FillWeight = 160F;
             this.AlgName.HeaderText = "Алгоритм";
             this.AlgName.Name = "AlgName";
             this.AlgName.ReadOnly = true;
             this.AlgName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.AlgName.ToolTipText = "Название алгоритма";
-            this.AlgName.Width = 150;
             // 
             // CalcCount
             // 
-            this.CalcCount.Frozen = true;
             this.CalcCount.HeaderText = "Кол-во расчетов";
             this.CalcCount.Name = "CalcCount";
             this.CalcCount.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -135,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 257);
+            this.ClientSize = new System.Drawing.Size(397, 264);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStart);

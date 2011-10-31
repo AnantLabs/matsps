@@ -49,7 +49,7 @@ namespace matsps.CommonData
                 _route = value;
                 _dRouteLength = value.Length;// сразу устанавливаем длину маршрута
             }
-            get { return Route; }
+            get { return _route; }
         }
 
 

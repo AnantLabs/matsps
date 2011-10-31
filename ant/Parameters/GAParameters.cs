@@ -15,12 +15,15 @@ namespace matsps.Parameters
             MaxDistance = 100;
             GenerationsCount = 1000;
             Population = 100;
+            _iMutationPercent = 5;
+            //AllowAllMutations = true;
         }
         public GAParameters(int CCount) :this()
         {
             CitiesCount = CCount;
         }
 
+        private int _iMutationPercent;
         #endregion
 
         #region Свойства
@@ -36,7 +39,7 @@ namespace matsps.Parameters
         /// <summary>
         /// Количество создаваемых поколений
         /// </summary>
-        public int GenerationsCount                    
+        public int GenerationsCount
         {
             set;
             get;
@@ -60,5 +63,37 @@ namespace matsps.Parameters
             get;
         }
         #endregion
+
+        #region Свойства мутаций
+        /*
+        public bool AllowAllMutations
+        {
+            set;
+            get;
+        }
+        */
+        
+        // Процент мутации особей в поколении
+        public int MutationPercent
+        {
+            set
+            {
+                if (value < 0 || value > 100)
+                {
+                    _iMutationPercent = 5;
+                    throw new Exception("Неверное значение мутации. Будет выставлено значение по умолчанию(5).");
+                }
+                else
+                {
+                    _iMutationPercent = value;
+                }
+            }
+            get
+            {
+                return _iMutationPercent;
+            }
+        }
+
+        #endregion Свойства мутаций
     }
 }

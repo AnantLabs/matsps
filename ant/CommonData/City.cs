@@ -7,7 +7,7 @@ namespace matsps.CommonData
     /// <summary>
     /// Хранит данные о координатах города
     /// </summary>
-    class City
+    class City : ICloneable
     {
         #region Конструктор и Данные
         public City():this(0,0)        
@@ -60,5 +60,16 @@ namespace matsps.CommonData
             get;
         }
         #endregion
+
+        #region interfaces implementation
+        public object Clone()
+        {
+            City tmpcity = new City();
+            tmpcity._x = this._x;
+            tmpcity._y = this._y;
+            tmpcity.Index = this.Index;
+            return tmpcity;
+        }
+        #endregion interfaces implementation
     }
 }
