@@ -17,6 +17,7 @@ namespace matsps.GeneticAlgorithm
         {
             _gap = gap;
             _cities = cities;
+            _liAgents = new List<Agent>();
             for (int i = 0; i < gap.Population/2; i++)
             {
                 _liAgents.Add(this.NewAgent());
@@ -24,6 +25,7 @@ namespace matsps.GeneticAlgorithm
         }
 
         private GAParameters _gap;
+        private Random _rnd = new Random();
         private List<Agent> _liAgents;
         CitiesCollection _cities;
 
@@ -36,15 +38,14 @@ namespace matsps.GeneticAlgorithm
         /// <returns></returns>
         private Agent NewAgent()
         {
-            Agent tmpag = new Agent();
-            Random rnd = new Random();
+            Agent tmpag = new Agent();            
             
             CitiesCollection tmpCC = new CitiesCollection(_gap.CitiesCount);
 
             int firstCity;
-            firstCity = rnd.Next(_cities.Count - 1);
-            City tmpc = _cities[firstCity];
-            tmpc.Index = 0;
+            firstCity = _rnd.Next(_cities.Count);
+            City tmpc = (City)_cities[firstCity].Clone();
+            //tmpc.Index = 0;
             
             tmpag.TabooInit(_cities.Count);
             tmpag.TabooSet(firstCity, true);
@@ -52,13 +53,15 @@ namespace matsps.GeneticAlgorithm
             for (int i = 1; i < _cities.Count; i++)
             {
                 int nextCityIndex;
-                do
-                { nextCityIndex = rnd.Next(_cities.Count); }
-                while(  tmpag.TabooGet(nextCityIndex) == true);
                 
-                tmpc = _cities[nextCityIndex];
+                do
+                { nextCityIndex = _rnd.Next(_cities.Count); }
+                while(  tmpag.TabooGet(nextCityIndex) == true);
+                tmpag.TabooSet(nextCityIndex,true);
+                
+                tmpc = (City)_cities[nextCityIndex].Clone();
                 tmpc.Index = nextCityIndex;
-              tmpCC.Add(tmpc);
+                tmpCC.Add(tmpc);
             }
             //tmpRoute.Drawing2.Color = System.Drawing.Color.Indigo; ???
             Route tmpRoute = new Route(tmpCC, "генетический алгоритм");
@@ -70,28 +73,32 @@ namespace matsps.GeneticAlgorithm
         {
             try
             {
-                if (_liAgents.Count > _gap.CitiesCount / 2)
+                if (_liAgents.Count > _gap.Population / 2)
                 {
                     this.RemoveWorst();
                 }
-                List<Agent> _liAgentsTemp = _liAgents;
+                List<Agent> _liAgentsTemp = new List<Agent>(_liAgents);
+                //_liAgentsTemp = _liAgents.;
                 //for(int i = 0; i < _liAgents.Count/2; i++)
                 //{
                 do
                 {
                     int parent1, parent2;
-                    Random rnd = new Random();
+                    //Random rnd = new Random();
+                    
                     //первый родитель
-                    parent1 = rnd.Next(_liAgentsTemp.Count);
+                    parent1 = _rnd.Next(_liAgentsTemp.Count);
                     Agent tmpag1 = _liAgentsTemp[parent1];
                     _liAgentsTemp.Remove(tmpag1);
+                    
                     //второй родитель
-                    parent2 = rnd.Next(_liAgents.Count);
+                    parent2 = _rnd.Next(_liAgents.Count);
                     Agent tmpag2 = _liAgentsTemp[parent2];
                     _liAgentsTemp.Remove(tmpag2);
+                    
                     // Точка разрыва в маршруте
                     int break_point;
-                    break_point = rnd.Next(_gap.CitiesCount);
+                    break_point = _rnd.Next(_gap.CitiesCount);
 
                     int i = 0;
                     Route tmpr1 = new Route("генетический алгоритм");
@@ -142,6 +149,15 @@ namespace matsps.GeneticAlgorithm
                 throw new Exception(ex.Message + ex.StackTrace);
             }
 
+        }
+
+        /// <summary>
+        /// Выдает массив всех агентов в поколении
+        /// </summary>
+        /// <returns></returns>
+        public Agent[] GetAllAgents()   
+        {
+            return _liAgents.ToArray();
         }
    
  }

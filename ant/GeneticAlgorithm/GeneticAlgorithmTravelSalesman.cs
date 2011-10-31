@@ -181,6 +181,7 @@ namespace matsps.GeneticAlgorithm
                 string strOut;
                 maxTime = iGenerations;
                 Generation gen = new Generation(_parameters, Cities);
+
                // for (int j = 0; j < iGenerations; j++)
                 //{
                  //   Generation gen = new Generation(_parameters, Cities);
@@ -205,8 +206,10 @@ namespace matsps.GeneticAlgorithm
                     //}
                     
                // }
+                agarrIndividuals = gen.GetAllAgents();
 
-                
+                // Вычисление завершено. Возвращаем результаты по событию
+                OnFinally(new EventArgs());
             }
             catch (ThreadAbortException taex)
             { listrTime.Add(taex.Message); }
@@ -218,7 +221,7 @@ namespace matsps.GeneticAlgorithm
         }
         
         private static decimal Summ(int num)
-        {
+        { 
             if (num == 0)
             {
                 return 0;
@@ -267,8 +270,8 @@ namespace matsps.GeneticAlgorithm
             {
                 bIsThreadAlive = false;
                 tmp(this, e);
-               // t.Abort();
-               // t = null;
+                t.Abort();
+                t = null;
             }
         }
 

@@ -17,8 +17,13 @@ namespace matsps.GeneticAlgorithm
 
         public delegate void ProgressChanged(object sender, int value, string label);
         public event ProgressChanged eventProgressChanged;
+        public Drawing Drawing;
 
-        public ProcessGeneticAlgorithm() { }
+        public ProcessGeneticAlgorithm() 
+        {
+            Drawing = new Drawing();
+            Drawing.Color = System.Drawing.Color.Chocolate;
+        }
 
         /// <summary>
         /// Переменная, в которой происходит алгоритм
