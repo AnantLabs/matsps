@@ -24,7 +24,6 @@ namespace matsps.CommonData
             _liCities = cities;
             DistanceCalculate();
         }
-
         /// <summary>
         /// Заданное количество городов
         /// </summary>

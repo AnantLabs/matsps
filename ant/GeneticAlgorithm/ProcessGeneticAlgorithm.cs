@@ -153,8 +153,10 @@ namespace matsps.GeneticAlgorithm
            // Route path = new Route(travelSalesmanGA.BestPath,"ближайшего соседа");
             _bestPath = travelSalesmanGA.BestPath();
             //_bestPath.Name = "генетический алгоритм";
-
+            
             _tsProcessTime = DateTime.Now - timeStart;
+
+            travelSalesmanGA.eventProgressChanged -= new EventHandler<GeneticAlgorithmChangesEventArgs>(ProgressChange);
 
             OnFinallyCalculate(EventArgs.Empty);
         }

@@ -235,6 +235,8 @@ namespace matsps
             _tsProcessTime = DateTime.Now - timeStart;
             _bestPath.СalcTime = _tsProcessTime;
 
+            travelSalesmanAnt.eventProgressChanged -= new EventHandler<AntAlgLogic.AntAlgChangesEventArgs>(ProgressChange);
+
             OnFinallyCalculate(new EventArgs());
         }
 
