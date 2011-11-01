@@ -141,7 +141,7 @@ namespace matsps.CommonData
         /// IComparable interface implementation
         /// </summary>
         /// <param name="a">Agent to Compare</param>
-        /// <returns>1 if current Route is better, -1 if not; otherwise - zero</returns>
+        /// <returns>1 if current Route is better(shorter), -1 if not; otherwise - zero</returns>
         public int CompareTo(Agent a)
         {
             if (a.RouteLength > this.RouteLength)
