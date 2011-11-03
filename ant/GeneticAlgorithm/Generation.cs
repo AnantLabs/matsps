@@ -11,7 +11,7 @@ namespace matsps.GeneticAlgorithm
     class Generation
     {
 
-        #region Конструкторы и данные
+        #region Конструкторы
 
         /// <summary>
         /// Создать новое поколение
@@ -23,16 +23,25 @@ namespace matsps.GeneticAlgorithm
             _gap = gap;
             _cities = cities;
             _liAgents = new List<Agent>();
-            for (int i = 0; i < _gap.Population/2; i++)
+            for (int i = 0; i < _gap.Population; i++)
             {
-                _liAgents.Add(this.NewAgent());
+                _liAgents.Add(new Agent(_cities));
             }
         }
+
+        #endregion Конструкторы
+
+        #region Локальные переменные 
+        
         /// <summary>
         /// Рандом
         /// </summary>
         private Random _rnd = new Random();
-        
+
+        private Mutations _mutations = new Mutations();
+
+        private Crossbreeding _crossbreeding = new Crossbreeding();
+
         /// <summary>
         /// Параметры генетического алгоритма
         /// </summary>
@@ -47,74 +56,29 @@ namespace matsps.GeneticAlgorithm
         /// </summary>
         CitiesCollection _cities;
 
-        #endregion
+        #endregion Локальные переменные
 
+        #region Функции
 
-        /// <summary>
-        ///  Создать рандомно заполненного агента
-        /// </summary>
-        /// <returns>Агент со случайным маршрутом</returns>
-        private Agent NewAgent()
-        {
-            Agent tmpag = new Agent();            
-            
-            CitiesCollection tmpCC = new CitiesCollection();
-
-            List<int> _liRemIndexes = new List<int>();
-            for (int i = 0; i < _cities.Count; i++)
-            {
-                _liRemIndexes.Add(i);
-            }
-
-            //int firstCity;
-            //firstCity = _rnd.Next(_cities.Count);
-            //City tmpc = (City)_cities[firstCity].Clone();
-            //tmpc.Index = 0;
-            
-            tmpCC.MaxDistance = _gap.MaxDistance;
-
-            int nextCityIndex;
-            
-            //tmpag.TabooInit(_cities.Count);
-            //tmpag.TabooSet(firstCity, true);
-            //tmpCC.Add(tmpc);//+ использовать просто Route// CitiesCollection
-            //for (int i = 1; i < _cities.Count; i++)
-            do
-            {
-                //int nextCityIndex;
-                nextCityIndex = _rnd.Next(_liRemIndexes.Count);
-                //do
-                //{ nextCityIndex = _rnd.Next(_cities.Count); }
-                //while(  tmpag.TabooGet(nextCityIndex) == true);
-                //tmpag.TabooSet(nextCityIndex,true);
-
-                City tmpc = new City();
-                tmpc = _cities[_liRemIndexes[nextCityIndex]];
-                //tmpc.Index = nextCityIndex;
-                _liRemIndexes.Remove(_liRemIndexes[nextCityIndex]);
-                tmpCC.Add(tmpc);
-            }
-            while (_liRemIndexes.Count > 0);
-
-            //tmpRoute.Drawing2.Color = System.Drawing.Color.Indigo; ???
-            //tmpCC.DistanceCalculate();
-            Route tmpRoute = new Route(tmpCC, "генетический алгоритм");
-            tmpag.Route = tmpRoute;
-            return tmpag;
-        }
+        ///// <summary>
+        /////  Создать рандомно заполненного агента
+        ///// </summary>
+        ///// <returns>Агент со случайным маршрутом</returns>
+//        private Agent NewAgent()
+//        {
+//            return new Agent(_cities);
+//       }
 
 
         public void PerformCrossbreeding()
         {
-            if (_liAgents.Count > _gap.Population / 2)
+            if (_liAgents.Count > _gap.SurviversCount)
             {
                 this.PerformSelection();
             }
             List<Agent> _liAgentsTemp = new List<Agent>(_liAgents);
-            //_liAgentsTemp = _liAgents.;
-            //for(int i = 0; i < _liAgents.Count/2; i++)
-            //{
-            do
+
+            while (_liAgents.Count < _gap.Population)
             {
                 int parent1, parent2;
                 //Random rnd = new Random();
@@ -125,78 +89,93 @@ namespace matsps.GeneticAlgorithm
                 _liAgentsTemp.Remove(tmpag1);
                 
                 //второй родитель
-                parent2 = _rnd.Next(_liAgents.Count);
+                parent2 = _rnd.Next(_liAgentsTemp.Count);
                 Agent tmpag2 = _liAgentsTemp[parent2];
                 _liAgentsTemp.Remove(tmpag2);
+
+                _crossbreeding.Perform(ref tmpag1, ref tmpag2);
+
                 
-                // Точка разрыва в маршруте
-                int break_point;
-                break_point = _rnd.Next(_gap.CitiesCount);
+                //// Точка разрыва в маршруте
+                //int break_point;
+                //break_point = _rnd.Next(_gap.CitiesCount);
 
-                int i = 0;
-                Route tmpr1 = new Route("генетический алгоритм");
-                Route tmpr2 = new Route("генетический алгоритм");
-                // Копируем точки из родителей в детей до точки разрыва
-                while (i < break_point)
-                {
-                    tmpr1.Cities.Add(tmpag1.Route.Cities[i]);
-                    tmpr2.Cities.Add(tmpag2.Route.Cities[i]);
-                    i++;
-                }
+                //int i = 0;
+                //Route tmpr1 = new Route("генетический алгоритм");
+                //Route tmpr2 = new Route("генетический алгоритм");
+                //// Копируем точки из родителей в детей до точки разрыва
+                //while (i < break_point)
+                //{
+                //    tmpr1.Cities.Add(tmpag1.Route.Cities[i]);
+                //    tmpr2.Cities.Add(tmpag2.Route.Cities[i]);
+                //    i++;
+                //}
 
-                // 
-                while (i < _gap.CitiesCount)
-                {
-                    tmpr1.Cities.Add(tmpag2.Route.Cities[i]);
-                    tmpr2.Cities.Add(tmpag1.Route.Cities[i]);
-                }
-                tmpag1.Route = tmpr1;
-                tmpag2.Route = tmpr2;
-
+                //// 
+                //while (i < _gap.CitiesCount)
+                //{
+                //    tmpr1.Cities.Add(tmpag2.Route.Cities[i]);
+                //    tmpr2.Cities.Add(tmpag1.Route.Cities[i]);
+                //}
+                //tmpag1.Route = tmpr1;
+                //tmpag2.Route = tmpr2;
+            
                 _liAgents.Add(tmpag1);
                 _liAgents.Add(tmpag2);
             }
-            while(_liAgentsTemp.Count > 0);
+            
 
         }
 
-        #region Crossbreeding
+        public void PerformMutation()
+        {
+            _mutations.SetMutationsProbability(
+                _gap.CitySwitchMutationProbability,
+                _gap.IsolatedChainMutationProbability,
+                _gap.NewAgentMutationProbability);
 
-        #endregion Crossbreeding
+            for (int i = 0; i < _liAgents.Count; i++)
+            {
+                double dMutation = _rnd.NextDouble();
+
+                if (dMutation < _gap.MutationPercent)
+                {
+                    Agent agent = _liAgents[i];
+                    _mutations.Perform(ref agent);
+                }
+            }
+        }
 
         /// <summary>
         /// Удаляем худших агентов из листа _liAgents 
         /// </summary>
         public void PerformSelection()
         {
-            try
+            if (_liAgents.Count > _gap.SurviversCount)
             {
-                if (_liAgents.Count > _gap.CitiesCount / 2)
-                {
-                    // Вот для этой строчки и нужен IComparable
-                    _liAgents.Sort();
-                }
-                while (_liAgents.Count > _gap.CitiesCount / 2)
-                {
-                    _liAgents.RemoveAt(_liAgents.Count - 1);
-                }
+                // Вот для этой строчки и нужен IComparable
+                _liAgents.Sort();
+                _liAgents.RemoveRange(_gap.SurviversCount, _liAgents.Count - _gap.SurviversCount);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message + ex.StackTrace);
-            }
-
+           // while (_liAgents.Count > _gap.SurviversCount)
+           // {
+            //    _liAgents.RemoveAt(_liAgents.Count - 1);
+            //}
         }
+
 
         /// <summary>
-        /// Выдает массив всех агентов в поколении
+        /// Получить лучший маршрут
         /// </summary>
-        /// <returns></returns>
-        public Agent[] GetAllAgents()   
+        /// <returns>Лучший маршрут в текущем поколении</returns>
+        public Agent GetBest()
         {
-            return _liAgents.ToArray();
+            _liAgents.Sort();
+            return _liAgents[0];
         }
-   
- }
+
+
+        #endregion Функции
+    }
     
 }

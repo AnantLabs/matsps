@@ -24,22 +24,24 @@ namespace matsps.GeneticAlgorithm
         {
             Cities = cities;
         }
-        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, GAParameters param)
+        public GeneticAlgorithmTravelSalesman(CitiesCollection cities, GAParameters gap)
             :this(cities)                                                           
         {
-            SetParameters(param);
+            //SetParameters(gap);
+            _gap = gap;
             tmrTimer = new System.Timers.Timer(10);                                      //инициализация таймера
-            tmrTimer.Elapsed += new ElapsedEventHandler(tmrTimer_Elapsed); //подписка на событие таймера "Elapsed"
+            //tmrTimer.Elapsed += new ElapsedEventHandler(tmrTimer_Elapsed); //подписка на событие таймера "Elapsed"
         }
 
         /// <summary>
         /// Массив индивидов
         /// </summary>
-        private Agent[] agarrIndividuals;
+        //private Agent[] agarrIndividuals;
         //private List<Individual> liInd = new List<Individual>();
         private List<int> liRoute = new List<int>();
         private CitiesCollection ccRoute = new CitiesCollection();
-        private CitiesCollection _BestPath = new CitiesCollection();
+        private List<Agent> _liAgents = new List<Agent>();
+        private Route _BestPath;
         //private double best;
         //private int bestIndex;
 
@@ -83,7 +85,7 @@ namespace matsps.GeneticAlgorithm
        //     get { return _BestPath; }
        // }
 
-        private GAParameters _parameters;
+        private GAParameters _gap;
         #endregion
 
         #region Свойства результатов расчета
@@ -103,54 +105,65 @@ namespace matsps.GeneticAlgorithm
         }
 
         /// <summary>
-        /// Лучший маршрут
+        /// Лучший маршрут !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// </summary>
         public Route BestPath()
         {
-            Agent _bestIndividual = new Agent();
-            try
+            if (_liAgents.Count != 0)
             {
-                _bestIndividual.Route = agarrIndividuals[0].Route;
-                for (int i = 1; i < agarrIndividuals.Length; i++)
-                {
-                    if (agarrIndividuals[i].RouteLength < _bestIndividual.RouteLength)
-                    {
-                        _bestIndividual = agarrIndividuals[i];
-                    }
-                }   
+                _liAgents.Sort();
+                return _liAgents[0].Route;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Не могу рассчитать лучший маршрут" + ex.Message + ex.StackTrace, "GenAlgTS, BestPath()");
+                return null;
             }
-            return _bestIndividual.Route;
+            
+            //try
+            //{
+            //    Agent _bestIndividual = new Agent(agarrIndividuals[0].Route.Cities);
+            //    _bestIndividual.Route = agarrIndividuals[0].Route;
+            //    for (int i = 1; i < agarrIndividuals.Length; i++)
+            //    {
+            //        if (agarrIndividuals[i].RouteLength < _bestIndividual.RouteLength)
+            //        {
+            //            _bestIndividual = agarrIndividuals[i];
+            //        }
+            //    }
+            //    return _bestIndividual.Route;   
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Не могу рассчитать лучший маршрут" + ex.Message + ex.StackTrace, "GenAlgTS, BestPath()");
+            //}
+           
         }
 
         #endregion
 
-        /// <summary>
-        /// Установить параметры алгоритма
-        /// </summary>
-        public void SetParameters(GAParameters param)
-        {
-            if (Cities != null)
-            {
-                // Создаем соседей
-                InitIndividuals();
-            }
+        ///// <summary>
+        ///// Установить параметры алгоритма
+        ///// </summary>
+        //public void SetParameters(GAParameters param)
+        //{
+        //    if (Cities != null)
+        //    {
+        //        // Создаем соседей
+        //        InitIndividuals();
+        //    }
 
-            _parameters = param;
-            //best = _parameters.MaxTour;
-           // OnFinally(EventArgs.Empty);
-        }
+        //    _parameters = param;
+        //    //best = _parameters.MaxTour;
+        //   // OnFinally(EventArgs.Empty);
+        //}
 
-        /// <summary>
-        /// Инициализация индивидов
-        /// </summary>
-        private void InitIndividuals()
-        {
-            agarrIndividuals = new Agent[Cities.Count * 2];
-        }
+        ///// <summary>
+        ///// Инициализация индивидов
+        ///// </summary>
+        //private void InitIndividuals()
+        //{
+        //    agarrIndividuals = new Agent[Cities.Count * 2];
+        //}
 
         /// <summary>
         /// Произвести один расчет
@@ -176,37 +189,50 @@ namespace matsps.GeneticAlgorithm
                 tmrTimer.Start();
 
 
-                int iGenerations = _parameters.CitiesCount; //= 1000; // Прописать в настройках!!!
+                int iGenerations = _gap.GenerationsCount; 
+
                 DateTime dtStart = DateTime.Now;
                 string strOut;
                 maxTime = iGenerations;
-                Generation gen = new Generation(_parameters, Cities);
+                Generation gen;
+                if (Cities != null)
+                {
+                    gen = new Generation(_gap, Cities);
+                }
+                else
+                {
+                    throw new Exception("Коллекция городов пуста...");
+                }
 
-               // for (int j = 0; j < iGenerations; j++)
-                //{
-                 //   Generation gen = new Generation(_parameters, Cities);
-                //    Random rnd = new Random();
-                //    // У меня свой список Табу, без блэкджека и ...
-                //    bool[] iarrTaboo = new bool[Cities.Count];
-                //    for (int i = 0; i < iarrTaboo.Length; i++)
-                //    {
-                //        iarrTaboo[i] = false;
-                //    }
+                for (int i = 0; i < iGenerations; i++)
+                {
+                    gen.PerformCrossbreeding();
+                    //gen.PerformMutation();
+                    gen.PerformSelection();
+                    _liAgents.Add(gen.GetBest());
 
-                //    int iCurrentCity = rnd.Next(0, Cities.Count);
+                    curTime = i;
 
-                //    City city = Cities[iCurrentCity];
-                //    city.Index = iCurrentCity;
-                //    ccRoute.Add(city);
-                //    ccRoute.MaxDistance = _parameters.MaxDistance;
-                //    curTime = j;
-                   // for (int k = 0; k < ; k++)
-                    //{
-                        
-                    //}
+                    int iPercent = 0;
+                    //Подсчитываем процент прогресса
+                    if (maxTime > 0)
+                    {
+                        decimal dPercent = (decimal)curTime * 100 / maxTime;
+                        iPercent = (int)dPercent;
+                    }
+                    else
+                    { }
+                    GeneticAlgorithmChangesEventArgs e = new GeneticAlgorithmChangesEventArgs(iPercent, "%");
                     
-               // }
-                agarrIndividuals = gen.GetAllAgents();
+
+                    OnProgressChanged(e);
+                }
+                //agarrIndividuals = gen.GetAllAgents();
+
+
+                
+
+
 
                 // Вычисление завершено. Возвращаем результаты по событию
                 OnFinally(new EventArgs());
@@ -263,7 +289,7 @@ namespace matsps.GeneticAlgorithm
         {
             //OnProgressChanged(NearestNeighbourChangesEventArgs(100, true));
             curTime = maxTime;
-            tmrTimer_Elapsed(this, EventArgs.Empty);
+            //tmrTimer_Elapsed(this, EventArgs.Empty);
             EventHandler<EventArgs> tmp = eventFinally;
 
             if (tmp != null)
@@ -276,66 +302,59 @@ namespace matsps.GeneticAlgorithm
         }
 
         // Метод, вызывающий событие
-        protected virtual void tmrTimer_Elapsed(object sender, EventArgs e)             
-        {
+      //  protected virtual void tmrTimer_Elapsed(object sender, EventArgs e)             
+       // {
             //wh.WaitOne();
 
-            int iPercent = 0;
-            //Подсчитываем процент прогресса
-            if (maxTime > 0)
-            {
-                decimal dPercent = (decimal)curTime * 100 / maxTime;
-                iPercent = (int)dPercent;  //только целые значения | а какие ещё могут быть в int?!
-            }
-            else 
-            { }
-            GeneticAlgorithmChangesEventArgs eee = new GeneticAlgorithmChangesEventArgs(iPercent, false);
+            //int iPercent = 0;
+            ////Подсчитываем процент прогресса
+            //if (maxTime > 0)
+            //{
+            //    decimal dPercent = (decimal)curTime * 100 / maxTime;
+            //    iPercent = (int)dPercent;  //только целые значения | а какие ещё могут быть в int?!
+            //}
+            //else 
+            //{ }
+            //GeneticAlgorithmChangesEventArgs eee = new GeneticAlgorithmChangesEventArgs(iPercent, false);
 
-            OnProgressChanged(eee); // да, еее - это по-мудацки!
+            //OnProgressChanged(eee); // да, еее - это по-мудацки!
 
             //wh.Set();
-        }
+       // }
         #endregion
 
 
     }
 
     //------------------------------------------------------------------
-    //     Аргументы событий изменения в алгоритме ближайшего соседа
+    //     Аргументы событий изменения в генетическом алгоритме
     //------------------------------------------------------------------
     /// <summary>
     /// Аргументы событий изменения в алгоритме ближайшего соседа
     /// </summary>
     internal class GeneticAlgorithmChangesEventArgs : EventArgs
     {
-        private readonly double dPercent;
-        private bool bCanContinue;
+        private readonly double _dPercent;
+        private string _strLabel;
 
-        public GeneticAlgorithmChangesEventArgs(double percent, bool canContinue)
+        public GeneticAlgorithmChangesEventArgs(double percent, string label)
         {
-            dPercent = percent;
-            bCanContinue = canContinue;
+            _dPercent = percent;
+            _strLabel = label;
         }
 
         /// <summary>
         /// Процент выполнения алгоритма
         /// </summary>
         public double Percent
-        { get { return dPercent; } }
+        { get { return _dPercent; } }
 
         /// <summary>
-        /// Позволяет прододжить выполнение
+        /// Подпись к состоянию ("%" или "итерция")
         /// </summary>
-        public bool CanContinue
+        public string Label
         {
-            set
-            {
-                bCanContinue = value;
-            }
-            get
-            {
-                return bCanContinue;
-            }
+            get { return _strLabel; }
         }
     };
 }

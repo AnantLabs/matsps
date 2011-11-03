@@ -16,12 +16,18 @@ namespace matsps.CommonData
         }
         public CitiesCollection(int countCities):this()       
         {
-            _iCount = countCities;
+           _iCount = countCities;
         }
         public CitiesCollection(List<City> cities)            
         {
             _iCount = cities.Count;
             _liCities = cities;
+            DistanceCalculate();
+        }
+        public CitiesCollection(CitiesCollection CC)
+        {
+            this._liCities = new List<City>(CC._liCities);
+            this._iCount = CC._iCount;
             DistanceCalculate();
         }
         /// <summary>
@@ -122,7 +128,8 @@ namespace matsps.CommonData
         public void Add(City city)          
         {
             _liCities.Add(city);
-            _iCount++;
+            //_iCount++;
+            _iCount = _liCities.Count;
             //DistanceCalculate();
         }
         public void RemoveAll()             
