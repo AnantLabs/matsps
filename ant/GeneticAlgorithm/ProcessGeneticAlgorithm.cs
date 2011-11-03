@@ -143,7 +143,7 @@ namespace matsps.GeneticAlgorithm
         {
             //пересылка сообщения
             if (eventProgressChanged != null) //проверяем наличие подписчиков
-                eventProgressChanged(this, (int)e.Percent, "-");
+                eventProgressChanged(this, (int)e.Percent, "%");
         }
 
         private void Finally(object sender, EventArgs e)

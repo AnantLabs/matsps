@@ -65,6 +65,7 @@
     <Compile Include="AntAlgData\AntAlgDataAnt.cs" />
     <Compile Include="AntAlgData\AntAlgDataAntsCollection.cs" />
     <Compile Include="CommonData\Agent.cs" />
+    <Compile Include="GeneticAlgorithm\Crossbreeding.cs" />
     <Compile Include="GeneticAlgorithm\Generation.cs" />
     <Compile Include="GeneticAlgorithm\GeneticAlgorithmTravelSalesman.cs" />
     <Compile Include="GeneticAlgorithm\Mutations.cs" />
