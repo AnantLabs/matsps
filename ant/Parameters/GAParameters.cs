@@ -14,7 +14,7 @@ namespace matsps.Parameters
         public GAParameters()
         {
             MaxDistance = 100;
-            GenerationsCount = 1000;
+            GenerationsCount = 10000;
             Population = 100;
             _iMutationPercent = 5;
             SurviversPercent = 50;
