@@ -12,7 +12,7 @@ namespace matsps.CommonData
         private double _dRouteLength;
         private Route _route;
         private List<bool> _liTaboo;
-        private Random _rnd = new Random();
+        private static Random _rnd = new Random();
 
         //public Agent()
        // {

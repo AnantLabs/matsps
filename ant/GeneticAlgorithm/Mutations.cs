@@ -26,7 +26,7 @@ namespace matsps.GeneticAlgorithm
 
        // private GAParameters _gap;
         
-        private Random _rnd = new Random();
+        private static Random _rnd = new Random();
 
         private double _dCitySwitchMutation;
         private double _dIsolatedChainMutation;
