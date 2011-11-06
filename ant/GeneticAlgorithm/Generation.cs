@@ -86,12 +86,12 @@ namespace matsps.GeneticAlgorithm
                 //первый родитель
                 parent1 = _rnd.Next(_liAgentsTemp.Count);
                 Agent tmpag1 = _liAgentsTemp[parent1];
-                _liAgentsTemp.Remove(tmpag1);
+               // _liAgentsTemp.Remove(tmpag1);
                 
                 //второй родитель
                 parent2 = _rnd.Next(_liAgentsTemp.Count);
                 Agent tmpag2 = _liAgentsTemp[parent2];
-                _liAgentsTemp.Remove(tmpag2);
+               // _liAgentsTemp.Remove(tmpag2);
 
                 _crossbreeding.Perform(ref tmpag1, ref tmpag2);
 

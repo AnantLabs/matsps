@@ -43,42 +43,53 @@ namespace matsps.GeneticAlgorithm
         /// <param name="agent2">Second agent</param>
         private void OnePointCrossbreeding(ref Agent agent1, ref Agent agent2)
         {
-            if (agent1.Route.Count == agent2.Route.Count)
+            try
             {
-                int iCount = agent1.Route.Count;
-                int iBreakPoint = _rnd.Next(agent1.Route.Count);
-
-                CitiesCollection tmpCC1 = new CitiesCollection();
-                CitiesCollection tmpCC2 = new CitiesCollection();
-                
-                
-                for (int i = 0; i < iBreakPoint; i++)
+                if (agent1.Route.Count == agent2.Route.Count)
                 {
-                    // Adding first city to collection and deleting it from Agent
-                    tmpCC1.Add(agent1.Route.Cities[0]);
-                    agent1.Route.Cities.Cities.RemoveAt(0);
+                    int iCount = agent1.Route.Count;
+                    int iBreakPoint = _rnd.Next(agent1.Route.Count);
 
-                    tmpCC2.Add(agent2.Route.Cities[0]);
-                    agent2.Route.Cities.Cities.RemoveAt(0);
+                    CitiesCollection tmpCC1 = new CitiesCollection();
+                    CitiesCollection tmpCC2 = new CitiesCollection();
+
+                    Agent agentCopy1 = new Agent(agent1.Route.Cities);
+                    Agent agentCopy2 = new Agent(agent2.Route.Cities);
+
+                    for (int i = 0; i < iBreakPoint; i++)
+                    {
+                        // Adding first city to collection and deleting it from Agent
+                        tmpCC1.Add(agent1.Route.Cities[i]);
+                        agent2.Route.Cities.Cities.Remove(agent1.Route.Cities[i]);
+                        //agent1.Route.Cities.Cities.RemoveAt(0);
+
+                        tmpCC2.Add(agentCopy2.Route.Cities[i]);
+                        agentCopy1.Route.Cities.Cities.Remove(agentCopy2.Route.Cities[i]);
+                        //agentCopy2.Route.Cities.Cities.RemoveAt(0);
+                    }
+                    //for (int i = 0; i < iBreakPoint; i++)
+                    //{
+                    //    agent1.Route.Cities.Cities.Remove(tmpCC1[i]);
+                    //    agent2.Route.Cities.Cities.Remove(tmpCC2[i]);
+                    //}
+
+                    for (int i = 0; i < iCount - iBreakPoint; i++)
+                    {
+                        tmpCC1.Add(agent2.Route.Cities[i]);
+                        tmpCC2.Add(agentCopy1.Route.Cities[i]);
+                    }
+                    agent1.Route = new Route(tmpCC1, "генетический алгоритм");
+                    agent2.Route = new Route(tmpCC2, "генетический алгоритм");
                 }
-                int p = 0;
-                //for (int i = 0; i < iBreakPoint; i++)
-                //{
-                //    agent1.Route.Cities.Cities.Remove(tmpCC1[i]);
-                //    agent2.Route.Cities.Cities.Remove(tmpCC2[i]);
-                //}
-
-                for (int i = 0; i < iCount - iBreakPoint; i++)
+                else
                 {
-                    tmpCC1.Add(agent2.Route.Cities[i]);
-                    tmpCC2.Add(agent1.Route.Cities[i]);
+                    throw new Exception("Число городов в агентах не совпадает!");
                 }
-                agent1.Route = new Route(tmpCC1, "генетический алгоритм");
-                agent2.Route = new Route(tmpCC2, "генетический алгоритм");
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("Число городов в агентах не совпадает!");
+                System.Windows.Forms.MessageBox.Show(ex.Message + ex.StackTrace);
+                throw;
             }
         }
 
