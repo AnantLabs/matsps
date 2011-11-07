@@ -46,9 +46,9 @@ namespace matsps.GeneticAlgorithm
             int iSumm;
             iSumm = iCitySwitchMutation + iIsolatedChainMutation + iNewAgentMutation;
 
-            _dCitySwitchMutation = iSumm / iCitySwitchMutation;
-            _dIsolatedChainMutation = iSumm / iIsolatedChainMutation;
-            _dNewAgentMutation = iSumm / iIsolatedChainMutation;
+            _dCitySwitchMutation = (double)iCitySwitchMutation / (double)iSumm;
+            _dIsolatedChainMutation = (double)iIsolatedChainMutation / (double)iSumm;
+            _dNewAgentMutation = (double)iIsolatedChainMutation / (double)iSumm;
 
         }
 
@@ -66,7 +66,7 @@ namespace matsps.GeneticAlgorithm
             }
             else if (dProbability < _dCitySwitchMutation + _dIsolatedChainMutation)
             {
-                this.IsolatedChainMutation(ref agent);
+                //this.IsolatedChainMutation(ref agent);
             }
             else //if(dProbability < _dCitySwitchMutation + _dIsolatedChainMutation + _dNewAgentMutation)
             {
@@ -109,7 +109,9 @@ namespace matsps.GeneticAlgorithm
                 // Choosing random cities indexes
                 int iCity1, iCity2;
 
+                // Lower bound
                 iCity1 = _rnd.Next(tmpCC.Count - 4);
+                // Upper bound
                 iCity2 = _rnd.Next(iCity1 + 4, tmpCC.Count);
 
                 List<City> _liCityTemp = new List<City>();
@@ -118,11 +120,12 @@ namespace matsps.GeneticAlgorithm
                     _liCityTemp.Add((City)tmpCC[i].Clone());
                 }
 
-                int j = 0;
+               // int j = 0;
                 for (int i = iCity1 + 1; i < iCity2; i++)
                 {
-                    tmpCC.Cities[i] = _liCityTemp[j];
-                    j++;
+                    tmpCC.Cities[i] = _liCityTemp[_rnd.Next(_liCityTemp.Count)];
+                    _liCityTemp.Remove(tmpCC.Cities[i]);
+                   // j++;
                 }
 
                 agent.Route = new Route(tmpCC, "генетический алгоритм");
