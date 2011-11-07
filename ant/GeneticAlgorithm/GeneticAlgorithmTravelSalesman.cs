@@ -207,7 +207,7 @@ namespace matsps.GeneticAlgorithm
                 for (int i = 0; i < iGenerations; i++)
                 {
                     gen.PerformCrossbreeding();
-                    //gen.PerformMutation();
+                    gen.PerformMutation();
                     gen.PerformSelection();
                     _liAgents.Add(gen.GetBest());
 
