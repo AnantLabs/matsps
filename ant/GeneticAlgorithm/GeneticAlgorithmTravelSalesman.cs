@@ -112,6 +112,8 @@ namespace matsps.GeneticAlgorithm
             if (_liAgents.Count != 0)
             {
                 _liAgents.Sort();
+                Agent agent = _liAgents[0];
+                Generation.IsCorruptedRoute(ref agent);
                 return _liAgents[0].Route;
             }
             else
@@ -209,7 +211,9 @@ namespace matsps.GeneticAlgorithm
                     gen.PerformCrossbreeding();
                     gen.PerformMutation();
                     gen.PerformSelection();
-                    _liAgents.Add(gen.GetBest());
+                    Agent agent = gen.GetBest();
+                    Generation.IsCorruptedRoute(ref agent);
+                    _liAgents.Add(agent);
 
                     curTime = i;
 

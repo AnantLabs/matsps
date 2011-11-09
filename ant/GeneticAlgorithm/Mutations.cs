@@ -58,7 +58,7 @@ namespace matsps.GeneticAlgorithm
         /// <param name="agent">Agent to mutate(must contain a CitiesCollection!)</param>
         public void Perform(ref Agent agent)
         {
-            double dProbability = _rnd.NextDouble() * 100.0;
+            double dProbability = _rnd.NextDouble();
 
             if (dProbability < _dCitySwitchMutation)
             {
@@ -66,7 +66,7 @@ namespace matsps.GeneticAlgorithm
             }
             else if (dProbability < _dCitySwitchMutation + _dIsolatedChainMutation)
             {
-                //this.IsolatedChainMutation(ref agent);
+                this.IsolatedChainMutation(ref agent);
             }
             else //if(dProbability < _dCitySwitchMutation + _dIsolatedChainMutation + _dNewAgentMutation)
             {
@@ -117,18 +117,23 @@ namespace matsps.GeneticAlgorithm
                 List<City> _liCityTemp = new List<City>();
                 for (int i = iCity1 + 1; i < iCity2; i++)
                 {
-                    _liCityTemp.Add((City)tmpCC[i].Clone());
+                    _liCityTemp.Add(tmpCC[i]);
                 }
 
-               // int j = 0;
                 for (int i = iCity1 + 1; i < iCity2; i++)
                 {
-                    tmpCC.Cities[i] = _liCityTemp[_rnd.Next(_liCityTemp.Count)];
-                    _liCityTemp.Remove(tmpCC.Cities[i]);
-                   // j++;
+                    int iRnd = _rnd.Next(_liCityTemp.Count);
+                    tmpCC[i] = _liCityTemp[iRnd];
+                    _liCityTemp.RemoveAt(iRnd);
+
                 }
 
                 agent.Route = new Route(tmpCC, "генетический алгоритм");
+
+                if (Generation.IsCorruptedRoute(ref agent))
+                {
+
+                }
             }
             
         }

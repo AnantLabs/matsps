@@ -188,5 +188,31 @@ namespace matsps.Forms.Parameters
             return _parameters;
         }
         #endregion
+
+        private void tbMutations_Scroll(object sender, EventArgs e)
+        {
+            List<TrackBar> tbList = new List<TrackBar>();
+            tbList.Add(this.tbCitySwitchMutation);
+            tbList.Add(this.tbIsolatedChainMutation);
+            tbList.Add(this.tbNewAgentMutation);
+
+            int iSumm = 0;
+            for (int i = 0; i < tbList.Count; i++)
+            {
+                iSumm += tbList[i].Value;
+            }
+            if (iSumm > 1000)
+            {
+                double iSurplus = iSumm - ((TrackBar)sender).Value;
+
+                tbList.Remove((TrackBar)sender);
+
+
+                for (int i = 0; i < tbList.Count; i++)
+                {
+                    tbList[i].Value = tbList[i].Value - (int)(iSurplus / 2);
+                }
+            }
+        }
     }
 }
