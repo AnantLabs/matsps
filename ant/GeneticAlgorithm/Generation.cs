@@ -72,6 +72,8 @@ namespace matsps.GeneticAlgorithm
 
         public void PerformCrossbreeding()
         {
+            bool iii = false;
+            iii = this.IsLessCitiesInGeneration(10);
             if (_liAgents.Count > _gap.SurviversCount)
             {
                 this.PerformSelection();
@@ -123,8 +125,8 @@ namespace matsps.GeneticAlgorithm
                 _liAgents.Add(tmpag1);
                 _liAgents.Add(tmpag2);
             }
-            
 
+            iii = this.IsLessCitiesInGeneration(10);
         }
 
         public void PerformMutation()
@@ -136,12 +138,18 @@ namespace matsps.GeneticAlgorithm
 
             for (int i = 0; i < _liAgents.Count; i++)
             {
-                double dMutation = _rnd.NextDouble();
+                double dMutation = _rnd.NextDouble()* 100.0;
 
                 if (dMutation < _gap.MutationPercent)
                 {
+                    bool iii = false;
+
                     Agent agent = _liAgents[i];
+                    iii = Generation.IsCorruptedRoute(ref agent);
+                    
                     _mutations.Perform(ref agent);
+
+                    iii = Generation.IsCorruptedRoute(ref agent);
                 }
             }
         }
@@ -161,6 +169,8 @@ namespace matsps.GeneticAlgorithm
            // {
             //    _liAgents.RemoveAt(_liAgents.Count - 1);
             //}
+            bool iii = false;
+            iii = this.IsLessCitiesInGeneration(10);
         }
 
 
@@ -170,10 +180,39 @@ namespace matsps.GeneticAlgorithm
         /// <returns>Лучший маршрут в текущем поколении</returns>
         public Agent GetBest()
         {
+            bool iii = false;
+            iii = this.IsLessCitiesInGeneration(10);
             _liAgents.Sort();
             return _liAgents[0];
         }
 
+
+        public bool IsLessCitiesInGeneration(int citiesCount)
+        {
+            for (int i = 0; i < _liAgents.Count; i++)
+            {
+                if (_liAgents[i].Route.Count < citiesCount)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool IsCorruptedRoute(ref Agent agent)
+        {
+            for (int i = 0; i < agent.Route.Count - 1; i++)
+            {
+                for (int j = i+1; j < agent.Route.Count; j++)
+                {
+                    if (agent.Route.Cities[i].Index == agent.Route.Cities[j].Index)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         #endregion Функции
     }

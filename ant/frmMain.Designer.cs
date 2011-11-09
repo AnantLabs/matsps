@@ -273,7 +273,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(193, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(224, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -330,6 +330,7 @@
             this.tlStrpTxbCitiesCount.Name = "tlStrpTxbCitiesCount";
             this.tlStrpTxbCitiesCount.Size = new System.Drawing.Size(25, 25);
             this.tlStrpTxbCitiesCount.ToolTipText = "Количество городов";
+            this.tlStrpTxbCitiesCount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyDown);
             this.tlStrpTxbCitiesCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tlStrpTxbCitiesCount_KeyUp);
             // 
             // tlStrpBtnCreateRandomCities

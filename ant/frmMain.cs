@@ -99,15 +99,28 @@ namespace matsps
         /// <summary>
         /// Загрузка формы. Запуск алгоритма
         /// </summary>
-        private void frmMain_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e)       
         {
-            tlStrpTxbCitiesCount.Text = "50"; // по умолчанию создаем 50 городов
+            tlStrpTxbCitiesCount.Text = "10"; // по умолчанию создаем 10 городов
             tlStrpTxbCitiesCount.Focus();
             tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
 
             listr = new List<string>();
 
  
+        }
+
+        /// <summary>
+        /// Хоткеи
+        /// </summary>
+        private void tlStrpTxbCitiesCount_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Быстрый запуск Генетического алгоритма
+            if (e.KeyData == (Keys.Control | Keys.G | Keys.Alt))
+            {
+                liLinkedPrLabel = new List<ProcessLinkedLabelPercent>();
+                GeneticAlgorithmStart();
+            }
         }
         #endregion
 
@@ -147,6 +160,7 @@ namespace matsps
             Forms.About.frmAbout ab = new matsps.Forms.About.frmAbout();
             ab.ShowDialog(this);
         }
+
         #endregion
 
         #region События toolStrip
@@ -534,6 +548,7 @@ namespace matsps
                 _prGAList[_prGAList.Count - 1].Start();
             //}
         }
+
         #endregion
 
         #region События алгоритмов
@@ -876,6 +891,10 @@ namespace matsps
 
 
         #endregion
+
+
+
+
 
         
     }
