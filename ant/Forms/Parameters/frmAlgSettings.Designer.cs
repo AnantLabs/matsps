@@ -50,17 +50,21 @@
             this.txbMaxAnts = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.lblNewAgentMutation = new System.Windows.Forms.Label();
-            this.lblIsolatedChainMutation = new System.Windows.Forms.Label();
+            this.gbMutationsRatio = new System.Windows.Forms.GroupBox();
+            this.txbNewAgentMutation = new System.Windows.Forms.TextBox();
+            this.txbIsolatedChainMutation = new System.Windows.Forms.TextBox();
+            this.txbCitySwitchMutation = new System.Windows.Forms.TextBox();
             this.lblSwitchCityMutation = new System.Windows.Forms.Label();
-            this.tbNewAgentMutation = new System.Windows.Forms.TrackBar();
-            this.tbIsolatedChainMutation = new System.Windows.Forms.TrackBar();
+            this.lblNewAgentMutation = new System.Windows.Forms.Label();
             this.tbCitySwitchMutation = new System.Windows.Forms.TrackBar();
+            this.lblIsolatedChainMutation = new System.Windows.Forms.Label();
+            this.tbIsolatedChainMutation = new System.Windows.Forms.TrackBar();
+            this.tbNewAgentMutation = new System.Windows.Forms.TrackBar();
             this.lblMutationsPecent = new System.Windows.Forms.Label();
             this.txbMutationsPecent = new System.Windows.Forms.TextBox();
             this.txbSurviversCount = new System.Windows.Forms.TextBox();
             this.lblSurviversCount = new System.Windows.Forms.Label();
-            this.txbAgetsCount = new System.Windows.Forms.TextBox();
+            this.txbAgentsCount = new System.Windows.Forms.TextBox();
             this.lblAgetsCount = new System.Windows.Forms.Label();
             this.txbGenCout = new System.Windows.Forms.TextBox();
             this.lblGenCout = new System.Windows.Forms.Label();
@@ -68,16 +72,15 @@
             this.txbCitiesCount = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.gbMutationsRatio = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbNewAgentMutation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbIsolatedChainMutation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbCitySwitchMutation)).BeginInit();
             this.gbMutationsRatio.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCitySwitchMutation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbIsolatedChainMutation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbNewAgentMutation)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -291,7 +294,7 @@
             this.tabPage3.Controls.Add(this.txbMutationsPecent);
             this.tabPage3.Controls.Add(this.txbSurviversCount);
             this.tabPage3.Controls.Add(this.lblSurviversCount);
-            this.tabPage3.Controls.Add(this.txbAgetsCount);
+            this.tabPage3.Controls.Add(this.txbAgentsCount);
             this.tabPage3.Controls.Add(this.lblAgetsCount);
             this.tabPage3.Controls.Add(this.txbGenCout);
             this.tabPage3.Controls.Add(this.lblGenCout);
@@ -303,23 +306,47 @@
             this.tabPage3.Text = "Генетический";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // lblNewAgentMutation
+            // gbMutationsRatio
             // 
-            this.lblNewAgentMutation.AutoSize = true;
-            this.lblNewAgentMutation.Location = new System.Drawing.Point(226, 27);
-            this.lblNewAgentMutation.Name = "lblNewAgentMutation";
-            this.lblNewAgentMutation.Size = new System.Drawing.Size(75, 13);
-            this.lblNewAgentMutation.TabIndex = 13;
-            this.lblNewAgentMutation.Text = "Новый агент:";
+            this.gbMutationsRatio.Controls.Add(this.txbNewAgentMutation);
+            this.gbMutationsRatio.Controls.Add(this.txbIsolatedChainMutation);
+            this.gbMutationsRatio.Controls.Add(this.txbCitySwitchMutation);
+            this.gbMutationsRatio.Controls.Add(this.lblSwitchCityMutation);
+            this.gbMutationsRatio.Controls.Add(this.lblNewAgentMutation);
+            this.gbMutationsRatio.Controls.Add(this.tbCitySwitchMutation);
+            this.gbMutationsRatio.Controls.Add(this.lblIsolatedChainMutation);
+            this.gbMutationsRatio.Controls.Add(this.tbIsolatedChainMutation);
+            this.gbMutationsRatio.Controls.Add(this.tbNewAgentMutation);
+            this.gbMutationsRatio.Location = new System.Drawing.Point(21, 114);
+            this.gbMutationsRatio.Name = "gbMutationsRatio";
+            this.gbMutationsRatio.Size = new System.Drawing.Size(344, 119);
+            this.gbMutationsRatio.TabIndex = 15;
+            this.gbMutationsRatio.TabStop = false;
+            this.gbMutationsRatio.Text = "Соотношение видов мутаций";
             // 
-            // lblIsolatedChainMutation
+            // txbNewAgentMutation
             // 
-            this.lblIsolatedChainMutation.AutoSize = true;
-            this.lblIsolatedChainMutation.Location = new System.Drawing.Point(116, 27);
-            this.lblIsolatedChainMutation.Name = "lblIsolatedChainMutation";
-            this.lblIsolatedChainMutation.Size = new System.Drawing.Size(88, 13);
-            this.lblIsolatedChainMutation.TabIndex = 12;
-            this.lblIsolatedChainMutation.Text = "В цепи городов:";
+            this.txbNewAgentMutation.Enabled = false;
+            this.txbNewAgentMutation.Location = new System.Drawing.Point(229, 93);
+            this.txbNewAgentMutation.Name = "txbNewAgentMutation";
+            this.txbNewAgentMutation.Size = new System.Drawing.Size(104, 20);
+            this.txbNewAgentMutation.TabIndex = 16;
+            // 
+            // txbIsolatedChainMutation
+            // 
+            this.txbIsolatedChainMutation.Enabled = false;
+            this.txbIsolatedChainMutation.Location = new System.Drawing.Point(119, 93);
+            this.txbIsolatedChainMutation.Name = "txbIsolatedChainMutation";
+            this.txbIsolatedChainMutation.Size = new System.Drawing.Size(104, 20);
+            this.txbIsolatedChainMutation.TabIndex = 15;
+            // 
+            // txbCitySwitchMutation
+            // 
+            this.txbCitySwitchMutation.Enabled = false;
+            this.txbCitySwitchMutation.Location = new System.Drawing.Point(9, 93);
+            this.txbCitySwitchMutation.Name = "txbCitySwitchMutation";
+            this.txbCitySwitchMutation.Size = new System.Drawing.Size(104, 20);
+            this.txbCitySwitchMutation.TabIndex = 14;
             // 
             // lblSwitchCityMutation
             // 
@@ -330,22 +357,14 @@
             this.lblSwitchCityMutation.TabIndex = 11;
             this.lblSwitchCityMutation.Text = "Перестановкой:";
             // 
-            // tbNewAgentMutation
+            // lblNewAgentMutation
             // 
-            this.tbNewAgentMutation.Location = new System.Drawing.Point(229, 43);
-            this.tbNewAgentMutation.Maximum = 1000;
-            this.tbNewAgentMutation.Name = "tbNewAgentMutation";
-            this.tbNewAgentMutation.Size = new System.Drawing.Size(104, 45);
-            this.tbNewAgentMutation.TabIndex = 10;
-            // 
-            // tbIsolatedChainMutation
-            // 
-            this.tbIsolatedChainMutation.LargeChange = 10;
-            this.tbIsolatedChainMutation.Location = new System.Drawing.Point(119, 43);
-            this.tbIsolatedChainMutation.Maximum = 1000;
-            this.tbIsolatedChainMutation.Name = "tbIsolatedChainMutation";
-            this.tbIsolatedChainMutation.Size = new System.Drawing.Size(104, 45);
-            this.tbIsolatedChainMutation.TabIndex = 9;
+            this.lblNewAgentMutation.AutoSize = true;
+            this.lblNewAgentMutation.Location = new System.Drawing.Point(226, 27);
+            this.lblNewAgentMutation.Name = "lblNewAgentMutation";
+            this.lblNewAgentMutation.Size = new System.Drawing.Size(75, 13);
+            this.lblNewAgentMutation.TabIndex = 13;
+            this.lblNewAgentMutation.Text = "Новый агент:";
             // 
             // tbCitySwitchMutation
             // 
@@ -357,10 +376,38 @@
             this.tbCitySwitchMutation.TabIndex = 8;
             this.tbCitySwitchMutation.Scroll += new System.EventHandler(this.tbMutations_Scroll);
             // 
+            // lblIsolatedChainMutation
+            // 
+            this.lblIsolatedChainMutation.AutoSize = true;
+            this.lblIsolatedChainMutation.Location = new System.Drawing.Point(116, 27);
+            this.lblIsolatedChainMutation.Name = "lblIsolatedChainMutation";
+            this.lblIsolatedChainMutation.Size = new System.Drawing.Size(88, 13);
+            this.lblIsolatedChainMutation.TabIndex = 12;
+            this.lblIsolatedChainMutation.Text = "В цепи городов:";
+            // 
+            // tbIsolatedChainMutation
+            // 
+            this.tbIsolatedChainMutation.LargeChange = 10;
+            this.tbIsolatedChainMutation.Location = new System.Drawing.Point(119, 43);
+            this.tbIsolatedChainMutation.Maximum = 1000;
+            this.tbIsolatedChainMutation.Name = "tbIsolatedChainMutation";
+            this.tbIsolatedChainMutation.Size = new System.Drawing.Size(104, 45);
+            this.tbIsolatedChainMutation.TabIndex = 9;
+            this.tbIsolatedChainMutation.Scroll += new System.EventHandler(this.tbMutations_Scroll);
+            // 
+            // tbNewAgentMutation
+            // 
+            this.tbNewAgentMutation.Location = new System.Drawing.Point(229, 43);
+            this.tbNewAgentMutation.Maximum = 1000;
+            this.tbNewAgentMutation.Name = "tbNewAgentMutation";
+            this.tbNewAgentMutation.Size = new System.Drawing.Size(104, 45);
+            this.tbNewAgentMutation.TabIndex = 10;
+            this.tbNewAgentMutation.Scroll += new System.EventHandler(this.tbMutations_Scroll);
+            // 
             // lblMutationsPecent
             // 
             this.lblMutationsPecent.AutoSize = true;
-            this.lblMutationsPecent.Location = new System.Drawing.Point(6, 91);
+            this.lblMutationsPecent.Location = new System.Drawing.Point(27, 91);
             this.lblMutationsPecent.Name = "lblMutationsPecent";
             this.lblMutationsPecent.Size = new System.Drawing.Size(98, 13);
             this.lblMutationsPecent.TabIndex = 7;
@@ -368,14 +415,14 @@
             // 
             // txbMutationsPecent
             // 
-            this.txbMutationsPecent.Location = new System.Drawing.Point(259, 88);
+            this.txbMutationsPecent.Location = new System.Drawing.Point(280, 88);
             this.txbMutationsPecent.Name = "txbMutationsPecent";
             this.txbMutationsPecent.Size = new System.Drawing.Size(76, 20);
             this.txbMutationsPecent.TabIndex = 6;
             // 
             // txbSurviversCount
             // 
-            this.txbSurviversCount.Location = new System.Drawing.Point(259, 62);
+            this.txbSurviversCount.Location = new System.Drawing.Point(280, 62);
             this.txbSurviversCount.Name = "txbSurviversCount";
             this.txbSurviversCount.Size = new System.Drawing.Size(76, 20);
             this.txbSurviversCount.TabIndex = 5;
@@ -383,23 +430,23 @@
             // lblSurviversCount
             // 
             this.lblSurviversCount.AutoSize = true;
-            this.lblSurviversCount.Location = new System.Drawing.Point(6, 65);
+            this.lblSurviversCount.Location = new System.Drawing.Point(27, 65);
             this.lblSurviversCount.Name = "lblSurviversCount";
             this.lblSurviversCount.Size = new System.Drawing.Size(249, 13);
             this.lblSurviversCount.TabIndex = 4;
             this.lblSurviversCount.Text = "Количество выживающих в каждом поколении:";
             // 
-            // txbAgetsCount
+            // txbAgentsCount
             // 
-            this.txbAgetsCount.Location = new System.Drawing.Point(259, 36);
-            this.txbAgetsCount.Name = "txbAgetsCount";
-            this.txbAgetsCount.Size = new System.Drawing.Size(76, 20);
-            this.txbAgetsCount.TabIndex = 3;
+            this.txbAgentsCount.Location = new System.Drawing.Point(280, 36);
+            this.txbAgentsCount.Name = "txbAgentsCount";
+            this.txbAgentsCount.Size = new System.Drawing.Size(76, 20);
+            this.txbAgentsCount.TabIndex = 3;
             // 
             // lblAgetsCount
             // 
             this.lblAgetsCount.AutoSize = true;
-            this.lblAgetsCount.Location = new System.Drawing.Point(6, 39);
+            this.lblAgetsCount.Location = new System.Drawing.Point(27, 39);
             this.lblAgetsCount.Name = "lblAgetsCount";
             this.lblAgetsCount.Size = new System.Drawing.Size(174, 13);
             this.lblAgetsCount.TabIndex = 2;
@@ -407,7 +454,7 @@
             // 
             // txbGenCout
             // 
-            this.txbGenCout.Location = new System.Drawing.Point(259, 10);
+            this.txbGenCout.Location = new System.Drawing.Point(280, 10);
             this.txbGenCout.Name = "txbGenCout";
             this.txbGenCout.Size = new System.Drawing.Size(76, 20);
             this.txbGenCout.TabIndex = 1;
@@ -415,7 +462,7 @@
             // lblGenCout
             // 
             this.lblGenCout.AutoSize = true;
-            this.lblGenCout.Location = new System.Drawing.Point(6, 13);
+            this.lblGenCout.Location = new System.Drawing.Point(27, 13);
             this.lblGenCout.Name = "lblGenCout";
             this.lblGenCout.Size = new System.Drawing.Size(233, 13);
             this.lblGenCout.TabIndex = 0;
@@ -463,21 +510,6 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // gbMutationsRatio
-            // 
-            this.gbMutationsRatio.Controls.Add(this.lblSwitchCityMutation);
-            this.gbMutationsRatio.Controls.Add(this.lblNewAgentMutation);
-            this.gbMutationsRatio.Controls.Add(this.tbCitySwitchMutation);
-            this.gbMutationsRatio.Controls.Add(this.lblIsolatedChainMutation);
-            this.gbMutationsRatio.Controls.Add(this.tbIsolatedChainMutation);
-            this.gbMutationsRatio.Controls.Add(this.tbNewAgentMutation);
-            this.gbMutationsRatio.Location = new System.Drawing.Point(9, 114);
-            this.gbMutationsRatio.Name = "gbMutationsRatio";
-            this.gbMutationsRatio.Size = new System.Drawing.Size(344, 119);
-            this.gbMutationsRatio.TabIndex = 15;
-            this.gbMutationsRatio.TabStop = false;
-            this.gbMutationsRatio.Text = "Соотношение видов мутаций";
-            // 
             // frmSelectAlgs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -494,6 +526,8 @@
             this.Name = "frmSelectAlgs";
             this.ShowIcon = false;
             this.Text = "Настройки";
+            this.Load += new System.EventHandler(this.frmSelectAlgs_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSelectAlgs_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -503,11 +537,11 @@
             this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbNewAgentMutation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbIsolatedChainMutation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbCitySwitchMutation)).EndInit();
             this.gbMutationsRatio.ResumeLayout(false);
             this.gbMutationsRatio.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbCitySwitchMutation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbIsolatedChainMutation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbNewAgentMutation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -545,7 +579,7 @@
         private System.Windows.Forms.TextBox txbGenCout;
         private System.Windows.Forms.Label lblGenCout;
         private System.Windows.Forms.Label lblSurviversCount;
-        private System.Windows.Forms.TextBox txbAgetsCount;
+        private System.Windows.Forms.TextBox txbAgentsCount;
         private System.Windows.Forms.TextBox txbSurviversCount;
         private System.Windows.Forms.Label lblMutationsPecent;
         private System.Windows.Forms.TextBox txbMutationsPecent;
@@ -556,5 +590,8 @@
         private System.Windows.Forms.Label lblIsolatedChainMutation;
         private System.Windows.Forms.Label lblSwitchCityMutation;
         private System.Windows.Forms.GroupBox gbMutationsRatio;
+        private System.Windows.Forms.TextBox txbNewAgentMutation;
+        private System.Windows.Forms.TextBox txbIsolatedChainMutation;
+        private System.Windows.Forms.TextBox txbCitySwitchMutation;
     }
 }
