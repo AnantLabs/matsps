@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="matsps">
+</Property><Property Name="Файл решения" Value="C:\_code\matsps\matsps.sln">
+</Property><Property Name="Date" Value="26 января 2012 г.">
+</Property><Property Name="Time" Value="1:15">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="matsps.sln" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\matsps.sln">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\matsps.csproj" Description="Успешно создана резервная копия файла проекта: C:\_code\matsps\Backup\ant\matsps.csproj">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\AntAlgData\AntAlgDataAnt.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\AntAlgData\AntAlgDataAnt.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\AntAlgData\AntAlgDataAntsCollection.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\AntAlgData\AntAlgDataAntsCollection.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\CommonData\Agent.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\CommonData\Agent.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Parameters\IniFile.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Parameters\IniFile.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\GeneticAlgorithm\Crossbreeding.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\GeneticAlgorithm\Crossbreeding.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\GeneticAlgorithm\Generation.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\GeneticAlgorithm\Generation.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\GeneticAlgorithm\GeneticAlgorithmTravelSalesman.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\GeneticAlgorithm\GeneticAlgorithmTravelSalesman.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\GeneticAlgorithm\Mutations.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\GeneticAlgorithm\Mutations.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\GeneticAlgorithm\ProcessGeneticAlgorithm.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\GeneticAlgorithm\ProcessGeneticAlgorithm.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Parameters\AntParameters.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Parameters\AntParameters.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\AntAlgLogic\AntAlgTravelSalesman.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\AntAlgLogic\AntAlgTravelSalesman.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\AntAlgLogic\ProcessAnt.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\AntAlgLogic\ProcessAnt.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgData\BnBNode.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgData\BnBNode.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgData\BnBNodeData.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgData\BnBNodeData.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgData\BnBNodePath.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgData\BnBNodePath.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgData\BnBNodesCollection.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgData\BnBNodesCollection.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Parameters\BnBParameters.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Parameters\BnBParameters.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgData\BnBTypes.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgData\BnBTypes.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgLogic\BranchAndBoundTravelSalesman.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgLogic\BranchAndBoundTravelSalesman.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\BranchAndBound\BnBAlgLogic\ProcessBranchAndBound.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\BranchAndBound\BnBAlgLogic\ProcessBranchAndBound.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\CommonData\CitiesCollection.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\CommonData\CitiesCollection.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\CommonData\City.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\CommonData\City.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Parameters\GAParameters.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Parameters\GAParameters.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Parameters\IParameters.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Parameters\IParameters.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\CommonData\IProcessAlgorithm.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\CommonData\IProcessAlgorithm.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\CommonData\Route.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\CommonData\Route.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\About\frmAbout.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\About\frmAbout.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\About\frmAbout.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\About\frmAbout.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\Parameters\frmAlgSettings.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\Parameters\frmAlgSettings.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\Parameters\frmAlgSettings.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\Parameters\frmAlgSettings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\SelectAlgs\frmSelectAlgs.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\SelectAlgs\frmSelectAlgs.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\SelectAlgs\frmSelectAlgs.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\SelectAlgs\frmSelectAlgs.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\frmMain.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\frmMain.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\frmMain.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\frmMain.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\NearestNeighbour\NearestNeighbourTravelSalesman.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\NearestNeighbour\NearestNeighbourTravelSalesman.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\NearestNeighbour\ProcessNearestNeighbour.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\NearestNeighbour\ProcessNearestNeighbour.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Program.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Program.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Properties\AssemblyInfo.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Properties\Resources.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Properties\Settings.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\UserControls\ucCitiesPainter.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\UserControls\ucCitiesPainter.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\UserControls\ucCitiesPainter.Designer.cs" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\UserControls\ucCitiesPainter.Designer.cs">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Properties\Settings.settings" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\IMG_0170.jpg" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\IMG_0170.jpg">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\IMG_0256.JPG" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\IMG_0256.JPG">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\icons\accepted_48.png" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\icons\accepted_48.png">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\icons\cancel_48.png" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\icons\cancel_48.png">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\icons\floppy_disk_48.png" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\icons\floppy_disk_48.png">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\icons\folder_48.png" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\icons\folder_48.png">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\app.config" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\app.config">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Resources\icons\spanner_48.png" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Resources\icons\spanner_48.png">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\About\frmAbout.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\About\frmAbout.resx">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\Parameters\frmAlgSettings.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\Parameters\frmAlgSettings.resx">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Forms\SelectAlgs\frmSelectAlgs.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Forms\SelectAlgs\frmSelectAlgs.resx">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\frmMain.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\frmMain.resx">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\Properties\Resources.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\UserControls\ucCitiesPainter.resx" Description="Успешно создана резервная копия файла C:\_code\matsps\Backup\ant\UserControls\ucCitiesPainter.resx">
+</Event><Event ErrorLevel="1" Project="matsps" Source="ant\matsps.csproj" Description="Этот проект рассчитан на .NET Framework версии 2.0 или 3.0. Если проект будет использовать сборки, требующие более новую версию .NET Framework, возникнет ошибка построения. Чтобы изменить версию .NET Framework, выберите пункт &quot;Свойства&quot; в меню проекта, затем выберите новую версию в раскрывающемся списке &quot;.NET Framework&quot;. (В Visual Basic этот список находится на вкладке &quot;Компиляция&quot;, открываемой при нажатии кнопки &quot;Дополнительные параметры компилятора&quot;.)">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\matsps.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="matsps" Source="ant\matsps.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="matsps.sln" Description="Преобразование решения успешно завершено">
+</Event><Event ErrorLevel="3" Project="" Source="matsps.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="matsps" Source="ant\app.config" Description="Файл успешно преобразован. Все теги &lt;supportedRuntime&gt; и &lt;requiredRuntime&gt; были удалены, чтобы позволить проекту строиться и запускаться в Visual Studio 2005.">
+</Event><Event ErrorLevel="3" Project="matsps" Source="ant\app.config" Description="Converted">
+</Event></UpgradeLog>

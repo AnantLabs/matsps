@@ -13,7 +13,8 @@ using matsps.Forms;
 using matsps.CommonData;
 using matsps.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
 using matsps.GeneticAlgorithm;
-using matsps.Parameters;                       // параметры алгоритмов
+using matsps.Parameters;
+using matsps.AntAlgorithm;                       // параметры алгоритмов
 
 namespace matsps
 {

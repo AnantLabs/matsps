@@ -6,8 +6,9 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using matsps.AntAlgData;
-using matsps.AntAlgLogic;
+using matsps.AntAlgorithm;
+using matsps.AntAlgorithm.AntAlgData;
+using matsps.AntAlgorithm.AntAlgLogic;
 using matsps.CommonData;
 
 namespace matsps.UserControls

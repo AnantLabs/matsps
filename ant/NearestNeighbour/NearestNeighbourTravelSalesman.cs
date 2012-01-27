@@ -4,11 +4,11 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 
-using matsps.AntAlgData;
+using matsps.AntAlgorithm.AntAlgData;
 using matsps.CommonData;
-using matsps.AntAlgLogic;
 
-using matsps.Parameters;       // классы параметров алгоритмов
+using matsps.Parameters;
+using matsps.AntAlgorithm.AntAlgData;       // классы параметров алгоритмов
 
 namespace matsps.NearestNeighbour
 {
