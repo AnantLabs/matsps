@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using matsps.CommonData;
-using matsps.AntAlgData;
+using matsps.AntAlgorithm.AntAlgData;
 using matsps.Parameters;
 
 

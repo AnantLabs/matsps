@@ -8,7 +8,7 @@ using System.Timers;
 using System.Threading;
 
 using matsps.CommonData;
-using matsps.AntAlgData;
+using matsps.AntAlgorithm.AntAlgData;
 using matsps.Parameters;
 
 namespace matsps.GeneticAlgorithm

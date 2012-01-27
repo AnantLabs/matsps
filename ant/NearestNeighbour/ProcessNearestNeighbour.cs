@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using matsps.AntAlgData;
+using matsps.AntAlgorithm.AntAlgData;
 using matsps.NearestNeighbour;
 using matsps.Parameters;
 
