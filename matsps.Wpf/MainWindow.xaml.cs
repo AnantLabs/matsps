@@ -22,6 +22,7 @@ using System.IO;
 using Demo.WindowsPresentation.CustomMarkers;
 using matsps.Wpf.CustomMarkers;
 using System.Windows.Threading;
+using matsps.Wpf.ModalWindows;
 
 namespace matsps.Wpf
 {
@@ -30,15 +31,32 @@ namespace matsps.Wpf
     /// </summary>
     public partial class MainWindow : RibbonWindow
     {
+        #region Поля
         PointLatLng start;
         PointLatLng end;
 
-       //internal readonly GMapOverlay routes = new GMapOverlay("routes");
+        //internal readonly GMapOverlay routes = new GMapOverlay("routes");
 
         public ObservableCollection<Node> Nodes { get; private set; }
 
-        // marker
+        // markers
+        /// <summary>
+        /// current mouse markers
+        /// </summary>
         GMapMarker currentMarker;
+
+        // route markers
+        GMapMarker routeStart;
+        GMapMarker routeEnd;
+        GMapMarker routePath;
+
+        /// <summary>
+        /// Матрица расстояний по дорогам
+        /// </summary>
+        private double[,] _matrixRoad = null;        
+        #endregion Поля
+
+        #region Конструкторы
 
         public MainWindow()
         {
@@ -56,10 +74,10 @@ namespace matsps.Wpf
             }
 
             // config map
-            MainMap.MapProvider = GMapProviders.YandexMap;
+            MainMap.MapProvider = GMapProviders.OpenStreetMap;
             MainMap.Position = new PointLatLng(55.746474, 37.667109); // 37.667109    55.746474
             MainMap.MinZoom = 1;
-            MainMap.MaxZoom = 13;
+            MainMap.MaxZoom = 17;
             MainMap.Zoom = 10;
 
             // map events
@@ -71,7 +89,7 @@ namespace matsps.Wpf
             MainMap.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MainMap_MouseLeftButtonDown);
             MainMap.Loaded += new RoutedEventHandler(MainMap_Loaded);
             MainMap.MouseEnter += new MouseEventHandler(MainMap_MouseEnter);
- 
+
             // get map types            
             comboBoxMapType.ItemsSource = GMapProviders.List;
             comboBoxMapType.DisplayMemberPath = "Name";
@@ -116,7 +134,7 @@ namespace matsps.Wpf
                 currentMarker.Offset = new System.Windows.Point(-15, -15);
                 currentMarker.ZIndex = int.MaxValue;
                 MainMap.Markers.Add(currentMarker);
-            } 
+            }
 
             /*
             //if(false)
@@ -166,7 +184,7 @@ namespace matsps.Wpf
                     #endregion
                 }
             }
-             */ 
+             */
 
             /*
             // perfromance test
@@ -186,6 +204,7 @@ namespace matsps.Wpf
             Nodes = new ObservableCollection<Node>();
             FillingTree();
         }
+        #endregion Конструкторы
 
         // tile loading stops
         void MainMap_OnTileLoadComplete(long ElapsedMilliseconds)
@@ -251,7 +270,7 @@ namespace matsps.Wpf
         // center markers on load
         void MainMap_Loaded(object sender, RoutedEventArgs e)
         {
-            MainMap.ZoomAndCenterMarkers(null);
+            //MainMap.ZoomAndCenterMarkers(null);
         }
 
         void MainMap_MouseEnter(object sender, MouseEventArgs e)
@@ -332,7 +351,7 @@ namespace matsps.Wpf
         // enable map dragging
         private void checkBoxDragMap_Checked(object sender, RoutedEventArgs e)
         {
-            if(MainMap != null)
+            if (MainMap != null)
                 MainMap.CanDragMap = true;
         }
 
@@ -419,6 +438,8 @@ namespace matsps.Wpf
         // adds route
         private void rbtnAddRoute_Click(object sender, RoutedEventArgs e)
         {
+            rbtnClearRoute_Click(this, new RoutedEventArgs());
+
             RoutingProvider rp = MainMap.MapProvider as RoutingProvider;
             if (rp == null)
             {
@@ -428,33 +449,187 @@ namespace matsps.Wpf
             MapRoute route = rp.GetRoute(start, end, false, false, (int)MainMap.Zoom);
             if (route != null)
             {
-                GMapMarker m1 = new GMapMarker(start);
-                m1.Shape = new CustomMarkerDemo(this, m1, "Start: " + route.Name);
+                routeStart = new GMapMarker(start);
+                routeStart.Shape = new CustomMarkerDemo(this, routeStart, "Start: " + start.ToString());
 
-                GMapMarker m2 = new GMapMarker(end);
-                m2.Shape = new CustomMarkerDemo(this, m2, "End: " + start.ToString());
+                routeEnd = new GMapMarker(end);
+                routeEnd.Shape = new CustomMarkerDemo(this, routeEnd, "End: " + end.ToString());
 
-                GMapMarker mRoute = new GMapMarker(start);
+                routePath = new GMapMarker(start);
                 {
-                    mRoute.Route.AddRange(route.Points);
-                    mRoute.RegenerateRouteShape(MainMap);
+                    routePath.Route.AddRange(route.Points);
+                    routePath.RegenerateRouteShape(MainMap);
+                    routePath.Position = route.Points[0];
 
-                    mRoute.ZIndex = -1;
+                    routePath.ZIndex = -1;
                 }
-                rlRouteLength.Content = String.Format("{0:#.00} km", route.Distance );
+                rlRouteLength.Content = String.Format("length: {0:#.00} km", route.Distance);
 
-                MainMap.Markers.Add(m1);
-                MainMap.Markers.Add(m2);
-                MainMap.Markers.Add(mRoute);
+                MainMap.Markers.Add(routeStart);
+                MainMap.Markers.Add(routeEnd);
+                MainMap.Markers.Add(routePath);
 
-                MainMap.ZoomAndCenterMarkers(null);
+                //MainMap.ZoomAndCenterMarkers(null);
             }
         }
 
+        // clear route (not realize)
         private void rbtnClearRoute_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (routePath != null)
+            {
+                routePath.Shape.Visibility = System.Windows.Visibility.Hidden;
+                routePath.Clear();
+                routePath = null;
+            }
+            if (routeStart != null)
+            {
+                routeStart.Shape.Visibility = System.Windows.Visibility.Hidden;
+                routeStart.Clear();
+                routeStart = null;
+            }
+            if (routeEnd != null)
+            {
+                routeEnd.Shape.Visibility = System.Windows.Visibility.Hidden;
+                routeEnd.Clear();
+                routeEnd = null;
+            }
+            rlRouteLength.Content = String.Format("length: {0:#.00} km", 0.0);
         }
+
+        #region Расчет маршрута между случайными точками
+        private void btnGenerateRandomPoints_Click(object sender, RoutedEventArgs e)        
+        {
+            matsps.CommonData.CitiesCollection _cities;
+
+            // Создаем Города
+            int iCitiesCount;
+            try
+            {
+                iCitiesCount = Convert.ToInt32(txbRandomPointsCount.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка преобразования из текста в целое число: " + ex.Message);
+                return;
+            }
+            _cities = new matsps.CommonData.CitiesCollection(iCitiesCount);
+            _cities.MaxDistance = 100;
+            _cities.InitCitiesRandom();
+
+            MainMap.Markers.Clear();
+            MainMap.Markers.Add(currentMarker);
+            RectLatLng viewArea = MainMap.ViewArea;
+
+            // Список макеров
+            List<GMapMarker> listMarkers = new List<GMapMarker>();
+
+            // Выводим города на карту
+            for (int i = 0; i < iCitiesCount; i++)
+            {
+                PointLatLng point = new PointLatLng();
+                point.Lat = (viewArea.HeightLat / 100.0) * (double)(_cities[i].Y) + viewArea.Bottom;
+                point.Lng = (viewArea.WidthLng / 100.0) * (double)(_cities[i].X) + viewArea.Left;
+                GMapMarker newMarker = new GMapMarker(point);
+                newMarker.Shape = new Test(this, newMarker, _cities[i].Index.ToString()); //CustomMarkerRed(this, newMarker, _cities[i].Index.ToString());
+                newMarker.Offset = new System.Windows.Point(-15, -15);
+                newMarker.ZIndex = _cities[i].Index;
+
+                MainMap.Markers.Add(newMarker);
+                listMarkers.Add(newMarker);
+            }
+
+            // Заполняем дерево
+            Nodes.Clear();
+            Nodes.Add(new Node() { Text = String.Format("random points", iCitiesCount) });
+            for (int i = 0; i < iCitiesCount; i++)
+            {
+                var treeItem = new Node() { Name = "id" + _cities[i].Index, Text = String.Format("point {0}", _cities[i].Index + 1) };
+
+                // binding (does not work)
+                Binding binding = new Binding()
+                 {
+                     ElementName = "id" + _cities[i].Index,
+                     Path = new PropertyPath("IsChecked"),
+                     Converter = new VisibilityTest.BooleanToVisibilityConverter(),
+                     Mode = BindingMode.TwoWay
+                 };
+                //MainMap.Markers[i + 1].Map.SetBinding(UIElement.VisibilityProperty, binding);
+
+                Nodes[0].Children.Add(treeItem);
+            }
+            Nodes[0].IsExpanded = true;
+            treeView.ItemsSource = Nodes;
+
+            // Расчет матрицы расстояний (по дорогам) //и ( по линиям)
+            _matrixRoad = new double[iCitiesCount, iCitiesCount];
+            //double[,] matrixLine = new double[iCitiesCount, iCitiesCount];
+            for (int i = 0; i < iCitiesCount; i++)
+            {
+                for (int j = 0; j < iCitiesCount; j++)
+                {
+                    if (i != j)
+                    {
+                        RoutingProvider rp = MainMap.MapProvider as RoutingProvider;
+                        if (rp == null)
+                        {
+                            rp = GMapProviders.GoogleMap; // use google if provider does not implement routing
+                        }
+
+                        MapRoute route = rp.GetRoute(listMarkers[i].Position, listMarkers[i].Position, false, false, (int)MainMap.Zoom);
+                        if (route != null)
+                        {
+                            _matrixRoad[i, j] = route.Distance;
+                            //matrixLine[i, j] = route.DistanceLine;
+                        }
+                    }
+                    else
+                    {
+                        _matrixRoad[i, j] = double.PositiveInfinity;
+                        //matrixLine[i, j] = double.PositiveInfinity;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Открыть таблицу расстояний между точками
+        /// </summary>
+        private void btnTableDistance_Click(object sender, RoutedEventArgs e)
+        {
+            wndDistanceTable wind = new wndDistanceTable();
+            wind.Matrix = _matrixRoad;
+            wind.Show();
+        }
+        #endregion Расчет маршрута между случайными точками
+    }
+
+}
+
+namespace VisibilityTest
+{
+    public class BooleanToVisibilityConverter : IValueConverter
+    {
+
+        public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+        {
+            if (targetType == typeof(Visibility))
+            {
+                var visible = System.Convert.ToBoolean(value, culture);
+                if (InvertVisibility)
+                    visible = !visible;
+                return visible ? Visibility.Visible : Visibility.Collapsed;
+            }
+            throw new InvalidOperationException("Converter can only convert to value of type Visibility.");
+        }
+
+        public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+        {
+            throw new InvalidOperationException("Converter cannot convert back.");
+        }
+
+        public Boolean InvertVisibility { get; set; }
+
     }
 
 }

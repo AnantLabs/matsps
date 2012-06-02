@@ -95,6 +95,26 @@ namespace GMap.NET
          }
       }
 
+      public double DistanceLine
+      {
+          get
+          {
+              double distance = 0.0;
+
+              if (From.HasValue && To.HasValue)
+              {
+                  for (int i = 1; i < Points.Count; i++)
+                  {
+                      GPoint st = GMapProviders.EmptyProvider.Projection.FromLatLngToPixel(Points[i - 1], 13);
+                      GPoint en = GMapProviders.EmptyProvider.Projection.FromLatLngToPixel(Points[i], 13);
+                      distance += GMapProviders.EmptyProvider.Projection.GetDistanceInPixels(st, en);
+                  }
+              }
+
+              return distance;
+          }
+      }
+
 #if !PocketPC
       #region ISerializable Members
 

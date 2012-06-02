@@ -19,6 +19,8 @@ namespace TreeViewwithCheckBoxes
         private string id;
         private bool? isChecked = true;
         private bool isExpanded;
+
+        public string Name { set; get; }
         
         public ObservableCollection<Node> Children
         {
