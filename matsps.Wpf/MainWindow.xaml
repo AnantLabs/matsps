@@ -7,7 +7,7 @@
         xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="matsps.Wpf.MainWindow"
         Title="mstsps 2.0"
 		x:Name="RibbonWindow"
-        Height="622.5" Width="959"
+        Height="689.5" Width="966"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
 	<ribbon:RibbonWindow.Resources>
@@ -31,7 +31,7 @@
     </ribbon:RibbonWindow.Resources>
 
 
-    <Grid x:Name="LayoutRoot" Margin="0,0,-8,-6" Height="Auto" VerticalAlignment="Stretch">
+    <Grid x:Name="LayoutRoot" Margin="0,0,-8,1" Height="Auto" Width="Auto" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
         	<RowDefinition Height="Auto"/>
         	<RowDefinition Height="Auto" MinHeight="355"/>
@@ -50,11 +50,11 @@
                 <ribbon:RibbonGroup x:Name="groupGmap" Height="92" Margin="0" Width="308">
             		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-300,-84">
             			<ComboBox FontSize="12" Margin="45.203,6,87.203,0" x:Name="comboBoxMapType" Height="25.04" VerticalAlignment="Top" DropDownClosed="comboBoxMapType_DropDownClosed"/>
-            			<Label Margin="8,7.96,0,0" x:Name="label1" Height="25.04" VerticalAlignment="Top" RenderTransformOrigin="-0.06,0.639" HorizontalAlignment="Left" Width="33.203" Content="type"/>
+            			<Label Margin="8,3.92,0,0" x:Name="label1" Height="25.04" VerticalAlignment="Top" RenderTransformOrigin="-0.06,0.639" HorizontalAlignment="Left" Width="33.203" Content="type"/>
             			<CheckBox Margin="0,39.96,8,28" x:Name="checkBoxDragMap" IsChecked="True" Checked="checkBoxDragMap_Checked" Unchecked="checkBoxDragMap_Unchecked" HorizontalAlignment="Right" Width="75.203" Content="Drag Map"/>
             			<CheckBox Height="16" Margin="8,0,118,6.98" IsChecked="True" x:Name="checkBoxCurrentMarker" VerticalAlignment="Bottom" Checked="checkBoxCurrentMarker_Checked" Unchecked="checkBoxCurrentMarker_Unchecked" d:LayoutOverrides="VerticalAlignment" Content="Current Marker"/>
             			<ComboBox FontSize="12" Height="25.04" Margin="45.203,35.04,87.203,0" x:Name="comboBoxMode" VerticalAlignment="Top" DropDownClosed="comboBoxMode_DropDownClosed" />
-            			<Label Height="25.04" Margin="8,34.96,0,0" x:Name="label5" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42.797" Content="mode"/>
+            			<Label Height="25.04" Margin="8,35.98,0,0" x:Name="label5" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42.797" Content="mode" RenderTransformOrigin="0.304,0.241"/>
             			<Button Height="22" HorizontalAlignment="Right" x:Name="button7" VerticalAlignment="Bottom" Width="75.203" Click="button7_Click" Margin="0,0,8,4" Content="Save as PNG"/>
             			<CheckBox Height="16" Margin="0,0,8,55.04" x:Name="checkBoxDebug" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75.203" Checked="checkBox1_Checked" Unchecked="checkBox1_Unchecked" Content="Grid"/>
             		</Grid>
@@ -76,9 +76,17 @@
                     	Click="rbtnClearRoute_Click"
                     	SmallImageSource="Images/SmallIcon.png"
                     	Label="clear route" />
-                    <Label x:Name="rlRouteLength" Content="lengh" Width="82.993" Height="25.46" RenderTransformOrigin="0.514,0.471" FontFamily="Segoe UI" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label x:Name="rlRouteLength" Content="lengh .00" Height="26.96" RenderTransformOrigin="0.514,0.471" FontFamily="Segoe UI" VerticalAlignment="Top" Margin="-5,0,-154.333,0" d:LayoutOverrides="HorizontalAlignment"/>
                     <ComboBox Width="160" HorizontalAlignment="Right" Margin="0,0,-37,0"/>
 
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup x:Name="groupRandomData" Height="92" Margin="0" Width="310">
+                	<Grid x:Name="grdGroupRandomData" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-294,-84">
+                		<Label Margin="0,4.92,0,0" x:Name="lblCoundPoints" Height="25.04" VerticalAlignment="Top" RenderTransformOrigin="-0.06,0.639" HorizontalAlignment="Left" Width="80.203" Content="count points"/>
+                		<TextBox x:Name="txbRandomPointsCount" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Margin="80.203,6.92,0,0" HorizontalAlignment="Left" Width="29.054"/>
+                		<Button Height="22" x:Name="btnGenerateRandomPoints" VerticalAlignment="Top" Click="btnGenerateRandomPoints_Click" Margin="113.257,6.88,112.54,0" Content="create"/>
+                		<Button x:Name="btnTableDistance" Content="table distance" HorizontalAlignment="Right" VerticalAlignment="Top" Width="91" Margin="0,6.88,8,0"/>
+                	</Grid>
                 </ribbon:RibbonGroup>
 
             </ribbon:RibbonTab>
@@ -88,7 +96,7 @@
             <ribbon:RibbonTab x:Name="rtabAlgorithm" Header="Алгоритмы решения" Margin="0,0,-2,-12" d:IsHidden="True"/>
         </ribbon:Ribbon>
 		
-		<Grid Name="grdMain" Height="Auto" Margin="8,8,8,-90.5" Grid.Row="1" VerticalAlignment="Stretch" RenderTransformOrigin="0.528,0.447">
+		<Grid Name="grdMain" Width="Auto" Margin="8,8,10,-26" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.509,0.532" Height="506">
 		  <Grid.ColumnDefinitions>
 		    <ColumnDefinition Width="Auto" MinWidth="158.36"/>
 		    <ColumnDefinition Width="Auto" MinWidth="697.64"/>
@@ -98,11 +106,11 @@
 		  		<BindingGroup/>
 		  	</GridSplitter.BindingGroup>
 		  </GridSplitter>
-		  <GroupBox x:Name="mapgroup"  Header="grbeatmaps.codeplex.com" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Row="0" Margin="8,8,-71,8" Grid.Column="1" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" d:LayoutOverrides="GridBox" RenderTransformOrigin="0.492,0.505">
-		  	<src:Map x:Name="MainMap" Zoom="13" MaxZoom="17" MinZoom="1" />
+		  <GroupBox x:Name="mapgroup"  Header="grbeatmaps.codeplex.com" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="9,8,-74,10" Grid.Column="1" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="764" d:LayoutOverrides="GridBox" RenderTransformOrigin="0.492,0.505">
+		  	<src:Map x:Name="MainMap" Zoom="13" MaxZoom="17" MinZoom="1" Margin="0,0,0,77" />
 		  </GroupBox>		  
-            <TreeView Name="treeView" Grid.Column="0" Background="#FFF8FAFD" Margin="0,0,10.856,13.167" d:LayoutOverrides="GridBox" />
-            <ProgressBar x:Name="progressBar1" Height="10" Margin="2,0,10.856,-0.833" VerticalAlignment="Bottom"/>
+            <TreeView Name="treeView" Background="#FFF8FAFD" Margin="0,21,11,25" d:LayoutOverrides="GridBox" />
+            <ProgressBar x:Name="progressBar1" Height="10" Margin="6,0,7,10" VerticalAlignment="Bottom"/>
         </Grid>
     </Grid>
 </ribbon:RibbonWindow>

@@ -274,7 +274,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(194, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(225, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 

@@ -7,7 +7,7 @@ namespace matsps.CommonData
     /// <summary>
     /// Класс коллекции городов
     /// </summary>
-    internal class CitiesCollection
+    public class CitiesCollection
     {
         #region Конструкторы и Данные
         public CitiesCollection()                             
