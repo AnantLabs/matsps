@@ -89,10 +89,8 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Data.SqliteClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\Windows\Mono.Data.SqliteClient.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="GMap.NET.WindowsForms">
+      <HintPath>..\GMap.NET.WindowsForms\bin\Debug\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -259,10 +257,6 @@
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
       <Name>GMap.NET.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
-      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
-      <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
