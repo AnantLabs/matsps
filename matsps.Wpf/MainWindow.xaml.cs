@@ -97,6 +97,7 @@ namespace matsps.Wpf
 
             // acccess mode
             comboBoxMode.ItemsSource = Enum.GetValues(typeof(AccessMode));
+            MainMap.Manager.Mode = AccessMode.ServerOnly;
             comboBoxMode.SelectedItem = MainMap.Manager.Mode;
 
 
@@ -199,7 +200,7 @@ namespace matsps.Wpf
              */
 
             //=====================================================
-            //      TrreView
+            //      TreeView
             //=====================================================
             Nodes = new ObservableCollection<Node>();
             FillingTree();
