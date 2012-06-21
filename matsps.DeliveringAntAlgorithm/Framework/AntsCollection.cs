@@ -6,6 +6,9 @@ using System.Collections.ObjectModel;
 
 namespace matsps.DeliveringAntAlgorithm
 {
+    /// <summary>
+    /// Представляет коллекция муравьев
+    /// </summary>
     public class AntsCollection : Collection<Ant>
     {
     }

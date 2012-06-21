@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace matsps.DeliveringAntAlgorithm
 {
@@ -9,6 +10,10 @@ namespace matsps.DeliveringAntAlgorithm
     /// </summary>
     public class Car
     {
+        #region Поля
+        private static Random r = new Random();
+        #endregion Поля
+
         #region Свойства
         /// <summary>
         /// Текущий пробег
@@ -37,7 +42,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Максимально допустимая заполненность
         /// </summary>
-        public int MaxCapacity
+        public Double MaxCapacity
         {
             set;
             get;
@@ -60,6 +65,9 @@ namespace matsps.DeliveringAntAlgorithm
             get;
         }
 
+        /// <summary>
+        /// Возвращает экземпляр машины по умолчанию
+        /// </summary>
         public static Car Default
         {
             get 
@@ -68,10 +76,50 @@ namespace matsps.DeliveringAntAlgorithm
                     car.Capacity = 0;
                     car.MaxCapacity = 940;
                     car.MaxMiliage = 200;
-                    car.Miliage = 0;
+                    //car.Miliage = 0;
                     car.MaxPassedClientsCount = 20;
                 return car;
             }
+        }
+        #endregion
+
+        #region Конструкторы
+        public Car()
+        {
+        }
+        #endregion
+
+        #region Открытые методы
+        /// <summary>
+        /// Генерирует экземпляр случайной машины
+        /// </summary>
+        /// <returns></returns>
+        public static Car CreateRandom()
+        {
+            Double maxCapacityValue = Default.MaxCapacity;
+            Double maxMilliageValue = Default.MaxMiliage;
+            int maxPassedClientsCountValue = Default.MaxPassedClientsCount;
+
+            Double c, m;
+            int p;
+            c = maxCapacityValue * r.NextDouble();
+            m = maxCapacityValue * r.NextDouble();
+            p = r.Next(1, maxPassedClientsCountValue);
+
+            Car current = new Car();
+            current.MaxCapacity = c;
+            current.MaxMiliage = m;
+            current.MaxPassedClientsCount = p;
+
+            return current;
+        }
+        /// <summary>
+        /// Выполняет перерасчет пробега машины
+        /// </summary>
+        /// <returns></returns>
+        public Double CalculateMilliage()
+        {
+            return 0;
         }
         #endregion
     }

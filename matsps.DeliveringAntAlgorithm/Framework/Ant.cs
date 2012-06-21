@@ -21,7 +21,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Задает или возвращает коллекцию городов
         /// </summary>
-        public ClientsCollection Cities
+        public ClientsCollection Clients
         {
             set;
             get;
@@ -30,7 +30,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// Задает или возвращает индекс текущего города, в котором сецчас муравей
         /// </summary>
         /// 
-        public int CurrentCityIndex
+        public int CurrenClientIndex
         {
             set;
             get;
@@ -46,7 +46,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Задает или возвращает матрицу феромонов
         /// </summary>
-        public Double[,] Pheromones
+        public Pheromones Pheromones
         {
             set;
             get;
@@ -59,30 +59,36 @@ namespace matsps.DeliveringAntAlgorithm
             set;
             get;
         }
+        /// <summary>
+        /// Индекс текущего клиента
+        /// </summary>
+        public int CurrentClientIndex
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// Параметры алгоритма
+        /// </summary>
+        public Parameters Parameters
+        {
+            set;
+            get;
+        }
         #endregion
 
         #region Конструкторы
-        /// <summary>
-        /// Создает новый экземпляр муравья по умолчанию
-        /// </summary>
-        public Ant()
-        {
-            Cars = new CarsCollection();
-            Cities = new ClientsCollection();
-            Pheromones = new Double[Cars.Count, Cities.Count];
-            Pheromones.Initialize();
-        }
         /// <summary>
         /// Создает новый экземпляр муравья с заданными параметрами
         /// </summary>
         /// <param name="carsCollection">Ссылка на коллекцию машин</param>
         /// <param name="citiesCollection">Ссылка на коллекцию городов</param>
-        public Ant(ref CarsCollection carsCollection, ref ClientsCollection citiesCollection)
+        public Ant(CarsCollection carsCollection, ClientsCollection citiesCollection, Pheromones pheromones, Parameters parameters)
         {
             Cars = carsCollection;
-            Cities = citiesCollection;
-            Pheromones = new Double[Cars.Count, Cities.Count];
-            Pheromones.Initialize();
+            Clients = citiesCollection;
+            Pheromones = pheromones;
+            Parameters = parameters;
         }
         #endregion
 
@@ -95,20 +101,19 @@ namespace matsps.DeliveringAntAlgorithm
         /// <returns>Значение вероятности</returns>
         private Double TransitionProbability(int from, int to)
         {
-            Double alpha = 1.0; 
-            Double beta =5.0;
             //Рассчет суммы феромонов на всех ребрах
             Double sumPheromone = 0;
             for (int i = 0; i < Cars.Count; i++)
             {
-                for (int j = 0; j < Cities.Count; j++)
-                    sumPheromone+=Pheromones[i,j];
+                for (int j = 0; j < Clients.Count; j++)
+                    sumPheromone += Pheromones.PheromonesMatrix[i, j];
             }
             //Расчет вероятности перехода
-            Double probability = Math.Pow(Pheromones[CurrentCarIndex,to], alpha) * (1 / Math.Pow(Cities[to].Weight, beta));
-                   probability = probability / sumPheromone * (1 / Math.Pow(Cities[to].Weight, beta));
+            Double probability = Math.Pow(Pheromones.PheromonesMatrix[CurrentCarIndex, to], Parameters.Alpha) * (1 / Math.Pow(Clients[to].Weight, Parameters.Beta));
+                   probability = probability / sumPheromone * (1 / Math.Pow(Clients[to].Weight, Parameters.Beta));
             return probability;
         }
+        
         private double GetSRand(int x)
         {
             Random rnd = new Random();
@@ -139,16 +144,11 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Выполняет переход у городу с указанным индексом
         /// </summary>
-        /// <param name="index">Индекс города</param>
-        public void GoToNextCity(int index)
+        public void GoToNextCity()
         {
             //Делаем следующий выбранный город текущим
-            CurrentCityIndex = GetNextClientIndex();
-            //Добавление этого города в список-табу
-            TabuIndexes.Add(index);
+            CurrenClientIndex = GetNextClientIndex();
         }
-        #endregion
-
-        public int CurrentClientIndex { get; set; }
+        #endregion       
     }
 }

@@ -8,9 +8,11 @@ namespace matsps.DeliveringAntAlgorithm
     public class Algorithm
     {
         #region Поля
+        /// <summary>
+        /// Матрица расстояний
+        /// </summary>
         private double[,] _distance;
         #endregion Поля
-
 
         #region Свойства
         /// <summary>
@@ -24,7 +26,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Параметры алгоритма
         /// </summary>
-        public Parameters Parameter 
+        public Parameters Params
         { set; get; }
 
         /// <summary>
@@ -58,59 +60,65 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Создает новый экземпляр алгоритма с указанными параметрами
         /// </summary>
-        /// <param name="param">Параметры</param>
-        /// <param name="carsCollection"></param>
-        /// <param name="clientsCollection"></param>
+        /// <param name="param">Параметры алгоритма</param>
+        /// <param name="carsCollection">Коллекция машин</param>
+        /// <param name="clientsCollection">Коллекция клиентов</param>
         public Algorithm(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, double[,] distance, Parameters param)
         {
             Init(carsCollection, clientsCollection, distance, param);
         }
-
+        /// <summary>
+        /// Создает экземпляр алгоритма с настройками по умолчанию
+        /// </summary>
         public Algorithm() { }
-
-        public void Init(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, double[,] distance, Parameters param)
+        #endregion
+         
+        #region Открытые методы
+        /// <summary>
+        /// Выполняет запуск алгоритма
+        /// </summary>
+        public void Start()
         {
-            Ants = new List<Ant>();
-            Clients = new ClientsCollection();
-            Cars = new CarsCollection();
-
-            // значения параметров по умолчанию
-            Parameter = param;
-
-            Ants = new List<Ant>();
-            clientsCollection.ToList().ForEach(delegate(Client item)
+            for (int i = 0; i < Params.IterationCount; i++)
             {
-                Clients.Add(item);
-            });
-            Clients.Distancies = distance;
-
-            carsCollection.ToList().ForEach(delegate(Car item)
-            {
-                Cars.Add(item);
-            });
-
-            Pheromones = new Pheromones(Cars.Count, Clients.Count);
-
-            _distance = distance;
+                for (int j = 0; j < Ants.Count; j++)
+                {
+                    Ant ant = Ants[j]; //Текущий муравей
+                    for (int k = 0; k < Cars.Count; k++)
+                    {
+                        Car car = Cars[k]; //Текущая машина
+                        for (int m = 0; m < Clients.Count; m++)
+                        {
+                            ant.GoToNextCity(); //Муравей переходит в следующий выбранный город
+                            Car temp = ant.Cars[k]; //Создаем временную копию текущей машины
+                            //Расчет километража
+                            temp.Clients.Add(Clients[m]);
+                            temp.CalculateMilliage();
+                        }
+                    }
+                }
+            }
         }
-
+        /// <summary>
+        /// Выполняет инициализацию алгоритма тестовыми значениями
+        /// </summary>
         public void InitTestData()
         {
-            int carCount = 5;
-            int clientCount = 85; 
+            int carCount = 5;      //размер коллекции машин
+            int clientCount = 85;  //размер коллеции клиентов
 
-            // параметры
-            Parameter = Parameters.Default;
+            // задание параметров алгоритма по умолчанию
+            Params = Parameters.Default;
 
-            // машины
+            // инициализация коллекции машин
             List<Car> liCar = new List<Car>();
             for (int i = 0; i < carCount; i++)
             {
-                Car currentCar = Car.Default;
+                Car currentCar = Car.CreateRandom();
                 liCar.Add(currentCar);
             }
 
-            // клиенты
+            // инициализация коллекции клиентов
             List<Client> liClient = new List<Client>();
             for (int i = 0; i < clientCount; i++)
             {
@@ -118,45 +126,48 @@ namespace matsps.DeliveringAntAlgorithm
                 liClient.Add(currentClient);
             }
 
-            // матрица расстояний
+            // инициализация матрицы расстояний
             double[,] dist = ClientsCollection.CalculateDistance(liClient);
 
-
-            Init(liCar, liClient, dist, Parameter);
+            //Инициализация алгоритма значениями и параметрами
+            this.Init(liCar, liClient, dist, Params);
         }
-        #endregion
-
-        #region Открытые методы
-        public void Start()
+        /// <summary>
+        /// Выполняет инициализацию экземпляра алгоритма заданными параметрами и значениями
+        /// </summary>
+        /// <param name="carsCollection">Коллекция машин</param>
+        /// <param name="clientsCollection">Коллекция клиентов</param>
+        /// <param name="distance">Матрица расстояний между клиентами</param>
+        /// <param name="param">Параметры алгоритма</param>
+        public void Init(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, double[,] distance, Parameters param)
         {
-            for (int i = 0; i < Parameter.IterationCount; i++)
-            {
-                for (int j = 0; j < Ants.Count; j++)
-                {
-                    for (int k = 0; k < Cars.Count; k++)
-                    {
-                        for (int m = 0; m < Clients.Count; m++)
-                        {
-                            //Получаем индекс следующего города
-                            int to = Ants[j].GetNextClientIndex();
-                            //Переход к следующему городу
-                            Ants[j].GoToNextCity(to);
-                            //Подсчет километража текущего автомобиля с учетом нового города
+            Ants = new List<Ant>();
+            Clients = new ClientsCollection();
+            Cars = new CarsCollection();
 
-                            if (Cars[k].Miliage >= Cars[k].MaxMiliage ||
-                                Cars[k].Capacity >= Cars[k].MaxCapacity ||
-                                Cars[k].Clients.Count >= Cars[k].MaxPassedClientsCount)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                //Добавление города в машину
-                                Cars[k].Clients.Add(Clients[m]);
-                            }
-                        }
-                    }
-                }
+            // значения параметров по умолчанию
+            Params = param;
+
+            //заполнение коллекции клиентов
+            clientsCollection.ToList().ForEach(delegate(Client item)
+            {
+                Clients.Add(item);
+            });
+            Clients.Distancies = distance;
+            //заполнение коллекции машин
+            carsCollection.ToList().ForEach(delegate(Car item)
+            {
+                Cars.Add(item);
+            });
+
+            Pheromones = new Pheromones(Cars.Count, Clients.Count);
+            _distance = distance;
+
+            //заполнение коллекции муравьев
+            Ants = new List<Ant>();
+            for (int i = 0; i < param.AntCount; i++)
+            {
+                Ants.Add(new Ant(Cars,Clients,Pheromones,Params));
             }
         }
         #endregion

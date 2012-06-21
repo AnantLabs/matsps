@@ -12,7 +12,7 @@ namespace matsps.DeliveringAntAlgorithm
     {
         #region Свойства
         /// <summary>
-        /// Возвращает значение параметром по умолчанию
+        /// Возвращает значение параметров по умолчанию
         /// </summary>
         public static Parameters Default
         {
@@ -25,21 +25,28 @@ namespace matsps.DeliveringAntAlgorithm
                 return param;
             }
         }
-
         /// <summary>
         /// Количество муравьев в алгоритме (количество вариантов доставки)
         /// </summary>
         public int AntCount { set; get; }
-
         /// <summary>
         /// Количество итераций алгоритма
         /// </summary>
         public int IterationCount { set; get; }
-
         /// <summary>
         /// Испаряесое значение
         /// </summary>
         public Double EvaporationValue
+        {
+            set;
+            get;
+        }      
+        public Double Alpha
+        {
+            set;
+            get;
+        }
+        public Double Beta
         {
             set;
             get;
