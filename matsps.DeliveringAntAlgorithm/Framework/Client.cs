@@ -13,7 +13,6 @@ namespace matsps.DeliveringAntAlgorithm
         private static Random r = new Random();     
         #endregion Поля
 
-
         #region Свойства
         /// <summary>
         /// Координаты 
@@ -54,6 +53,11 @@ namespace matsps.DeliveringAntAlgorithm
         }
         #endregion
 
+        #region Открытые методы
+        /// <summary>
+        /// Генерирует экземпляр случайного города
+        /// </summary>
+        /// <returns></returns>
         public static Client CreateRandom()
         {
             double maxDistanceValue = 350.0;
@@ -70,5 +74,6 @@ namespace matsps.DeliveringAntAlgorithm
 
             return current;
         }
+        #endregion
     }
 }

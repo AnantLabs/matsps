@@ -14,7 +14,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Матрица феромонов
         /// </summary>
-        public Double[,] Pherpmones
+        public Double[,] PheromonesMatrix
         {
             set;
             get;
@@ -38,16 +38,22 @@ namespace matsps.DeliveringAntAlgorithm
         #endregion
 
         #region Конструкторы
+        /// <summary>
+        /// Создает экземпляр феромонов с заданными параметрами
+        /// </summary>
+        /// <param name="carsCount">Количество машин</param>
+        /// <param name="clientsCount">Количество клиентов</param>
         public Pheromones(int carsCount,int clientsCount)
         {
             if (carsCount <= 0 || clientsCount <= 0)
             { 
                 throw new ArgumentOutOfRangeException();
             }
-            Pherpmones = new Double[carsCount, clientsCount];
+            PheromonesMatrix = new Double[carsCount, clientsCount];
         }
         #endregion
 
+        #region Открытые методы
         /// <summary>
         /// Испарение феромона
         /// </summary>
@@ -55,6 +61,6 @@ namespace matsps.DeliveringAntAlgorithm
         {
             throw new NotImplementedException();
         }
-        
+        #endregion
     }
 }

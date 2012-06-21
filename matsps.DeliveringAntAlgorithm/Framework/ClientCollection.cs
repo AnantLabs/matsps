@@ -99,6 +99,11 @@ namespace matsps.DeliveringAntAlgorithm
             return citiesCollection;
         }
 
+        /// <summary>
+        /// Выполняет рассчет матрицы расстояний для заданной коллекции клиентов
+        /// </summary>
+        /// <param name="clients">Коллекция клиентов</param>
+        /// <returns>Матрица растояний</returns>
         public static double[,] CalculateDistance(IList<Client> clients)
         {
             int count = clients.Count;
