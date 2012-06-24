@@ -6,7 +6,7 @@ using System.Text;
 namespace matsps.DeliveringAntAlgorithm
 {
     /// <summary>
-    /// Феромоны
+    /// Феромоны. Строка - машина. столбец - точка
     /// </summary>
     public class Pheromones
     {

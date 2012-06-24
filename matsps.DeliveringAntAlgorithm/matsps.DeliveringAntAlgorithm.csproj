@@ -53,6 +53,8 @@
     <Compile Include="Framework\CarsCollection.cs" />
     <Compile Include="Framework\ClientCollection.cs" />
     <Compile Include="Framework\Client.cs" />
+    <Compile Include="Framework\CommonTypes.cs" />
+    <Compile Include="Framework\Distance.cs" />
     <Compile Include="Framework\Parameters.cs" />
     <Compile Include="Framework\Pheromones.cs" />
     <Compile Include="View.cs">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace matsps.DeliveringAntAlgorithm
 {
@@ -17,7 +16,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Координаты 
         /// </summary>
-        public PointF Position
+        public PointD Position
         {
             set;
             get;
@@ -46,7 +45,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// </summary>
         /// <param name="position">Координаты</param>
         /// <param name="weight">Вес(количество товара, которое нужно доставить в данный город)</param>
-        public Client(PointF position, double weight)
+        public Client(PointD position, double weight)
         {
             Position = position;
             Weight = weight;
@@ -69,11 +68,19 @@ namespace matsps.DeliveringAntAlgorithm
             y =  maxDistanceValue * r.NextDouble();
             w = (double)r.Next( minWeight, maxWeight) + r.NextDouble();
 
-            PointF point =new PointF( (float)x, (float)y );
+            PointD point =new PointD( x, y );
             Client current = new Client(point, w);
 
             return current;
         }
+        public Client FullClone()
+        {
+            Client clone = new Client(this.Position, this.Weight);
+            clone.Index = this.Index;
+
+            return clone;
+        }
         #endregion
+
     }
 }

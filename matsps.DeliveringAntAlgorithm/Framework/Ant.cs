@@ -9,6 +9,14 @@ namespace matsps.DeliveringAntAlgorithm
     /// </summary>
     public class Ant
     {
+        #region Поля
+        public static Random _rnd = new Random();
+
+        /// <summary>
+        /// Индекс кандидата на добавление (для вставки, если кандидат не проходит)
+        /// </summary>
+        private int _lastCandidateClientIndex = -1;
+        #endregion  Поля
         #region Свойства
         /// <summary>
         /// Задает или возвращает коллекцию машин
@@ -27,10 +35,9 @@ namespace matsps.DeliveringAntAlgorithm
             get;
         }
         /// <summary>
-        /// Задает или возвращает индекс текущего города, в котором сецчас муравей
+        /// Список доступных для добавления клиентов
         /// </summary>
-        /// 
-        public int CurrenClientIndex
+        public ClientsCollection EnableClients
         {
             set;
             get;
@@ -87,6 +94,8 @@ namespace matsps.DeliveringAntAlgorithm
         {
             Cars = carsCollection;
             Clients = citiesCollection;
+            EnableClients = Clients.FullClone();
+            TabuIndexes = new List<int>();
             Pheromones = pheromones;
             Parameters = parameters;
         }
@@ -96,21 +105,21 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Вычисляет вероятность перехода из одного города в другой
         /// </summary>
-        /// <param name="from">Откуда</param>
-        /// <param name="to">Куда</param>
+        /// <param name="car">Откуда</param>
+        /// <param name="client">Куда</param>
         /// <returns>Значение вероятности</returns>
-        private Double TransitionProbability(int from, int to)
+        private Double TransitionProbability(int car, int client)
         {
             //Рассчет суммы феромонов на всех ребрах
             Double sumPheromone = 0;
             for (int i = 0; i < Cars.Count; i++)
             {
                 for (int j = 0; j < Clients.Count; j++)
-                    sumPheromone += Pheromones.PheromonesMatrix[i, j];
+                    sumPheromone += Pheromones.PheromonesMatrix[i, j] * Clients[j].Weight;
             }
             //Расчет вероятности перехода
-            Double probability = Math.Pow(Pheromones.PheromonesMatrix[CurrentCarIndex, to], Parameters.Alpha) * (1 / Math.Pow(Clients[to].Weight, Parameters.Beta));
-                   probability = probability / sumPheromone * (1 / Math.Pow(Clients[to].Weight, Parameters.Beta));
+            Double probability = Math.Pow(Pheromones.PheromonesMatrix[CurrentCarIndex, client], Parameters.Alpha) * Math.Pow(Clients[client].Weight, Parameters.Beta);
+                   probability = probability / sumPheromone;
             return probability;
         }
         
@@ -142,13 +151,32 @@ namespace matsps.DeliveringAntAlgorithm
             while (true);
         }
         /// <summary>
-        /// Выполняет переход у городу с указанным индексом
+        /// Выполняет переход к городу с указанным индексом
         /// </summary>
         public void GoToNextCity()
         {
             //Делаем следующий выбранный город текущим
             CurrenClientIndex = GetNextClientIndex();
         }
+
+        public void SetStartPoint()
+        {
+            int countClient = Clients.Count;
+            CurrentClientIndex = _rnd.Next(0, countClient - 1);
+            TabuIndexes.Add(CurrentClientIndex);
+        }
+
+        public Client NextCandidate()
+        {
+            
+        }
+
+        public void AddBadCandidate(Client candidateClient)
+        {
+            throw new NotImplementedException();
+        }
         #endregion       
+    
+    
     }
 }

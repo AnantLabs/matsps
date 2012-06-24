@@ -55,7 +55,6 @@ namespace matsps.DeliveringAntAlgorithm
             set;
             get;
         }
-
         /// <summary>
         /// Задает или возвращает коллекцию клиентов, привязанную к машине
         /// </summary>
@@ -63,6 +62,13 @@ namespace matsps.DeliveringAntAlgorithm
         {
             set;
             get;
+        }
+        /// <summary>
+        /// Матрица расстояний между клиентами и точка старта (финиша)
+        /// </summary>
+        public Distance Distance
+        {
+            set; get;
         }
 
         /// <summary>
@@ -121,6 +127,34 @@ namespace matsps.DeliveringAntAlgorithm
         {
             return 0;
         }
+
+        public bool TryAddCandidate(Client candidateClient)
+        {
+            // проверка на добавление точки
+            // делаем копию текущей машины
+            Car copyCar = this.FullClone();
+            
+        }
+
+        /// <summary>
+        /// Полное клонирование машины
+        /// </summary>
+        /// <returns></returns>
+        private Car FullClone()
+        {
+            Car clone = new Car();
+            clone.Capacity = this.Capacity;
+            clone.Miliage = this.Miliage;
+            clone.Clients = this.Clients;
+            clone.Distance = this.Distance;
+
+            clone.MaxCapacity = this.MaxCapacity;
+            clone.MaxMiliage = this.MaxMiliage;
+            clone.MaxPassedClientsCount = this.MaxPassedClientsCount;
+
+            return clone;
+        }
         #endregion
+
     }
 }
