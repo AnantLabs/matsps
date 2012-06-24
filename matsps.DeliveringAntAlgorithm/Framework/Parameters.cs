@@ -22,6 +22,8 @@ namespace matsps.DeliveringAntAlgorithm
                 param.AntCount = 50;
                 param.IterationCount = 10;
                 param.EvaporationValue = 0.1;
+                param.Alpha = 0.7;
+                param.Beta = 0.3;
                 return param;
             }
         }

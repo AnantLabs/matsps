@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace matsps.DeliveringAntAlgorithm
 {
     public class Algorithm
     {
         #region Поля
-        /// <summary>
-        /// Матрица расстояний
-        /// </summary>
-        private double[,] _distance;
+        private static Random _rnd = new Random();
         #endregion Поля
 
         #region Свойства
@@ -63,9 +61,9 @@ namespace matsps.DeliveringAntAlgorithm
         /// <param name="param">Параметры алгоритма</param>
         /// <param name="carsCollection">Коллекция машин</param>
         /// <param name="clientsCollection">Коллекция клиентов</param>
-        public Algorithm(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, double[,] distance, Parameters param)
+        public Algorithm(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, Parameters param)
         {
-            Init(carsCollection, clientsCollection, distance, param);
+            Init(carsCollection, clientsCollection, param);
         }
         /// <summary>
         /// Создает экземпляр алгоритма с настройками по умолчанию
@@ -84,16 +82,25 @@ namespace matsps.DeliveringAntAlgorithm
                 for (int j = 0; j < Ants.Count; j++)
                 {
                     Ant ant = Ants[j]; //Текущий муравей
+                    //ant.SetStartPoint();
                     for (int k = 0; k < Cars.Count; k++)
                     {
                         Car car = Cars[k]; //Текущая машина
                         for (int m = 0; m < Clients.Count; m++)
                         {
-                            ant.GoToNextCity(); //Муравей переходит в следующий выбранный город
-                            Car temp = ant.Cars[k]; //Создаем временную копию текущей машины
-                            //Расчет километража
-                            temp.Clients.Add(Clients[m]);
-                            temp.CalculateMilliage();
+
+                            Client candidateClient = ant.NextCandidate();
+                            bool result = car.TryAddCandidate(candidateClient);   // либо добавляет, тогда к следующей точке. либо не добавляет, тогда к след. машине
+                            if (!result)
+                            {
+                                ant.AddBadCandidate(candidateClient);
+                                break;
+                            }
+                            //ant.GoToNextCity(); //Муравей переходит в следующий выбранный город
+                            //Car temp = ant.Cars[k]; //Создаем временную копию текущей машины
+                            ////Расчет километража
+                            //temp.Clients.Add(Clients[m]);
+                            //temp.CalculateMilliage();
                         }
                     }
                 }
@@ -110,14 +117,7 @@ namespace matsps.DeliveringAntAlgorithm
             // задание параметров алгоритма по умолчанию
             Params = Parameters.Default;
 
-            // инициализация коллекции машин
-            List<Car> liCar = new List<Car>();
-            for (int i = 0; i < carCount; i++)
-            {
-                Car currentCar = Car.CreateRandom();
-                liCar.Add(currentCar);
-            }
-
+            
             // инициализация коллекции клиентов
             List<Client> liClient = new List<Client>();
             for (int i = 0; i < clientCount; i++)
@@ -126,11 +126,23 @@ namespace matsps.DeliveringAntAlgorithm
                 liClient.Add(currentClient);
             }
 
-            // инициализация матрицы расстояний
-            double[,] dist = ClientsCollection.CalculateDistance(liClient);
+
+            // Расстояния между городами и точка старта
+            PointD startRoutePoint = Client.CreateRandom().Position;
+            Distance dist = new Distance();
+            dist.CalcDistanceLine(liClient, startRoutePoint);
+
+            // инициализация коллекции машин
+            List<Car> liCar = new List<Car>();
+            for (int i = 0; i < carCount; i++)
+            {
+                Car currentCar = Car.CreateRandom();
+                currentCar.Distance = dist; // матрица расстояний в каждой машине
+                liCar.Add(currentCar);
+            }
 
             //Инициализация алгоритма значениями и параметрами
-            this.Init(liCar, liClient, dist, Params);
+            this.Init(liCar, liClient, Params);
         }
         /// <summary>
         /// Выполняет инициализацию экземпляра алгоритма заданными параметрами и значениями
@@ -139,7 +151,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <param name="clientsCollection">Коллекция клиентов</param>
         /// <param name="distance">Матрица расстояний между клиентами</param>
         /// <param name="param">Параметры алгоритма</param>
-        public void Init(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, double[,] distance, Parameters param)
+        public void Init(IEnumerable<Car> carsCollection, IEnumerable<Client> clientsCollection, Parameters param)
         {
             Ants = new List<Ant>();
             Clients = new ClientsCollection();
@@ -153,7 +165,6 @@ namespace matsps.DeliveringAntAlgorithm
             {
                 Clients.Add(item);
             });
-            Clients.Distancies = distance;
             //заполнение коллекции машин
             carsCollection.ToList().ForEach(delegate(Car item)
             {
@@ -161,7 +172,6 @@ namespace matsps.DeliveringAntAlgorithm
             });
 
             Pheromones = new Pheromones(Cars.Count, Clients.Count);
-            _distance = distance;
 
             //заполнение коллекции муравьев
             Ants = new List<Ant>();

@@ -15,7 +15,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Задает или возвращает матрицу расстояний мужду городами
         /// </summary>
-        public Double[,] Distancies
+        public Distance Distancies
         {
             set;
             get;
@@ -28,8 +28,8 @@ namespace matsps.DeliveringAntAlgorithm
         /// </summary>
         public ClientsCollection()
         {
-            Distancies = new Double[0, 0];
-            Distancies.Initialize();
+            Distancies = new Distance();
+            Distancies.CalcDistanceLine(this.Items, null);
         }
         #endregion
 
@@ -71,8 +71,7 @@ namespace matsps.DeliveringAntAlgorithm
         public static ClientsCollection GenerateRandom(int count, int maxDistance)
         {
             ClientsCollection citiesCollection = new ClientsCollection();
-            citiesCollection.Distancies = new Double[0, 0];
-            citiesCollection.Distancies.Initialize();
+            citiesCollection.Distancies = new Distance();
 
             Random rand = new Random();
             for (int i = 0; i < count; i++)
@@ -93,33 +92,26 @@ namespace matsps.DeliveringAntAlgorithm
                         }
                     }
                 }
-                citiesCollection.Items.Add(new Client(new Point(x, y), x + y));
+                citiesCollection.Items.Add(new Client(new PointD(x, y), x + y));
             }
+
             citiesCollection.UpdateDistancies();
             return citiesCollection;
         }
 
         /// <summary>
-        /// Выполняет рассчет матрицы расстояний для заданной коллекции клиентов
+        /// Полное клонирование коллекции
         /// </summary>
-        /// <param name="clients">Коллекция клиентов</param>
-        /// <returns>Матрица растояний</returns>
-        public static double[,] CalculateDistance(IList<Client> clients)
+        /// <returns></returns>
+        public ClientsCollection FullClone()
         {
-            int count = clients.Count;
-            double[,] dist = new double[count, count];
-            for (int from = 0; from < count; from++)
-                for (int to = 0; to < count; to++)
-                {
-                    if (to != from && dist[from, to] == 0.0)
-                    {
-                        double xd = Math.Abs(clients[from].Position.X - clients[to].Position.X);
-                        double yd = Math.Abs(clients[from].Position.Y - clients[to].Position.Y);
-                        dist[from, to] = Math.Sqrt(xd * xd + yd * yd);
-                        dist[to, from] = dist[from, to];
-                    }
-                }
-            return dist;
+            ClientsCollection clone = new ClientsCollection();
+            foreach (Client item in this.Items)
+            {
+                clone.Add(item.FullClone());
+            }
+
+
         }
         #endregion
 
@@ -129,12 +121,10 @@ namespace matsps.DeliveringAntAlgorithm
         /// </summary>
         private void UpdateDistancies()
         {
-            Distancies = new double[Items.Count, Items.Count];
-            Distancies.Initialize();
-
-            Distancies = CalculateDistance(Items);
+            Distancies.CalcDistanceLine(this.Items, null);
         }
         #endregion
+
 
     }
 }
