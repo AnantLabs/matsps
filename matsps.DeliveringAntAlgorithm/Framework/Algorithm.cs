@@ -91,10 +91,10 @@ namespace matsps.DeliveringAntAlgorithm
 
                             Client candidateClient = ant.NextCandidate();
                             bool result = car.TryAddCandidate(candidateClient);   // либо добавляет, тогда к следующей точке. либо не добавляет, тогда к след. машине
-                            if (!result)
+                            if (result)
                             {
-                                ant.AddBadCandidate(candidateClient);
-                                break;
+                                // если успех, то удаляем из списка доступных в муравье. этот клиент уже добавлен в машину
+                                ant.AddToTabu(candidateClient);
                             }
                             //ant.GoToNextCity(); //Муравей переходит в следующий выбранный город
                             //Car temp = ant.Cars[k]; //Создаем временную копию текущей машины

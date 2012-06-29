@@ -17,6 +17,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// </summary>
         private int _lastCandidateClientIndex = -1;
         #endregion  Поля
+
         #region Свойства
         /// <summary>
         /// Задает или возвращает коллекцию машин
@@ -153,11 +154,11 @@ namespace matsps.DeliveringAntAlgorithm
         /// <summary>
         /// Выполняет переход к городу с указанным индексом
         /// </summary>
-        public void GoToNextCity()
-        {
-            //Делаем следующий выбранный город текущим
-            CurrenClientIndex = GetNextClientIndex();
-        }
+        //public void GoToNextCity()
+        //{
+        //    //Делаем следующий выбранный город текущим
+        //    CurrenClientIndex = GetNextClientIndex();
+        //}
 
         public void SetStartPoint()
         {
@@ -166,14 +167,21 @@ namespace matsps.DeliveringAntAlgorithm
             TabuIndexes.Add(CurrentClientIndex);
         }
 
+        /// <summary>
+        /// Возвращает случайного клиента из списка доступных клиентов. Клиент не удаляется из коллекции
+        /// </summary>
+        /// <returns></returns>
         public Client NextCandidate()
         {
-            
+            int enableClientCount = EnableClients.Count;
+            int rndIndex = _rnd.Next(0, enableClientCount);
+
+            return EnableClients[rndIndex];
         }
 
-        public void AddBadCandidate(Client candidateClient)
+        public void AddToTabu(Client candidateClient)
         {
-            throw new NotImplementedException();
+            EnableClients.Remove(candidateClient);
         }
         #endregion       
     
