@@ -128,12 +128,18 @@ namespace matsps.DeliveringAntAlgorithm
             return 0;
         }
 
+        /// <summary>
+        /// Проверяет на добавление клиента к машине. Пытается добавить, если получается
+        /// </summary>
+        /// <param name="candidateClient">Кандидат на добавление</param>
+        /// <returns>true - добавить удалось, false - добавить не удалось. Машина заполнена</returns>
         public bool TryAddCandidate(Client candidateClient)
         {
             // проверка на добавление точки
             // делаем копию текущей машины
             Car copyCar = this.FullClone();
-            
+
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -111,7 +111,7 @@ namespace matsps.DeliveringAntAlgorithm
                 clone.Add(item.FullClone());
             }
 
-
+            return clone;
         }
         #endregion
 
