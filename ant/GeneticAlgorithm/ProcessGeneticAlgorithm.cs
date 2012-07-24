@@ -113,16 +113,16 @@ namespace matsps.GeneticAlgorithm
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
-        public void Start()
+        public void StartAsync()
         {
-            this.Start(Cities, Parameters);
+            this.StartAsync(Cities, Parameters);
         }
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(CitiesCollection cities, IParameters parameters)
+        public void StartAsync(CitiesCollection cities, IParameters parameters)
         {
             this.Init(cities, parameters);
 

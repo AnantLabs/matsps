@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace matsps.DeliveringAntAlgorithm
 {
@@ -26,10 +27,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <returns>Пробег</returns>
         public Double GetSumMilliage()
         {
-            Double sumMilliage = 0;
-            foreach(Car car in Items)
-                sumMilliage += car.Miliage;
-            return sumMilliage;
+            return Items.Select(it => it.GetMilliage()).Sum();
         }
         /// <summary>
         /// Возвращает суммарную заполненность всех автомобилей
@@ -37,10 +35,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <returns>Заполненность</returns>
         public double GetSumCapacity()
         {
-            double sumCapacity = 0;
-            foreach (Car car in Items)
-                sumCapacity += car.Capacity;
-            return sumCapacity;
+            return Items.Select(it => it.GetCapacity() ).Sum();
         }
         /// <summary>
         /// Возвращает суммарное колличество городов, пройденных всеми машинами
@@ -48,10 +43,7 @@ namespace matsps.DeliveringAntAlgorithm
         /// <returns>Количество городов</returns>
         public double GetSumPassedCitiesCount()
         {
-            double sumPassedCitiesCount = 0;
-            foreach (Car car in Items)
-                sumPassedCitiesCount += car.Capacity;
-            return sumPassedCitiesCount;
+            return Items.Select(it => it.Clients.Count).Sum();
         }
         #endregion
     }

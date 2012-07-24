@@ -14,27 +14,29 @@ using matsps.CommonData;
 using matsps.BranchAndBound.BnBAlgLogic;       // пространство имен метода Ветвей и Границ
 using matsps.GeneticAlgorithm;
 using matsps.Parameters;
-using matsps.AntAlgorithm;                       // параметры алгоритмов
+using matsps.AntAlgorithm;
+using matsps.AntAlgorithm.AntAlgLogic;
+using matsps.Forms.ManualRoute;                       // параметры алгоритмов
 
 namespace matsps
 {
     public partial class frmMain : Form
     {
         #region Конструкторы и Данные
-        
+
         /// <summary>
         /// лист отладочных данных
         /// </summary>
         private List<string> listr = null;
-       
-        public frmMain()                    
+
+        public frmMain()
         {
             InitializeComponent();
 
             // Начальная инициализация параметров расчета. Используются параметры по умолчанию.
             _paramAnt = new AntParameters();
             _paramBnB = new BnBParameters();
-            _paramGA  = new GAParameters();
+            _paramGA = new GAParameters();
 
             // Отправляем ссылку на Лист Маршрутов контроллу прорисовки
             liRoute = new List<Route>();
@@ -62,12 +64,12 @@ namespace matsps
         /// <summary>
         /// Параметры расчета Генетического алгоритма
         /// </summary>
-        private matsps.Parameters.GAParameters  _paramGA;
+        private matsps.Parameters.GAParameters _paramGA;
 
-        private List<ProcessAnt>                _prAntList;
-        private List<ProcessNearestNeighbour>   _prNNList;
-        private List<ProcessBranchAndBound>     _prBnBList;
-        private List<ProcessGeneticAlgorithm>   _prGAList;
+        private List<ProcessAnt> _prAntList;
+        private List<ProcessNearestNeighbour> _prNNList;
+        private List<ProcessBranchAndBound> _prBnBList;
+        private List<ProcessGeneticAlgorithm> _prGAList;
         ///// <summary>
         ///// Обрабочик алгоритма расчета по методу Муравьиной колонии
         ///// </summary>
@@ -100,7 +102,7 @@ namespace matsps
         /// <summary>
         /// Загрузка формы. Запуск алгоритма
         /// </summary>
-        private void frmMain_Load(object sender, EventArgs e)       
+        private void frmMain_Load(object sender, EventArgs e)
         {
             tlStrpTxbCitiesCount.Text = "10"; // по умолчанию создаем 10 городов
             tlStrpTxbCitiesCount.Focus();
@@ -108,7 +110,7 @@ namespace matsps
 
             listr = new List<string>();
 
- 
+
         }
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace matsps
         /// <summary>
         /// Выход из программы
         /// </summary>
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e)            
+        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -137,7 +139,7 @@ namespace matsps
         /// <summary>
         /// Вызываем форму Настроек
         /// </summary>
-        private void toolStripMenuItemParameters_Click(object sender, EventArgs e)      
+        private void toolStripMenuItemParameters_Click(object sender, EventArgs e)
         {
             // Запускаем форму настроек. Если она завершилась нажатием кнопки "ОК", применяем настройки
             Forms.Parameters.frmSelectAlgs frmPar = new matsps.Forms.Parameters.frmSelectAlgs(_paramAnt, _cities.Count);
@@ -156,19 +158,30 @@ namespace matsps
         /// <summary>
         /// Вызывает окно О программе
         /// </summary>
-        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)           
+        private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
             Forms.About.frmAbout ab = new matsps.Forms.About.frmAbout();
             ab.ShowDialog(this);
         }
 
+        /// <summary>
+        /// Запуск тестов
+        /// </summary>
+        private void тестToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AntAlgTravelSalesman ant = new AntAlgTravelSalesman(_cities, _paramAnt);
+            ant.Calculate();
+
+            Route path = new Route(ant.BestPath, "муравьиной колонии");
+            path.СalcTime = ant.TimeCalculate;
+        }
         #endregion
 
         #region События toolStrip
         /// <summary>
         /// Создать коллекцию городов
         /// </summary>
-        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)  
+        private void tlStrpBtnCreateRandomCities_Click(object sender, EventArgs e)
         {
             // ИСХОДНЫЕ ДАННЫЕ
             // Создаем Города
@@ -202,7 +215,7 @@ namespace matsps
         /// <summary>
         /// Нажатие клавиши Enter в текстовом поле
         /// </summary>
-        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)      
+        private void tlStrpTxbCitiesCount_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
                 tlStrpBtnCreateRandomCities_Click(this, new EventArgs());
@@ -210,7 +223,7 @@ namespace matsps
         /// <summary>
         /// Кнопка запуска расчетов
         /// </summary>
-        private void tlStrpBtnStart_Click(object sender, EventArgs e)               
+        private void tlStrpBtnStart_Click(object sender, EventArgs e)
         {
             // Запускаем форму выбора алгоритма. Если она завершилась нажатием кнопки "ОК", то запускаем вбранные алгоритмы
             Forms.SelectAlgs.frmSelectAlgs sa = new matsps.Forms.SelectAlgs.frmSelectAlgs();
@@ -228,33 +241,33 @@ namespace matsps
                         //int iCount = selectList.Count; //количество выбранных алгоритмов
 
                         for (int k = 0; k < selectList.Count; k++)
-                        {       
-                           string alg = selectList[k].name;
-                             switch(alg)
-                                {
-                                    case "Муравьиной колонии":   
-                                        {                                          
-                                            for (int i = 0; i < selectList[k].InstCount; i++)
-                                                AntAlgStart();
-                                        } break;
-                                    case "Ближайшего соседа": 
-                                        {
-                                            for (int j = 0; j < selectList[k].InstCount; j++)
-                                                NearestNeighbourStart();  
-                                        } break;
-                                    case "Ветвей и границ (не более 20 городов)":
-                                        {
-                                            for (int j = 0; j < selectList[k].InstCount; j++)
-                                                BranchAndBoundStart();
-                                        } break;
-                                    case "Генетический":
-                                        {
-                                            for (int j = 0; j < selectList[k].InstCount; j++)
-                                                 GeneticAlgorithmStart(); 
-                                                
-                                        } break;
-                                }; //switch(alg)                            
-                         }//for
+                        {
+                            string alg = selectList[k].name;
+                            switch (alg)
+                            {
+                                case "Муравьиной колонии":
+                                    {
+                                        for (int i = 0; i < selectList[k].InstCount; i++)
+                                            AntAlgStart();
+                                    } break;
+                                case "Ближайшего соседа":
+                                    {
+                                        for (int j = 0; j < selectList[k].InstCount; j++)
+                                            NearestNeighbourStart();
+                                    } break;
+                                case "Ветвей и границ (не более 20 городов)":
+                                    {
+                                        for (int j = 0; j < selectList[k].InstCount; j++)
+                                            BranchAndBoundStart();
+                                    } break;
+                                case "Генетический":
+                                    {
+                                        for (int j = 0; j < selectList[k].InstCount; j++)
+                                            GeneticAlgorithmStart();
+
+                                    } break;
+                            }; //switch(alg)                            
+                        }//for
                     }//case DialogResult.OK
                     break;
             }
@@ -262,7 +275,7 @@ namespace matsps
         /// <summary>
         /// Сброс расчетов
         /// </summary>        
-        private void tlStripBtnReset_Click(object sender, EventArgs e)              
+        private void tlStripBtnReset_Click(object sender, EventArgs e)
         {
             liRoute.Clear();
             ucCP.Cities = _cities;
@@ -274,24 +287,24 @@ namespace matsps
         /// <summary>
         /// Сохранение городов в файл
         /// </summary>
-        private void tlStrpBtnSaveCitiesCities_ButtonClick(object sender, EventArgs e)  
+        private void tlStrpBtnSaveCitiesCities_ButtonClick(object sender, EventArgs e)
         {
             if (tlStrpBtnSaveModeCoords.Checked)
                 SaveCitiesToFile(0);
             if (tlStrpBtnSaveModeDistance.Checked)
                 SaveCitiesToFile(1);
         }
-        private void tlStrpBtnSaveModeCoords_Click(object sender, EventArgs e)          
+        private void tlStrpBtnSaveModeCoords_Click(object sender, EventArgs e)
         {
             tlStrpBtnSaveModeCoords.Checked = true;
             tlStrpBtnSaveModeDistance.Checked = false;
         }
-        private void tlStrpBtnSaveModeDistance_Click(object sender, EventArgs e)        
+        private void tlStrpBtnSaveModeDistance_Click(object sender, EventArgs e)
         {
             tlStrpBtnSaveModeCoords.Checked = false;
             tlStrpBtnSaveModeDistance.Checked = true;
         }
-        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)              
+        private void tlStrpBtnLoadCities_Click(object sender, EventArgs e)
         {
             // Создаем новый файловый диалог
             OpenFileDialog DialogOpen = new OpenFileDialog();
@@ -332,6 +345,13 @@ namespace matsps
                 ucCP.ClearDgvRouteList(); //Очищает лист маршрутов и DataGridView
                 ucCP.RefreshRoutePaint(); //Перерисовывает маршруты
                 tlStrpTxbCitiesCount.Text = _cities.Count.ToString();
+
+                liRoute.Clear();
+                _paramAnt.MaxCities = _cities.Count;
+                _paramAnt.MaxAnts = _cities.Count;
+
+                _cities.MaxDistance = _paramAnt.MaxDistance;
+
                 tlStrpTxbCitiesCount.SelectAll();
             }
         }
@@ -342,7 +362,7 @@ namespace matsps
         /// <param name="mode">Метод формирования строки: 
         ///     0 - координаты, 
         ///     1 - матрица расстояний</param>
-        private string GetFileStringToSave(string filename, int mode)                   
+        private string GetFileStringToSave(string filename, int mode)
         {
             int Count = _cities.Count;  //количество городов
             string text = "";             //обнуляем строку
@@ -374,7 +394,7 @@ namespace matsps
         /// <param name="mode">Метод сохранения: 
         ///     0 - координаты, 
         ///     1 - матрица расстояний</param>
-        private void SaveCitiesToFile(int mode)                                         
+        private void SaveCitiesToFile(int mode)
         {
             // Создаем новый файловый диалог
             SaveFileDialog DialogSave = new SaveFileDialog();
@@ -421,7 +441,7 @@ namespace matsps
         /// <summary>
         /// Начать расчет методом Муравьиной колонии
         /// </summary>
-        private void AntAlgStart()                              
+        private void AntAlgStart()
         {
             // АЛГОРИТМ
             //if (_prAnt == null)
@@ -429,127 +449,153 @@ namespace matsps
             //Добавляем экземпляр алгоритма в список
             _prAntList.Add(new ProcessAnt());
 
-                // Интерфейс
-                toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
-                tlStrpTxbCitiesCount.Enabled = false;
-                //tlStrpBtnAntAlgStart.Enabled = false;
-                tlStrpBtnCreateRandomCities.Enabled = false;
-                // label c процентами
-                ToolStripLabel labelPercent = new ToolStripLabel();
-                labelPercent.BackColor = _prAntList[_prAntList.Count - 1].Drawing.Color;
-                labelPercent.ForeColor = Color.White;
-                labelPercent.Margin = new Padding(0,0,5,0);
-                statusStrip1.Items.Add(labelPercent);
-                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prAntList[_prAntList.Count - 1],labelPercent));
+            // Интерфейс
+            toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
+            tlStrpTxbCitiesCount.Enabled = false;
+            //tlStrpBtnAntAlgStart.Enabled = false;
+            tlStrpBtnCreateRandomCities.Enabled = false;
+            // label c процентами
+            ToolStripLabel labelPercent = new ToolStripLabel();
+            labelPercent.BackColor = _prAntList[_prAntList.Count - 1].Drawing.Color;
+            labelPercent.ForeColor = Color.White;
+            labelPercent.Margin = new Padding(0, 0, 5, 0);
+            statusStrip1.Items.Add(labelPercent);
+            liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prAntList[_prAntList.Count - 1], labelPercent));
 
-                //_prAnt = new ProcessAnt();
-                //_prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
-                //_prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
-                //_prAnt.Parameters = _paramAnt;
-                //_prAnt.Cities = _cities;
-                //_prAnt.Start();
-               
-                
-                //Подписываем последний в списке экземпляр алгоритма на необходимые события
-                _prAntList[_prAntList.Count-1].eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
-                _prAntList[_prAntList.Count - 1].eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
-                //Загружаем параметры расчета алгоритма в последний в списке экземпляр
-                _prAntList[_prAntList.Count - 1].Parameters = _paramAnt;
-                //Загружаем коллекия городов в последний в списке экземпляр алгоритма
-                _prAntList[_prAntList.Count - 1].Cities = _cities;
-                //Запускаем последний в списке экземпляр алгоритма
-                _prAntList[_prAntList.Count - 1].Start();
+            //_prAnt = new ProcessAnt();
+            //_prAnt.eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+            //_prAnt.eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+            //_prAnt.Parameters = _paramAnt;
+            //_prAnt.Cities = _cities;
+            //_prAnt.Start();
+
+
+            //Подписываем последний в списке экземпляр алгоритма на необходимые события
+            _prAntList[_prAntList.Count - 1].eventProgressChanged += new ProcessAnt.ProgressChanged(AntAlgProgressChange);
+            _prAntList[_prAntList.Count - 1].eventFinally += new EventHandler<EventArgs>(AntAlgFinally);
+            //Загружаем параметры расчета алгоритма в последний в списке экземпляр
+            _prAntList[_prAntList.Count - 1].Parameters = _paramAnt;
+            //Загружаем коллекия городов в последний в списке экземпляр алгоритма
+            _prAntList[_prAntList.Count - 1].Cities = _cities;
+            //Запускаем последний в списке экземпляр алгоритма
+            _prAntList[_prAntList.Count - 1].StartAsync();
             //}
         }
         /// <summary>
         /// Начать расчёт методом Ближайшего соседа
         /// </summary>
         /// <param name="sender"></param>
-        private void NearestNeighbourStart()                    
+        private void NearestNeighbourStart()
         {
 
             // АЛГОРИТМ
             //if (_prNN == null)
             //{
-                // Интерфейс
-                //ucCP.RouteLengthTextOut("");
-                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
-                tlStrpTxbCitiesCount.Enabled = false;
-                //tsbNearestNeighbour.Enabled = false;
-                tlStrpBtnCreateRandomCities.Enabled = false;
+            // Интерфейс
+            //ucCP.RouteLengthTextOut("");
+            toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+            tlStrpTxbCitiesCount.Enabled = false;
+            //tsbNearestNeighbour.Enabled = false;
+            tlStrpBtnCreateRandomCities.Enabled = false;
 
-                _prNNList.Add(new ProcessNearestNeighbour());
-                _prNNList[_prNNList.Count - 1].eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
-                _prNNList[_prNNList.Count - 1].eventFinally += new EventHandler<EventArgs>(PNNFinally);
-                _prNNList[_prNNList.Count - 1].Parameters = _paramAnt;
-                _prNNList[_prNNList.Count - 1].Cities = _cities;
-                _prNNList[_prNNList.Count - 1].Start();
+            _prNNList.Add(new ProcessNearestNeighbour());
+            _prNNList[_prNNList.Count - 1].eventProgressChanged += new ProcessNearestNeighbour.ProgressChanged(AntAlgProgressChange);
+            _prNNList[_prNNList.Count - 1].eventFinally += new EventHandler<EventArgs>(PNNFinally);
+            _prNNList[_prNNList.Count - 1].Parameters = _paramAnt;
+            _prNNList[_prNNList.Count - 1].Cities = _cities;
+            _prNNList[_prNNList.Count - 1].Start();
         }
         /// <summary>
         /// Начать расчет методом Ветвей и границ
         /// </summary>
-        private void BranchAndBoundStart()                      
+        private void BranchAndBoundStart()
         {
             // АЛГОРИТМ
             //if (_prBnB == null)
             //{
             _prBnBList.Add(new ProcessBranchAndBound());
 
-                // Интерфейс
-                toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
-                tlStrpTxbCitiesCount.Enabled = false;
-                //tlStrpBtnAntAlgStart.Enabled = false;
-                tlStrpBtnCreateRandomCities.Enabled = false;
-                // label c процентами
-                ToolStripLabel labelPercent = new ToolStripLabel();
-                labelPercent.BackColor = _prBnBList[_prBnBList.Count - 1].Drawing.Color;
-                labelPercent.ForeColor = Color.White;
-                labelPercent.Margin = new Padding(0, 0, 5, 0);
-                statusStrip1.Items.Add(labelPercent);
-                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prBnBList[_prBnBList.Count - 1], labelPercent));
+            // Интерфейс
+            toolSTLInfo.Text = DateTime.Now.ToLongTimeString(); //.ToString("{0:H:mm:ss zzz}");
+            tlStrpTxbCitiesCount.Enabled = false;
+            //tlStrpBtnAntAlgStart.Enabled = false;
+            tlStrpBtnCreateRandomCities.Enabled = false;
+            // label c процентами
+            ToolStripLabel labelPercent = new ToolStripLabel();
+            labelPercent.BackColor = _prBnBList[_prBnBList.Count - 1].Drawing.Color;
+            labelPercent.ForeColor = Color.White;
+            labelPercent.Margin = new Padding(0, 0, 5, 0);
+            statusStrip1.Items.Add(labelPercent);
+            liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prBnBList[_prBnBList.Count - 1], labelPercent));
 
-                //Добавляем экземпляр алгоритма в список                            
-                _prBnBList[_prBnBList.Count - 1].eventProgressChanged += new ProcessBranchAndBound.ProgressChanged(AntAlgProgressChange);
-                _prBnBList[_prBnBList.Count - 1].eventFinally += new EventHandler<EventArgs>(BnBAlgFinally);
-                _prBnBList[_prBnBList.Count - 1].Parameters = _paramBnB;
-                _prBnBList[_prBnBList.Count - 1].Cities = _cities;
-                _prBnBList[_prBnBList.Count - 1].Start();
+            //Добавляем экземпляр алгоритма в список                            
+            _prBnBList[_prBnBList.Count - 1].eventProgressChanged += new ProcessBranchAndBound.ProgressChanged(AntAlgProgressChange);
+            _prBnBList[_prBnBList.Count - 1].eventFinally += new EventHandler<EventArgs>(BnBAlgFinally);
+            _prBnBList[_prBnBList.Count - 1].Parameters = _paramBnB;
+            _prBnBList[_prBnBList.Count - 1].Cities = _cities;
+            _prBnBList[_prBnBList.Count - 1].StartAsync();
             //}
         }
         /// <summary>
         /// Начать расчёт с помощью Генетического алгоритма
         /// </summary>
-        private void GeneticAlgorithmStart()                    
+        private void GeneticAlgorithmStart()
         {
             // АЛГОРИТМ
             //if (_pGA == null)
-           // {
+            // {
             ProcessGeneticAlgorithm pga = new ProcessGeneticAlgorithm();
             //_prGAList.Add(new ProcessGeneticAlgorithm());
             _prGAList.Add(pga);
             // Интерфейс
-                //ucCP.RouteLengthTextOut("");
-                toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
-                tlStrpTxbCitiesCount.Enabled = false;
-                //tsbNearestNeighbour.Enabled = false;
-                tlStrpBtnCreateRandomCities.Enabled = false;
+            //ucCP.RouteLengthTextOut("");
+            toolSTLInfo.Text = DateTime.Now.ToShortTimeString();
+            tlStrpTxbCitiesCount.Enabled = false;
+            //tsbNearestNeighbour.Enabled = false;
+            tlStrpBtnCreateRandomCities.Enabled = false;
 
-                ToolStripLabel labelPercent = new ToolStripLabel();
-                labelPercent.BackColor = _prGAList[_prGAList.Count - 1].Drawing.Color;
-                labelPercent.ForeColor = Color.White;
-                labelPercent.Margin = new Padding(0, 0, 5, 0);
-                statusStrip1.Items.Add(labelPercent);
-                liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prGAList[_prGAList.Count - 1], labelPercent));
+            ToolStripLabel labelPercent = new ToolStripLabel();
+            labelPercent.BackColor = _prGAList[_prGAList.Count - 1].Drawing.Color;
+            labelPercent.ForeColor = Color.White;
+            labelPercent.Margin = new Padding(0, 0, 5, 0);
+            statusStrip1.Items.Add(labelPercent);
+            liLinkedPrLabel.Add(new ProcessLinkedLabelPercent(_prGAList[_prGAList.Count - 1], labelPercent));
 
-                //_pGA = new ProcessGeneticAlgorithm();
-                _prGAList[_prGAList.Count - 1].eventProgressChanged += new ProcessGeneticAlgorithm.ProgressChanged(AntAlgProgressChange);
-                _prGAList[_prGAList.Count - 1].eventFinally += new EventHandler<EventArgs>(GAFinally);
-                _prGAList[_prGAList.Count - 1].Parameters = _paramGA;
-                _prGAList[_prGAList.Count - 1].Cities = _cities;
-                _prGAList[_prGAList.Count - 1].Start();
+            //_pGA = new ProcessGeneticAlgorithm();
+            _prGAList[_prGAList.Count - 1].eventProgressChanged += new ProcessGeneticAlgorithm.ProgressChanged(AntAlgProgressChange);
+            _prGAList[_prGAList.Count - 1].eventFinally += new EventHandler<EventArgs>(GAFinally);
+            _prGAList[_prGAList.Count - 1].Parameters = _paramGA;
+            _prGAList[_prGAList.Count - 1].Cities = _cities;
+            _prGAList[_prGAList.Count - 1].StartAsync();
             //}
         }
 
+        /// <summary>
+        /// Ручной ввод маршрута
+        /// </summary>
+        private void tlStripBtnManualRoute_Click(object sender, EventArgs e)
+        {
+            frmManualInputRoute frm = new frmManualInputRoute();
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                List<int> cities = frm.CitiesIndexes;
+                if (cities.Count == 0)
+                    return;
+                List<City> liCityToManualRoute = new List<City>();
+                foreach (int index in cities)
+	            {
+		                liCityToManualRoute.Add(_cities[index - 1]);
+	            }
+
+                // Путь городов. Заносим лист.
+                CitiesCollection citiesCollection = new CitiesCollection(liCityToManualRoute);
+                Route manualRoute = new Route(citiesCollection, "Ручной расчет");
+                manualRoute.Drawing.Color = Color.LawnGreen;
+                liRoute.Add(manualRoute);
+                ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                ucCP.RefreshRoutePaint(); // обновляем прорисовку     
+            }
+        }
         #endregion
 
         #region События алгоритмов
@@ -557,7 +603,7 @@ namespace matsps
         /// Изменение в Алгоритмах
         /// </summary>
         /// <param name="value"></param>
-        private void AntAlgProgressChange(object sender, int value, string label)                    
+        private void AntAlgProgressChange(object sender, int value, string label)
         {
             //prgbarProgress.Value = value;
             //toolSTProgress.Text = value + "%";
@@ -573,7 +619,7 @@ namespace matsps
                         {
                             if (liLinkedPrLabel[i].Process == sender)
                             {
-                                liLinkedPrLabel[i].Label.Text = (value==-1)?"-":(value.ToString() + label);
+                                liLinkedPrLabel[i].Label.Text = (value == -1) ? "-" : (value.ToString() + label);
                                 break;
                             }
                         }
@@ -598,7 +644,7 @@ namespace matsps
         /// <summary>
         /// Событие завершение расчета по Алгоритму Муравья
         /// </summary>
-        private void AntAlgFinally(object sender, EventArgs e)          
+        private void AntAlgFinally(object sender, EventArgs e)
         {
             Object thisLock = new Object();
             lock (thisLock)
@@ -607,68 +653,68 @@ namespace matsps
                 this.Invoke(new MethodInvoker(delegate()
                 {
                     // РЕЗУЛЬТАТЫ
-                        //Начинаем перебор списка экземпляров алгоритма муравья
-                        #region while
-                        for (int i = 0; i < _prAntList.Count; i++ )
+                    //Начинаем перебор списка экземпляров алгоритма муравья
+                    #region while
+                    for (int i = 0; i < _prAntList.Count; i++)
+                    {
+                        #region if
+                        if (_prAntList[i].ResultInfo != null)
                         {
-                            #region if
-                            if (_prAntList[i].ResultInfo != null)
+                            // Лист результатов расчета
+                            rtxbOut.AppendText("        алгоритм муравья (" + i + ")       \n");
+                            List<string> listr = _prAntList[i].ResultInfo;
+                            foreach (string str in listr)
                             {
-                                // Лист результатов расчета
-                                rtxbOut.AppendText("        алгоритм муравья (" + i + ")       \n" );
-                                List<string> listr = _prAntList[i].ResultInfo;
-                                foreach (string str in listr)
-                                {
-                                    rtxbOut.AppendText(str);
-                                }
-                                rtxbOut.AppendText("--------------------------------------------\n");
-                                // Лист последовательности городов
-                                CitiesCollection CitiesInPath = _prAntList[i].ResultPath.Cities;
-                                rtxbCities.Clear();
-                                for (int k = 0; k < CitiesInPath.Count; k++)
-                                {
-                                    rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[k].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
-                                }
-
-                                // Путь городов. Заносим лист.
-                                _prAntList[i].ResultPath.Drawing.Color = _prAntList[i].Drawing.Color; // цвет маршрута
-                                liRoute.Add(_prAntList[i].ResultPath);
-                                ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
-                                ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
- 
-                                toolSTLInfo.Text = "Время расчета: " + _prAntList[i].ProcessTime.ToString();
-                                // Удаляем label-процента исполнения
-                                for (int j = 0; j < liLinkedPrLabel.Count; j++)
-                                    if (liLinkedPrLabel[j].Process == _prAntList[i])
-                                    {
-                                        toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
-                                        liLinkedPrLabel.RemoveAt(j);
-
-                                        if (liLinkedPrLabel.Count == 0)
-                                            statusStrip1.Items.Clear();
-
-                                        break;                                        
-                                    }
-
-                                // Готовность интерфейса
-                                _prAntList[i] = null;
-                                tlStrpTxbCitiesCount.Enabled = true;
-                                tlStrpBtnCreateRandomCities.Enabled = true;
-
-                                //удаление экземпляра алгортима из списка экземпляров
-                                _prAntList.RemoveAt(i);
-                                break;
+                                rtxbOut.AppendText(str);
                             }
-                            #endregion
+                            rtxbOut.AppendText("--------------------------------------------\n");
+                            // Лист последовательности городов
+                            CitiesCollection CitiesInPath = _prAntList[i].ResultPath.Cities;
+                            rtxbCities.Clear();
+                            for (int k = 0; k < CitiesInPath.Count; k++)
+                            {
+                                rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[k].Index) + " X:" + CitiesInPath[i].X + " Y:" + CitiesInPath[i].Y + Environment.NewLine);
+                            }
+
+                            // Путь городов. Заносим лист.
+                            _prAntList[i].ResultPath.Drawing.Color = _prAntList[i].Drawing.Color; // цвет маршрута
+                            liRoute.Add(_prAntList[i].ResultPath);
+                            ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                            ucCP.RefreshRoutePaint(); // обновляем прорисовку                    
+
+                            toolSTLInfo.Text = "Время расчета: " + _prAntList[i].ProcessTime.ToString();
+                            // Удаляем label-процента исполнения
+                            for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                if (liLinkedPrLabel[j].Process == _prAntList[i])
+                                {
+                                    toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                    liLinkedPrLabel.RemoveAt(j);
+
+                                    if (liLinkedPrLabel.Count == 0)
+                                        statusStrip1.Items.Clear();
+
+                                    break;
+                                }
+
+                            // Готовность интерфейса
+                            _prAntList[i] = null;
+                            tlStrpTxbCitiesCount.Enabled = true;
+                            tlStrpBtnCreateRandomCities.Enabled = true;
+
+                            //удаление экземпляра алгортима из списка экземпляров
+                            _prAntList.RemoveAt(i);
+                            break;
                         }
                         #endregion
+                    }
+                    #endregion
                 }));
 
             }
-            
+
 
         }
-        private void PNNFinally(object sender, EventArgs e)             
+        private void PNNFinally(object sender, EventArgs e)
         {
             Object thisLock = new Object();
             lock (thisLock)
@@ -677,77 +723,77 @@ namespace matsps
                 this.Invoke(new MethodInvoker(delegate()
                 {
                     //Начинаем перебор списка экземпляров алгоритма муравья
-                        #region while
-                        for (int i = 0; i < _prNNList.Count; i++)
+                    #region while
+                    for (int i = 0; i < _prNNList.Count; i++)
+                    {
+                        #region if
+                        if (_prNNList[i].ResultList != null)
                         {
-                            #region if
-                            if (_prNNList[i].ResultList != null)
+                            try
                             {
-                                try
+                                // РЕЗУЛЬТАТЫ
+                                // Лист результатов расчета
+                                rtxbOut.AppendText("        ближайший сосед (" + i + ")       \n");
+                                List<string> listr = _prNNList[i].ResultList;
+                                foreach (string str in listr)
                                 {
-                                    // РЕЗУЛЬТАТЫ
-                                    // Лист результатов расчета
-                                    rtxbOut.AppendText("        ближайший сосед (" + i + ")       \n");
-                                    List<string> listr = _prNNList[i].ResultList;
-                                    foreach (string str in listr)
+                                    rtxbOut.AppendText(str);
+                                }
+                                rtxbOut.AppendText("\n--------------------------------------------\n");
+                                // Лист последовательности городов
+                                CitiesCollection CitiesInPath = _prNNList[i].ResultPath.Cities;
+                                rtxbCities.Clear();
+                                for (int k = 0; k < CitiesInPath.Count; k++)
+                                {
+                                    rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[k].X + " Y:" + CitiesInPath[k].Y + Environment.NewLine);
+                                }
+
+                                // Путь городов
+                                //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
+                                _prNNList[i].ResultPath.Drawing.Color = Color.LightSeaGreen;
+                                liRoute.Add(_prNNList[i].ResultPath);
+                                ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
+                                ucCP.RefreshRoutePaint(); // обновляем прорисовку
+
+                                toolSTLInfo.Text = "Время расчета: " + _prNNList[i].ProcessTime.ToString();
+                                // Удаляем label-процента исполнения
+                                for (int j = 0; j < liLinkedPrLabel.Count; j++)
+                                    if (liLinkedPrLabel[j].Process == _prNNList[i])
                                     {
-                                        rtxbOut.AppendText(str);
-                                    }
-                                    rtxbOut.AppendText("\n--------------------------------------------\n");
-                                    // Лист последовательности городов
-                                    CitiesCollection CitiesInPath = _prNNList[i].ResultPath.Cities;
-                                    rtxbCities.Clear();
-                                    for (int k = 0; k < CitiesInPath.Count; k++)
-                                    {
-                                        rtxbCities.AppendText(String.Format("{0:0000}", CitiesInPath[i].Index) + " X:" + CitiesInPath[k].X + " Y:" + CitiesInPath[k].Y + Environment.NewLine);
+                                        toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
+                                        liLinkedPrLabel.RemoveAt(j);
+
+                                        if (liLinkedPrLabel.Count == 0)
+                                            statusStrip1.Items.Clear();
+                                        break;
                                     }
 
-                                    // Путь городов
-                                    //_pnn.ResultPath.AlgorithmName = "Ближайший сосед";
-                                    _prNNList[i].ResultPath.Drawing.Color = Color.LightSeaGreen;
-                                    liRoute.Add(_prNNList[i].ResultPath);
-                                    ucCP.RefreshRouteList();    // обновляем таблицу с листом маршрутов
-                                    ucCP.RefreshRoutePaint(); // обновляем прорисовку
+                                // Готовность интерфейса
+                                _prNNList[i] = null;
+                                tlStrpTxbCitiesCount.Enabled = true;
+                                //tlStrpBtnAntAlgStart.Enabled = true;
+                                tlStrpBtnCreateRandomCities.Enabled = true;
+                                //tsbNearestNeighbour.Enabled = true;
+                                //ToolStripProgress.Visible = false;
+                                //toolSTLProgress.Visible = false;
 
-                                    toolSTLInfo.Text = "Время расчета: " + _prNNList[i].ProcessTime.ToString();
-                                    // Удаляем label-процента исполнения
-                                    for (int j = 0; j < liLinkedPrLabel.Count; j++)
-                                        if (liLinkedPrLabel[j].Process == _prNNList[i])
-                                        {
-                                            toolStrip1.Items.Remove(liLinkedPrLabel[j].Label);
-                                            liLinkedPrLabel.RemoveAt(j);
-
-                                            if (liLinkedPrLabel.Count == 0)
-                                                statusStrip1.Items.Clear();
-                                            break;
-                                        }
-
-                                    // Готовность интерфейса
-                                    _prNNList[i] = null;
-                                    tlStrpTxbCitiesCount.Enabled = true;
-                                    //tlStrpBtnAntAlgStart.Enabled = true;
-                                    tlStrpBtnCreateRandomCities.Enabled = true;
-                                    //tsbNearestNeighbour.Enabled = true;
-                                    //ToolStripProgress.Visible = false;
-                                    //toolSTLProgress.Visible = false;
-
-                                    //удаление экземпляра алгортима из списка экземпляров
-                                    _prNNList.RemoveAt(i);
-                                    break;
-                                }//try
-                                catch (Exception ex)
-                                { 
-                                    MessageBox.Show(ex.Message + ex.StackTrace); 
-                                } 
-                            }//IF
-                             #endregion
-                        }//For
+                                //удаление экземпляра алгортима из списка экземпляров
+                                _prNNList.RemoveAt(i);
+                                break;
+                            }//try
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message + ex.StackTrace);
+                            }
+                        }//IF
                         #endregion
+                    }//For
+                    #endregion
                 }));
             }
 
         }
-        private void BnBAlgFinally(object sender, EventArgs e)          
+        private void BnBAlgFinally(object sender, EventArgs e)
         {
             Object thisLock = new Object();
             lock (thisLock)
@@ -816,7 +862,7 @@ namespace matsps
                     #endregion
                 }));
 
-            }            
+            }
         }
         private void GAFinally(object sender, EventArgs e)
         {
@@ -889,22 +935,14 @@ namespace matsps
 
             }
         }
-
-
         #endregion
-
-
-
-
-
-        
     }
 
 
     /// <summary>
     /// Содержит имя и параметры запуска алгоритма
     /// </summary>
-    public class AlgStartParam                                  
+    public class AlgStartParam
     {
         public AlgStartParam(string name, int instCount)
         {
@@ -928,7 +966,7 @@ namespace matsps
             get;
             set;
         }
-        
+
         /// <summary>
         /// Имя алгоритма
         /// </summary>
@@ -945,7 +983,7 @@ namespace matsps
     /// <summary>
     /// Содержит связь между Process и label процента исполнения
     /// </summary>
-    public class ProcessLinkedLabelPercent                      
+    public class ProcessLinkedLabelPercent
     {
         #region Конструкторы
         public ProcessLinkedLabelPercent(Object process, ToolStripLabel label)
@@ -964,7 +1002,7 @@ namespace matsps
         /// <summary>
         /// Процесс алгоиртма (только для чтения)
         /// </summary>
-        public Object Process               
+        public Object Process
         {
             get
             {
@@ -974,7 +1012,7 @@ namespace matsps
         /// <summary>
         /// Метка с процентом выполнения (только для чтения)
         /// </summary>
-        public ToolStripLabel Label         
+        public ToolStripLabel Label
         {
             get
             {

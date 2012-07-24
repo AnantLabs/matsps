@@ -9,7 +9,7 @@ namespace matsps.AntAlgorithm.AntAlgData
     /// <summary>
     /// Хранит данные о проходе одного муравья
     /// </summary>
-    class AntAlgDataAnt
+    public class AntAlgDataAnt
     {
         #region Конструкторы и Данные
         public AntAlgDataAnt() { }

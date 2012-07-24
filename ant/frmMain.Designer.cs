@@ -37,6 +37,7 @@
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemParameters = new System.Windows.Forms.ToolStripMenuItem();
+            this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.splContMain = new System.Windows.Forms.SplitContainer();
@@ -59,6 +60,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tlStrpBtnStart = new System.Windows.Forms.ToolStripButton();
             this.tlStripBtnReset = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tlStripBtnManualRoute = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splContMain.Panel1.SuspendLayout();
@@ -104,6 +107,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFile,
             this.toolStripMenuItemSettings,
+            this.тестToolStripMenuItem,
             this.toolStripMenuItemHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -141,6 +145,13 @@
             this.toolStripMenuItemParameters.Text = "Параметры";
             this.toolStripMenuItemParameters.ToolTipText = "Параметры алгоритмов";
             this.toolStripMenuItemParameters.Click += new System.EventHandler(this.toolStripMenuItemParameters_Click);
+            // 
+            // тестToolStripMenuItem
+            // 
+            this.тестToolStripMenuItem.Name = "тестToolStripMenuItem";
+            this.тестToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.тестToolStripMenuItem.Text = "Тест";
+            this.тестToolStripMenuItem.Click += new System.EventHandler(this.тестToolStripMenuItem_Click);
             // 
             // toolStripMenuItemHelp
             // 
@@ -274,7 +285,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 21);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(225, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(194, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -351,10 +362,12 @@
             this.tlStrpBtnSettings,
             this.toolStripSeparator2,
             this.tlStrpBtnStart,
-            this.tlStripBtnReset});
+            this.tlStripBtnReset,
+            this.toolStripSeparator3,
+            this.tlStripBtnManualRoute});
             this.toolStrip2.Location = new System.Drawing.Point(181, 21);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(135, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(221, 25);
             this.toolStrip2.TabIndex = 4;
             // 
             // tlStrpBtnSettings
@@ -393,6 +406,22 @@
             this.tlStripBtnReset.Text = "Сброс";
             this.tlStripBtnReset.ToolTipText = "Сброс текущего расчета";
             this.tlStripBtnReset.Click += new System.EventHandler(this.tlStripBtnReset_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tlStripBtnManualRoute
+            // 
+            this.tlStripBtnManualRoute.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tlStripBtnManualRoute.Image = ((System.Drawing.Image)(resources.GetObject("tlStripBtnManualRoute.Image")));
+            this.tlStripBtnManualRoute.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tlStripBtnManualRoute.Name = "tlStripBtnManualRoute";
+            this.tlStripBtnManualRoute.Size = new System.Drawing.Size(80, 22);
+            this.tlStripBtnManualRoute.Text = "Ручной ввод";
+            this.tlStripBtnManualRoute.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.tlStripBtnManualRoute.Click += new System.EventHandler(this.tlStripBtnManualRoute_Click);
             // 
             // frmMain
             // 
@@ -465,6 +494,9 @@
         private System.Windows.Forms.ToolStripMenuItem tlStrpBtnSaveModeCoords;
         private System.Windows.Forms.ToolStripMenuItem tlStrpBtnSaveModeDistance;
         private System.Windows.Forms.ToolStripButton tlStripBtnReset;
+        private System.Windows.Forms.ToolStripMenuItem тестToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tlStripBtnManualRoute;
     }
 }
 

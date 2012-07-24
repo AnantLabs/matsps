@@ -8,14 +8,15 @@ using System.Threading;     // потоки
 using matsps.AntAlgorithm.AntAlgData;           // данные для алгоритма муравья
 using matsps.CommonData;           // совместные данные
 using matsps.Parameters;
-using matsps.AntAlgorithm.AntAlgData;           // параметры алгоритмов
+using matsps.AntAlgorithm.AntAlgData;
+using System.Diagnostics;           // параметры алгоритмов
 
 namespace matsps.AntAlgorithm.AntAlgLogic
 {
     /// <summary>
     /// Алгоритм расчета задачи коммивояжера с помощью муравьиной колонии
     /// </summary>
-    class AntAlgTravelSalesman
+    public class AntAlgTravelSalesman
     {
         #region Конструкторы и Данные
         public AntAlgTravelSalesman()                                               
@@ -89,11 +90,16 @@ namespace matsps.AntAlgorithm.AntAlgLogic
 
 
         private AntParameters _parameters;
+
+        /// <summary>
+        /// Время расчета алгоритма
+        /// </summary>
+        public TimeSpan TimeCalculate { set; get;}
         #endregion
 
 
         #region Свойства результатов расчета
-        List<string> listrTime;
+        List<string> listrRouteDetails;
         /// <summary>
         /// Лист длин маршрута по времени
         /// </summary>
@@ -101,7 +107,7 @@ namespace matsps.AntAlgorithm.AntAlgLogic
         {
             get
             {
-                return listrTime;
+                return listrRouteDetails;
             }
         }
 
@@ -354,13 +360,11 @@ namespace matsps.AntAlgorithm.AntAlgLogic
         /// Произвести один расчет
         /// </summary>
         /// <returns>Список результара расчета</returns>
-        public void Calculate()                                             
+        public void CalculateAsync()                                             
         {
-            listrTime = new List<string>();
-
             if(t == null)
             {
-                    t = new Thread(BackgroundCalculate);
+                    t = new Thread(Calculate);
                     t.IsBackground = true;
                     t.Start();
                     bIsThreadAlive = true;
@@ -376,16 +380,23 @@ namespace matsps.AntAlgorithm.AntAlgLogic
             wh.Set();
         }
 
-        private void BackgroundCalculate()                                  
+        /// <summary>
+        /// Расчет задачи коммивояжера
+        /// </summary>
+        public void Calculate()                                            
         {
             try
             {
+                listrRouteDetails = new List<string>();
+
                 iteration = 1;
                 double lastBest = -1;
                 bool continueFlag = true;               // флаг завершения алгоритма
                 curTime = 0;                            // обнуление счетчика проходов
                 countRepeatBest = 0;                    // обнуление счетчика повторения лучших путей (для сходимости)
                 tmrTimer.Start();                       // запуск таймера
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 while (continueFlag)
                 {
                     curTime++;
@@ -400,7 +411,7 @@ namespace matsps.AntAlgorithm.AntAlgLogic
 
                             string strOut = String.Format("Iter:{0,4:#} ", iteration) + String.Format(" Path:{0:000.00}\n", best);
                             iteration++;
-                            listrTime.Add(strOut);
+                            listrRouteDetails.Add(strOut);
                             
                             // Завершение алгоритма. По итерациям
                             if (_parameters.EndType == AntAlgorithmEndType.Iteration)
@@ -428,14 +439,16 @@ namespace matsps.AntAlgorithm.AntAlgLogic
                     }
                     catch (Exception ex)
                     {
-                        listrTime.Add(ex.Message);
+                        listrRouteDetails.Add(ex.Message);
                     }
                 }
                 tmrTimer.Stop();           //остановка таймера
+                watch.Stop();
+                TimeCalculate = watch.Elapsed;
 
                 //AntAlgChangesEventArgs e = new AntAlgChangesEventArgs(101, false); //посылаем значение 101%(алгоритм завершен)
                 //OnProgressChanged(e);
-                listrTime.Add(string.Format("Best tour {0:000.00\n}", best));
+                listrRouteDetails.Add(string.Format("Best tour {0:000.00\n}", best));
 
 
                 // Вычисление завершено
@@ -512,7 +525,7 @@ namespace matsps.AntAlgorithm.AntAlgLogic
     /// <summary>
     /// Аргументы событий изменения в алгоритме муравья
     /// </summary>
-    internal class AntAlgChangesEventArgs : EventArgs                                   
+    public class AntAlgChangesEventArgs : EventArgs                                   
     {
         private readonly double dPercent;
         private bool bCanContinue;
