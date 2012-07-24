@@ -337,17 +337,17 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Запуска расчета в алгоритме Ветвей и Границ
         /// </summary>
-        public void Calculate()                         
+        public void CalculateAsync()                         
         {
             if (t == null)
             {
-                t = new Thread(BackgroundCalculate);
+                t = new Thread(Calculate);
                 t.IsBackground = true;
                 t.Start();
             }
         }
 
-        private void BackgroundCalculate()              
+        private void Calculate()              
         {            
             BnBNodeData nData = new BnBNodeData(Cities);    // заносим начальные данные из коллекции городов
 

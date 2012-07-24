@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Linq;
+using System.Data;
 
 namespace matsps.DeliveringAntAlgorithm
 {
@@ -16,25 +18,9 @@ namespace matsps.DeliveringAntAlgorithm
 
         #region Свойства
         /// <summary>
-        /// Текущий пробег
-        /// </summary>
-        public Double Miliage
-        {
-            set;
-            get;
-        }
-        /// <summary>
         /// Максимально допустимый пробег
         /// </summary>
         public Double MaxMiliage
-        {
-            set;
-            get;
-        }
-        /// <summary>
-        /// Тукущая заполненность
-        /// </summary>
-        public Double Capacity
         {
             set;
             get;
@@ -79,7 +65,6 @@ namespace matsps.DeliveringAntAlgorithm
             get 
             {
                 Car car = new Car();
-                    car.Capacity = 0;
                     car.MaxCapacity = 940;
                     car.MaxMiliage = 200;
                     //car.Miliage = 0;
@@ -119,13 +104,23 @@ namespace matsps.DeliveringAntAlgorithm
 
             return current;
         }
+
         /// <summary>
         /// Выполняет перерасчет пробега машины
         /// </summary>
         /// <returns></returns>
-        public Double CalculateMilliage()
+        public Double GetMilliage()
         {
-            return 0;
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Пересчитывает заполненность атомобиля по коллекции клиентов
+        /// </summary>
+        /// <returns></returns>
+        public Double GetCapacity()
+        {
+            return Clients.Select( c=> c.Weight ).Sum();
         }
 
         /// <summary>
@@ -139,6 +134,18 @@ namespace matsps.DeliveringAntAlgorithm
             // делаем копию текущей машины
             Car copyCar = this.FullClone();
 
+            copyCar.Clients.Add(candidateClient);
+            // 1. Проверка по количеству
+            if (copyCar.Clients.Count > copyCar.MaxPassedClientsCount)
+                return false;
+
+            // 2. Проверка по заполненности
+            if (copyCar.GetCapacity() > MaxCapacity)
+                return false;
+
+            // 3. Проверка на километраж
+
+
             throw new NotImplementedException();
         }
 
@@ -149,8 +156,6 @@ namespace matsps.DeliveringAntAlgorithm
         private Car FullClone()
         {
             Car clone = new Car();
-            clone.Capacity = this.Capacity;
-            clone.Miliage = this.Miliage;
             clone.Clients = this.Clients;
             clone.Distance = this.Distance;
 

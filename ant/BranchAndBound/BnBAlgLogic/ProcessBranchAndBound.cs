@@ -144,17 +144,17 @@ namespace matsps.BranchAndBound.BnBAlgLogic
         /// <summary>
         /// Запуск алгоритма Ветвей и границ
         /// </summary>
-        public void Start()
+        public void StartAsync()
         {
-            this.Start(Cities, Parameters);
+            this.StartAsync(Cities, Parameters);
         }
-        public void Start(CitiesCollection cities, IParameters parameters)
+        public void StartAsync(CitiesCollection cities, IParameters parameters)
         {
             Init(cities, parameters);
 
             timeStart = DateTime.Now;
             // Зпуск алгоритма
-            _travelSalesmanBnB.Calculate();
+            _travelSalesmanBnB.CalculateAsync();
         }
         #endregion
 

@@ -121,92 +121,7 @@ namespace matsps.UserControls
 
         #endregion
 
-        #region Методы | Old
-        ///// <summary>
-        ///// Прорисовывает коллецию городов
-        ///// </summary>
-        //public void PaintCities()                                               
-        //{
-        //    stateCurrent = DrawingState.Cities;
-        //    PaintObjects();
-        //}
-
-        ///// <summary>
-        ///// Прорисовывает маршрут между городами
-        ///// </summary>
-        //public void PaintRoute()                                                
-        //{
-        //    stateCurrent = DrawingState.Route;            
-        //    PaintObjects();
-        //}
-
-        ///// <summary>
-        ///// Прорисовка городов и маршрута между ними
-        ///// </summary>
-        //public void PaintCitiesAndRoute()                                       
-        //{
-        //    stateCurrent = DrawingState.CitiesAndRoute;
-        //    PaintObjects();
-        //}
-
-        ///// <summary>
-        ///// Перебирает коллекцию городов и прорисовывает объекты по состоянию
-        ///// </summary>
-        ///// <param name="state">Режим прорисовки: точки или линии</param>
-        ///// <param name="pen">Кисть</param>
-        //private void PaintObjects()                                             
-        //{
-        //    int picBoxWidth = pbCanvas.Size.Width;
-        //    float fKoefX = (float)picBoxWidth / (float)Cities.MaxDistance;
-        //    int picBoxHeight = pbCanvas.Size.Height;
-        //    float fKoefY = (float)picBoxHeight / (float)Cities.MaxDistance;
-  
-        //    pbCanvas.Refresh();
-        //    Image img = new Bitmap(picBoxWidth, picBoxHeight);
-        //    System.Drawing.Graphics g = Graphics.FromImage(img);
-
-        //    // Прорисовываем линии между всеми городами
-        //    if (stateCurrent == DrawingState.CitiesAndRoute ||
-        //        stateCurrent == DrawingState.Route || stateCurrent == DrawingState.Cities)
-        //    {                
-        //        for(int i = 0; i < Cities.Count - 1; i++)
-        //            for (int j = i + 1; j < Cities.Count; j++)
-        //            {
-        //                g.DrawLine(penLiteLine, fKoefX * Cities[i].X, fKoefY * Cities[i].Y, fKoefX * Cities[j].X, fKoefY * Cities[j].Y);
-        //            }
-        //    }
-
-        //    // Порисовываем путь
-        //    for (int j = 0; j < Cities.Count; j++)
-        //    {
-        //        switch(stateCurrent)
-        //        {
-        //            case DrawingState.Cities:
-        //                g.DrawEllipse(_penCities, fKoefX * Cities[j].X - 2, fKoefY * Cities[j].Y - 2, 4, 4);                        
-        //                break;
-        //            case DrawingState.Route:
-        //                //g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
-        //                break;
-        //            case DrawingState.CitiesAndRoute:                        
-        //                //g.DrawEllipse(penCities, fKoefX * Route[j].X - 2, fKoefY * Route[j].Y - 2, 4, 4);
-        //                //if( j != Cities.Count - 1 )
-        //                    //g.DrawLine(penRouteLine, fKoefX * Route[j].X, fKoefY * Route[j].Y, fKoefX * Route[j + 1].X, fKoefY * Route[j + 1].Y);
-        //                //g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Route[j].X + 3, fKoefY * Route[j].Y - 13);
-        //                break;
-        //        }
-        //    }
-        //    // Путь от последнего к первому городу
-        //    if( stateCurrent == DrawingState.Route || stateCurrent == DrawingState.CitiesAndRoute)
-        //        //g.DrawLine(penRouteLine, fKoefX * Route[Route.Count - 1].X, fKoefY * Route[Route.Count - 1].Y, fKoefX * Route[0].X, fKoefY * Route[0].Y);
-            
-        //    // Очищаем память
-        //    g.Dispose();
-
-        //    pbCanvas.Image = img;
-        //}
-        #endregion
-
-        #region Методы(внутренние) | New
+        #region Методы(внутренние)
         /// <summary>
         /// обновляем список расчитанных маршрутов в dataGridView
         /// </summary>
@@ -264,9 +179,11 @@ namespace matsps.UserControls
             {
                 // Коэффициенты размеров полотна
                 picBoxWidth = pbCanvas.Size.Width;
-                fKoefX = (float)picBoxWidth / (float)_cities.MaxDistance;
+                float marginPercentWidth = (float)picBoxWidth * (float)0.001;
+                fKoefX = (float)picBoxWidth / ((float)_cities.MaxDistance + marginPercentWidth);
                 picBoxHeight = pbCanvas.Size.Height;
-                fKoefY = (float)picBoxHeight / (float)_cities.MaxDistance;
+                float marginPercentHeight = (float)picBoxHeight * (float)0.01;
+                fKoefY = (float)picBoxHeight / ((float)_cities.MaxDistance + marginPercentHeight); 
 
 
                 pbCanvas.Refresh();
@@ -276,7 +193,6 @@ namespace matsps.UserControls
                 // При каждой перерисовке создается новая картинка
                 img = new Bitmap(picBoxWidth, picBoxHeight);
                 g = Graphics.FromImage(img);
-
 
                 // Прорисовываем линии между всеми городами
                 if (chbGrayLines.Checked)
@@ -323,7 +239,7 @@ namespace matsps.UserControls
                 {
                     g.DrawEllipse(_penCities, fKoefX * Cities[j].X - _fCityR, fKoefY * Cities[j].Y - _fCityR, _fCityR * _fCityR, _fCityR * _fCityR);
                     if (chbShowCitiesLabelNumber.Checked) // если отмечен чекбокс
-                        g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Cities[j].X + _fCityR + 1, fKoefY * Cities[j].Y - _fontSize - _fCityR - 1);
+                        g.DrawString((j + 1).ToString(), _fontPointsLabel, _brashPointsLabel, fKoefX * Cities[j].X - _fCityR - 1, fKoefY * Cities[j].Y + _fontSize + _fCityR + 1);
                 }
 
                 // Очищаем память

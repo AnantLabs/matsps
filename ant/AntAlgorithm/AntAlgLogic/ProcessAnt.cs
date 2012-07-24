@@ -180,9 +180,9 @@ namespace matsps.AntAlgorithm
         /// <summary>
         /// Начать алгоритм расчета
         /// </summary>
-        public void Start()                                                                     
+        public void StartAsync()                                                                     
         {
-            this.Start(Cities, Parameters);
+            this.StartAsync(Cities, Parameters);
 
         }
         /// <summary>
@@ -190,13 +190,13 @@ namespace matsps.AntAlgorithm
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры расчета</param>
-        public void Start(CitiesCollection cities, IParameters parameters)         
+        public void StartAsync(CitiesCollection cities, IParameters parameters)         
         {
             Init(cities, parameters);
 
             timeStart = DateTime.Now;
 
-            travelSalesmanAnt.Calculate();
+            travelSalesmanAnt.CalculateAsync();
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace matsps.AntAlgorithm
             // Результаты
             _liResult = travelSalesmanAnt.ListTimeRoute;
             //_bestPath = travelSalesmanAnt.BestPath;            
-            Route path = new Route(travelSalesmanAnt.BestPath, "муравьиной колонии"); ;
+            Route path = new Route(travelSalesmanAnt.BestPath, "муравьиной колонии");
             _bestPath = path;
             //_bestPath.Drawing = this.Drawing;
             

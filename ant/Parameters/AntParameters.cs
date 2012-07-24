@@ -9,7 +9,7 @@ namespace matsps.Parameters
     /// <summary>
     /// Класс с параметрами расчета алгоритма Муравья
     /// </summary>
-    class AntParameters : IParameters
+    public class AntParameters : IParameters
     {
         #region Конструторы и Данные
         public AntParameters()                  
@@ -155,7 +155,7 @@ namespace matsps.Parameters
     /// <summary>
     /// Тип завершения Алгоритма муравья
     /// </summary>
-    enum AntAlgorithmEndType                    
+    public enum AntAlgorithmEndType                    
     {
         /// <summary>
         /// По количеству проходов цикла

@@ -61,13 +61,13 @@ namespace matsps.CommonData
         /// <summary>
         /// Запуск алгоритма
         /// </summary>
-        void Start();
+        void StartAsync();
         /// <summary>
         /// Запуск алгоритма с переопределением параметров
         /// </summary>
         /// <param name="cities">Коллекция городов</param>
         /// <param name="parameters">Параметры алгоиртма</param>
-        void Start(CitiesCollection cities, IParameters parameters);
+        void StartAsync(CitiesCollection cities, IParameters parameters);
                 
         #endregion
     }

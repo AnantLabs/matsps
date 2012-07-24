@@ -7,7 +7,7 @@ using matsps.AntAlgorithm.AntAlgData;
 
 namespace matsps.AntAlgorithm.AntAlgData
 {
-    class AntAlgDataAntsCollection
+    public class AntAlgDataAntsCollection
     {
         #region Конструторы и Данные
         public AntAlgDataAntsCollection(int countAnts)          
